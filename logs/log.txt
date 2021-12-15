@@ -27,20 +27,3 @@ iterating over the submissions of each new quarter
                 parsing of dividend_per_share FAILED
                 parsing of dividends_paid FAILED
                 parsing of country SUCCEEDED
-                parsing of SIC SUCCEEDED
-                {
-                    "ticker": "NICK",
-                    "company_name": "NICHOLAS FINANCIAL, INC.",
-                    "cik": 1000045,
-                    "quarter": 3,
-                    "year": 2021,
-                    "shares_outstanding": 7583000,
-                    "net_income": 1603000,
-                    "total_assets": 198468000,
-                    "total_liabilities": 81379000,
-                    "dividend_per_share": 0.0,
-                    "dividends_paid": 0,
-                    "country": "Canada",
-                    "sic": 6153
-                }
-            done

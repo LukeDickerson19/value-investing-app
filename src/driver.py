@@ -294,7 +294,7 @@ def parse_country_from_xml(
 def parse_sector_and_industry(
     cik,
     num_indents=0, new_line_start=False):
-    sic = parse_sic_code()
+    sic = parse_sic_code(cik)
     if sic == None:
         return None, None
     sector = 'tbd'
