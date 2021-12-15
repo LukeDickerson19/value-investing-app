@@ -1,0 +1,918 @@
+
+
+
+Design
+
+	BACKEND:
+
+		DATABASE:
+
+			on daily intervals:
+				check to see if the SEC has released a new quarter's company filings
+					if yes, determine if any new stocks have gone public, or any old stocks have been delisted
+				for each stock that is currently listed
+					search the local database for the most recent date we have data for all tables
+					for each table
+						get all data from the most recent date to the current date
+						and append it to the table
+				run the rebalance stratagy
+					this strategy will not be rebalancing daily but it will be calculating the best portfolio to have for when it does rebalance (which will be in line with the ex-dividend dates and such)
+
+			data folder: os.path.join(REPO_PATH, 'data')
+				in this folder will be all the stocks of the entire market
+				each stock will have a folder, and in each stock folder there will be tables:
+					daily_price_data
+						columns: ['date', 'price']
+					fundamental_data
+						columns: ['date', 'revenue', 'expenses', 'total_assets', 'total_liabilities']
+					dividend_history
+						columns: ['date', 'dividend_per_share']
+					dividend_dates
+						columns: ['date', ...tdb] # stuff like ex-dividend date, and things about when you need to get in in order to receive the dividend
+				there will also be another table called:
+					stock_comparison:
+						... tdb # full of metrics of the quality of the stocks dividends, each row is a stock
+						is the dividend consistent? is it growing?
+						is the price stable? is it growing?
+						is the assets and liabilites managed well?
+						is there a lot of revenue? is there a lot of expenses?
+				there will also be another table called:
+					"stock_categories" with columns:
+						cik
+						ticker
+						sector
+						industry
+
+		OTHER WEB SERVER BACKEND STUFF
+
+			tbd
+
+	FRONTEND
+
+		main page:
+
+			tabs across the top labeled:
+
+				"Portfolio Management"
+					this tab shows a chart of the total portfolio value over time, and marks the dates the portfolio received dividends
+					it then lets you set the number of stocks you want in the portfolio, n (to control the diversivication level)
+					and lets you set the weights for each stock on a 2d chart
+					theres then a dropdown that lets you select the stocks, you can either:
+						custom select them yourself
+						sort by custom ranking system and pick the top n stocks:
+							the ranking system measures
+								the dividend yield percentage
+								the dividend stability/consistency
+								the stock price growth percentage
+								the stock price stability or volitility
+							the user weights the priority of these 4 qualities with 100% split between the 4
+					program automatically rebalances each time it finds better stocks or the portfolio weights diverge from what the user sets.
+						the user also specifies the frequency with which they want the rebalancing to occur
+						theres a checkbox thats checked by default that controls if you want the rebalance to occur slowly over time to avoid missing dividend payments (will take at most a quarter or 2's duration). or the user can uncheck it to do the rebalance immediately
+					theres also a dropdown with the following options
+						reinvests your dividends
+						keep the dividends in cash and do nothing
+						keep the dividends in cash and withdraw a specified percentage to the specified bank account
+
+				"Money Management"
+
+				"Number of Shares"
+					this tab shows a chart over time of the total number of shares authorized, issued, and outstanding
+					it also shows over time the stock splits
+
+				"Price & Dividend Chart"
+					this shows a price chart of the stock
+					and marks the date of the dividend payments
+					and the date by which you need to be in the stock to get that dividend
+					and any other dates of importance ... tbd
+						provide tooltips of the definitions of each of these values
+
+
+Value Investing Strategy:
+
+	for each stock s:
+
+		get the quarterly history of the:
+			A. amount of money made that quarter (from products/services sold), basically all cash inflow
+			B. amount of money spent that quarter (on paying off debt, on paying employees, ect.), basically all cash outflow
+				show executive compensation vs employee compensation if you can get the data
+			C. net value of all assets (money, physical objects they could sell if they had too, etc.)
+			D. net value of all liabilities (debt, etc.)
+			E. dividend
+
+		calculate what we'll call total_value (for lack of a better term)
+			F. total_value = (A + C) - (B + D + E)
+
+		plot these quarterly values over time
+			along with the total_value and the price
+				but make the price on daily intervals instead of quarterly
+				because we want to see how price responds (if at all, to changes in these fundamental values)
+			give the user the ability to checkbox certain values and plot some or all of them
+			default plot shows all of them
+			colors
+				total_assets      = green
+				total_liabilities = red
+				cash_inflow       = blue
+				cash_outflow      = orange
+				dividend          = yellow
+
+		create 2 more values
+			the equation needs to rank a stock better if it, has a steadly growing dividend, and a large dividend.
+				G. dividend as a percentage of price (aka yield)
+					this shows me where i can get the most money for my investment
+				H. but price fluxtuates chaotically so also dividend as a percentage of total_value
+					this measures the generosity to its shareholds of a company
+				I. also just total_value
+
+			TBD: how is the steady-ness going to be mathematically represented?
+
+	on a 2d graph, plot G on the x axis and H on the y axis
+	and make each stock a dot on the plot
+
+	is it possible for me to find companies that will be successful before they are successful?
+		are there consistent patterns?
+		how is success defined:
+			success is defined as a company I want to invest in:
+			I want to invest in:
+				consistently growing dividend
+				fast growing dividend
+				consistently growing price
+				fast growing price
+
+
+Possible Data Sources:
+
+	Parsing SEC Filings (Newer Ones) in Python | Part 1
+	https://www.youtube.com/watch?v=TxUmufNnIaA
+
+	FundamentalAnalysis
+		free vs paid account
+			free
+				only allows you to get fundamental data a year into the past
+			paid - $14/month
+		https://financialmodelingprep.com/developer/docs/pricing
+			U: email
+			P: SNYR9>)+~)%>s,UKuSHk
+	https://pypi.org/project/FundamentalAnalysis/
+
+	vector_cache
+		not free
+	https://github.com/andrewkittredge/vector_cache
+
+	Yahoo Financials
+		https://github.com/JECSand/yahoofinancials
+	https://pypi.org/project/yahoofinancials/
+
+	pysec
+		This is Django code that compiles a list of all SEC filings from EDGAR into SQL, allows you to download them at will, and parses 50+ key accounting terms from XBRL filings. It is also a Python XBRL parser that allows you to easily extract arbitrary XBRL terms while it handles the contexts, etc. appropriately.
+
+		The XBRL parsing is translated from VB script written by Charles Hoffman, an accountant and XBRL expert, and reliably extracts more than 50 commonly used accounting terms.
+
+		Q: which terms?
+	https://github.com/lukerosiak/pysec
+
+	zacks-estimates-financial-statements
+	https://github.com/evdubs/zacks-estimates-financial-statementshttps://github.com/evdubs/zacks-estimates-financial-statements
+
+	Py Sec Edgar
+	https://awesomeopensource.com/project/ryansmccoy/py-sec-edgar
+
+	open edgar
+	https://github.com/LexPredict/openedgar
+
+
+How to read a 10-Q and 10-K form:
+
+	10-Q:
+
+		How To Read Form 10-Q Quarterly Earnings 📈 Release. Using Tesla Q2 2020 Report!
+			Equity = Assets - Liabilities
+				https://bench.co/blog/accounting/assets-liabilities-equity/
+		https://www.youtube.com/watch?v=KDVH9eDF5QA
+
+
+Exchanges:
+
+	desired qualities:
+		has easy to use api
+		provides market fundamental data for free
+		provides options trading
+		provides margin trading with high leverage
+
+	best so far is Alpaca
+
+
+
+	Fidelity Investments
+		deposit fee: $0.00
+		withdrawal fee: $0.00
+		withdrawl limit:
+		minimum deposit: $0.00
+		sells your order flow?: No
+			"Fidelity doesn't engage in payment for order flow (PFOF)"
+				- https://www.investopedia.com/fidelity-vs-robinhood-4587945#:~:text=Fidelity%20doesn't%20engage%20in,market%20maker%20execute%20the%20order.&text=Fidelity%20clients%20enjoy%20a%20healthy,but%20below%20average%20for%20options.
+		has margin trading: 
+		margin fee: 
+		leverage:
+		web/mobile: yes/yes
+		api:
+			no, but this 3rd party link might work:
+			https://rapidapi.com/apidojo/api/fidelity-investments
+		has paper trading: no
+		fractional share trading:
+		overnight leverage:
+		has:
+			stocks: yes
+				stock trading fee: $0.00
+			bonds: yes
+			currencies: yes
+			commodities:
+			crypto: 
+			options: yes
+				options fee: $0.65 per contract
+		other:
+			Mobile check deposit. Customers can deposit checks into their cash management account through the Fidelity mobile app.
+			When completing a wire transfer where U.S. dollars are converted into a foreign currency, Fidelity charges up to 3% of principal. Also, whenever a foreign asset in a Fidelity account pays a dividend, the broker charges 1% of principal.
+				- https://www.brokerage-review.com/discount-broker/hiddenfees/fidelity-hiddenfees.aspx
+
+	TD Ameritrade
+		deposit fee: $0.00
+		withdrawal fee: $0.00
+		withdrawl limit: $100k every 7 days
+		minimum deposit: $0.00
+		sells your order flow?: yes
+			- https://daytradingz.com/payment-for-order-flow/
+		has margin trading: yes, but with $2k minimum deposit
+		margin fee:
+		leverage:
+		web/mobile: yes/yes
+		api: Yes
+			https://developer.tdameritrade.com/apis
+		has paper trading: Yes
+			https://tickertape.tdameritrade.com/tools/paper-trading
+		fractional share trading: No,
+			"TD Ameritrade doesn't offer fractional share purchases"
+				- https://www.bankrate.com/investing/best-brokers-fractional-share-investing/#:~:text=TD%20Ameritrade%20doesn't%20offer,year%20or%20the%20year%20following.
+		overnight leverage:
+		has:
+			stocks: yes
+				stock trading fee: $0.00
+			bonds: yes
+			currencies: yes
+			commodities:
+			crypto: no
+			options: yes
+				options fee: $0.65 per contract
+		other:
+			TD Ameritrade outbound full account transfer (ACAT) fee	$75
+				- https://www.brokerage-review.com/online-brokers/fees/ameritrade.aspx
+				- https://www.brokerage-review.com/discount-broker/hiddenfees/tdameritrade-hiddenfees.aspx
+				i think this is when you want to transfer your portfolio somewhere else
+				without exiting your positions
+
+			TD Ameritrade was recently aquired by Charles Schwab
+
+	Charles Schwab
+		api: no
+			https://www.reddit.com/r/algotrading/comments/j9fnrj/td_api_charles_schwab_acquisition/
+
+	WeBull
+		deposit fee: ACH is free of charge
+		minimum deposit: $0
+		deposit limit: $50k/day
+		withdrawal fee: ACH is free of charge
+		withdrawl limit: $50k/day
+		sells your order flow?: yes
+			https://daytradingz.com/payment-for-order-flow/
+		has margin trading: 
+		margin fee: 
+		leverage:
+		web/mobile:
+		api: No, but theres multiple unoffical APIs
+			https://wetradehq.com/guide/I-coded-a-WeBull-Trading-Bot
+		has paper trading:
+		fractional share trading:
+		overnight leverage:
+		has:
+			stocks: yes
+				stock trading fee: $0.00
+			bonds:
+			currencies:
+			commodities:
+			crypto: 
+			options:
+				options fee:
+		other:
+			https://www.webull.com/hc/categories/fq258-What-are-the-fees-associated-with-transferring-funds-from-my-bank
+			https://pic.webull.com/PDFs/Margin%20Disclosure%20Statement%20%E2%80%93%20Finra%20Rule%202264.pdf
+			https://www.reddit.com/r/Webull/comments/fhy3cl/whats_it_take_to_get_approved_for_options/
+
+	Alpaca
+		deposit fee: $0.00
+		withdrawal fee: $0.00
+			https://alpaca.markets/support/cost-for-withdrawing/
+		withdrawl limit:
+		minimum deposit: $0.00 for individuals, $30k for businesses
+			https://brokerchooser.com/broker-reviews/alpaca-trading-review#:~:text=The%20required%20Alpaca%20Trading%20minimum,a%20minimum%20deposit%20of%20%2430%2C000.
+		sells your order flow?:
+			yes
+				https://algotrading101.com/learn/alpaca-trading-review/#alpaca-trading-pros-and-cons
+		has margin trading: yes
+			https://alpaca.markets/docs/trading-on-alpaca/margin-and-shorting/
+		margin fee: 3.75 %
+			https://algotrading101.com/learn/alpaca-trading-review/#alpaca-trading-pros-and-cons
+		leverage: 2x
+			https://alpaca.markets/docs/trading-on-alpaca/margin-and-shorting/
+		web/mobile: yes/yes
+			https://alpaca.markets/learn/open-source-mobile-trading-app/
+		api: YES
+			docs
+			https://alpaca.markets/docs/api-documentation/
+		has paper trading: yes
+			https://alpaca.markets/docs/trading-on-alpaca/paper-trading/
+		fractional share trading: yes
+			https://alpaca.markets/support/how-do-dividends-work-for-fractional-shares/
+		overnight leverage:
+		has:
+			stocks: yes
+				stock trading fee: $0.00
+				https://forum.alpaca.markets/t/pricing-and-fees/2309
+			bonds: no
+			currencies: no
+			commodities: no
+			crypto: no
+			options: no
+				options fee: N/A
+		other:
+			"Another potential downside is that Alpaca does not offer historical data directly. Instead, it utilizes two different third-party data providers. This could be important to algo traders who rely heavily on accurate data as the prices being traded on the platform can differ from the provided historical data."
+				- https://algotrading101.com/learn/alpaca-trading-review/#alpaca-trading-pros-and-cons
+
+			biggests downside is alpaca doesnt support options trading
+				it will eventually though
+				https://forum.alpaca.markets/t/options-trading-yet/4170/4
+
+			only available to US residents
+
+			good place to get started
+			https://alpaca.markets/community
+
+	Robinhood
+		sells your order flow?: yes
+			https://daytradingz.com/payment-for-order-flow/
+		api: no
+
+	E-Trade
+		sells your order flow?: yes
+			https://daytradingz.com/payment-for-order-flow/
+		api: yes
+			https://developer.etrade.com/getting-started
+			https://www.reddit.com/r/algotrading/comments/isfqwu/algo_trading_etrade/
+			but it sucks
+			https://www.reddit.com/r/algotrading/comments/gmisit/etrade_algos/
+
+	Interactive Brokers
+		deposit fee: $0.00
+			- https://www.reddit.com/r/stocks/comments/7ok8bh/interactive_brokers_deposit_fee/
+		minimum deposit: $0.00
+			- https://www.interactivebrokers.com/en/index.php?f=4969
+		withdrawal fee: $0.00
+		withdrawl limit: $50k per day and a maximum of $100k in 5 business days
+		sells your order flow?: Yes
+			"Interactive Brokers makes money off its order flow"
+				- https://www.stockbrokers.com/review/interactivebrokers
+		has margin trading: yes
+		margin fee:
+			https://www.stockbrokers.com/review/interactivebrokers/fees-features
+		leverage:
+			not sure
+			https://www.interactivebrokers.com/en/index.php?f=26658&hm=us&ex=us&rgt=1&rsk=0&pm=1&rst=101004100808
+		web/mobile: yes/yes
+		api: yes
+			https://www.interactivebrokers.com/en/index.php?f=5041
+			https://www.interactivebrokers.com/en/index.php?f=5039
+			https://algotrading101.com/learn/interactive-brokers-python-api-native-guide/
+			but its hard to use
+			https://www.reddit.com/r/algotrading/comments/ig1cd5/alpaca_vs_interactive_brokers_for_python/
+		has paper trading: yes
+			https://www.interactivebrokers.com/en/software/omnibrokers/topics/papertrader.htm
+		fractional share trading: yes
+			https://www.interactivebrokers.com/en/index.php?f=45718
+		overnight leverage: tbd
+		has:
+			stocks: yes
+				stock trading fee: $0.00
+			bonds: yes
+			currencies: yes
+			commodities: no
+			crypto: yes
+				https://www.interactivebrokers.com/en/index.php?f=49513
+			options: yes
+				options fee: $0.65 per contract
+		other:
+			none so far
+
+	Merrill Edge
+		api: yes, but it sucks
+			https://www.reddit.com/r/investing/comments/kmlgxz/merrill_edge_marketpro_worst_platform_in_existence/
+			doesnt support stock trading
+			https://www.reddit.com/r/algotrading/comments/nsa3o8/new_api_release_today_for_boa/
+
+	other sources:
+		https://www.stockbrokers.com/guides/free-stock-trading
+		https://www.reddit.com/r/algotrading/comments/g5u88q/what_is_the_best_free_stock_trading_api/
+
+
+Preston Pysh's Value Investing Notes:
+	https://www.youtube.com/playlist?list=PLsJrbQrdqmnzgPyboulJK9HQWxHHj-GdT
+
+	COURSE 1
+
+
+		1. What is Value Investing
+
+			Asset - something that makes you money (aka cash inflow)
+			Liability- something that costs you money (aka cash outflow)
+
+
+			Value Trading - continuously trading assets/liabilities/static value objects, ideally for things more valuable 
+				http://oneredpaperclip.blogspot.com/
+			Value Investing - the accumulation of assets (usually long term)
+
+
+		2. Value a Small Business Like Warren Buffett
+			Revenue - money made over a specified period of time
+			Net Income - money made after liabilities have been paid off and after taxes
+
+			If you buy an asset (a company or part of a company, aka a stock) then the net income of the asset divided by the price you paid for the asset will equal the amount of time it will take to pay that asset off. However since you're not looking to "pay it off" per say (because you can sell it at any time), think of it more as a place to store youre money. The income of the asset while you own it will give a "x percent return on your investment every year (or whatever period of time income come in)"
+
+		IDEA:
+		calculate the return on investment 
+		if it ever rises to its true value, and there's another stock that is at a lower price where i can buy a better return on investment, transfer the stock i own in the first company into the second company (ideally buying more shares)
+
+
+		3.
+			Income Statement - document that says net income of the company
+			Balance Sheet - Assets minus liabilies = equity,   (equity is the money left over if you liqidated the business right now)
+			Margin of Safety - current price minus equity OR (expresses as percentage: = equity / current price)
+			Compare Net Income and Equity - 
+
+
+		4. What is a Share?
+			Share - a piece of a company
+			Share Outstanding - total number of shares a company is broken up into
+			Market Price - Total price of buying the whole company / the number of Shares Outstanding
+			Earnings (aka EPS(Earnings per Share)) - the company's Net Income / the number of Shares Outstanding
+			Book Value - the company's Equity / the number of Shares Outstanding
+			Price to Earnings Ratio (P/E) - Market Price / Earnings
+				"For every P/E dollars I spend on this stock, I will recieve 1 dollar every year."
+			Price to Book Value - Market Price / Book Value
+				"For every (Price to Book Value) dollars i spend on this stock, I have 1 dollar of Equity of th business."
+
+
+		5. Warren Buffett Stock Basics
+			His 4 rules for buying a stock (must have all 4):
+				1. Stable and Understandable:
+					understandable - same earnings year in and year out, consistently grow equity at 10% a year, or whatever
+					can easily predict worth of company in the future because they do the same thing each year basically lol
+				2. Long term prospect (aka the company will exist, and their product is still in demand 30 40 years from now)
+				3. Stock must be managed by vigilent leaders (aka manage dept well)
+				4. Stock must be undervalued (lower than estimated intrinsic value)
+
+			His old valuation technique:
+				looking for P/E of 15 or lower, aka 6.67% return on investment
+				looking for Price to Book Value Ratio of 1.5 or lower 
+				
+				if (P/E)*(P/(book value)) < 22.5 then the stock is undervalued
+
+			His opinion on the market/patience/individuality:
+				"I buy on the assumption that the stock market could close tomorrow and not open for another 5 years."
+				"Somedays you'll be offered great buys and somedays you'll be offered horrible deals. Your job is to know when is a bad deal."
+				Think for yourself.
+
+
+		6. What is a Bond?
+			What a bond is:
+				Par Value - ex. $1000 - moeny you get when to bond matures
+				Buy Value - price buyer of bond pays = Par Value plus the underwriters fee (ex. $5)
+				Term - ex. 30 years - duration bond exists, at the end of the term the owner of the bond gets the par value
+				Mature - a bond becomes mature when it reaches it's term limit
+				Coupon Rate - ex. 5% - owner of bond makes 5% of the Par Value of the bond a year for the duration of the Term  
+
+			Who uses/issues bonds:
+				Corporations (aka companies)
+				Governments
+				
+				they both go through banks
+
+			Bond Risks:
+				the risk of a bond is if a company/government can't pay back its debt from the bond
+
+
+		7. What are the Components of a Bond?
+			Par Value - The money that the bond owner gets when the bond matures
+			Coupon Rate - the percentage of the Par Value that the bond owner recieves each year
+			Term - How long the bond gives coupon payments
+			Market Value - the price the buyer pays for the bond
+
+			As a bond approaches maturity, its Market price approaches its Par Value.
+
+			Basis Points - 1% in interest rates (what the coupon is) is 100 basis points
+
+			When interest rates go up, bond prices go down, and vice versa.
+
+
+		8. Value a Bond and Calculate Yield to Maturity
+			Simple Interest - (number of coupons) * (coupon payment) 
+				Coupon Yield - 1 years worth of coupon payments / Par Value (aka the coupon rate)
+				Current Yield - 1 years worth of coupon payments / Market Price
+			Compound Interest - compound interest is where you use the coupon payments of one bond to buy another asset, so the next time you get a payment you get the interest from both (those payments you also invest, and its basically recursive)
+				Yield to Maturity - idk, google it, however i do know:
+					if you buy a bond at the market price, and you hold it until maturity
+					assuming you're reinvesting your coupon payments in other assets (aka using compound interest)
+					the net money you'll make from the bond is, the net money made from the coupon payments plus the difference between the price you bought it at and the Par Value. Yield to maturity is somehow calculated from this, however, the YIELD AT MATURITY (aka money made) is what was just previously stated: Coupon Payments + (Par Value - Buy Value)
+
+
+		9. What is the Stock Market?
+			THE VALUE OF SOMETHING IS ONLY WHAT PEOPLE ARE WILLING TO PAY FOR IT	
+			Buyers Market - more sellers than buyers, so sellers are competing with each other, and the buyers takes the lowest price 
+			Sellers Market - more buyers than sellers, so buyers are competing with each other, and the seller takes the highests price
+
+			Stop Order - also referred to as a stop-loss order, is an order to buy or sell a stock once the price of the stock reaches a specified price, known as the stop price. When the stop price is reached, a stop order becomes a market order. A buy stop order is entered at a stop price above the current market price
+
+			Limit Order - a direction given to a broker to buy or sell a security or commodity at a specified price or better
+
+			Mr. Market - your emotionally disturbed business partner
+				Some days he's super hyped about how much money he's making
+				Some days he's got a horrible additute, and will say: "Watch out, this stock will take all your money!"
+				you can't change his behavior, you can only react to it
+				Never follow mr markets emotions.
+				"Mr. Market is youre servant, not youre guide." - Warren Buffett
+
+
+		10. Stock Market Crash and Market Bubbles
+			Fear and Greed Cycles - 
+				If you're standing on a street and mob of ppl start running down the street screaming, your human instinct is not to ask why are they running, what are they running from. You're instinct it to just run the same direction as them. This is instinctual social fear.
+				If you're going out for the night and you see a long line of people in front of a building called "Best Night Club on the Planet" your human instinct is to get in line. This is instinctual social greed.
+
+				Instincts - any behavior that is performed WITHOUT any prior experience or KNOWLEDGE
+
+				Mr. Market is an instinct based trader
+
+				Greed cycle mindset - a quick buck can be made with little effort
+				Fear cycle mindset - idk the value of these stocks and idk what im really doing and i don't want to loose my money
+
+				The KNOWLEDGE of a stocks value allows an investor to determine if Mr. Market is being fearful or greedy
+				
+			Buffett's Opinion on Market Psycology - 
+				"The key is to be greedy when others are fearful, and to be fearful when others are greedy." - Warren Buffett
+				"In the short term a stock acts like a voting machine, and in the long term it acts like a weighing machine" -  Bengamin Gram (paraphrased)
+					This means that a stock's market value converges to its intrinsic value in the long term. 
+
+
+		11. What is the FED?
+			What is the FED?
+				US Federal Reserve
+				
+
+			What is the Mission of the FED?
+				Bring stability to US economy
+
+			How does the FED change market conditions with interest rates?
+				The higher the interest rates (of various goods people want to buy) the less people are going to spend
+				The lower the interest rates the more people are going to spend 
+			What does the FED tell us about Mr. Market?
+				When fed is raising interest rates,  its saying mr market is in a greed cycle
+				When fed is lowering interest rates, its saying mr market is in a fear cycle
+				
+		So when interest rates are high, you want to buy bonds?
+		When interest rates are low, you want to buy stocks.
+
+			QUESTIONS:
+				What is the fed raising interest rates of:
+					federal bonds?
+						if so, then how does that effect:
+							the spending habits of people
+							the stock market?
+
+
+
+	COURSE 2
+
+
+		12. What Is Financial Risk
+
+			What causes Financial Risk in an investment?
+				Debt:
+					how/why does a company incur dept?
+						because they want to speed up time, they can own assets now instead of later.
+					why is that risky?
+						if you're incurring debt faster than you can pay it off your company will spiral into banruptcy
+						having a little bit of managable debt is fine, its the best actually, but having too much is risky
+
+				Overpaying for the investment:
+					if you over pay, when you want to sell it later its going to be hard, or even impossible to sell at a price equal or greater than what you bought.
+
+				Not knowing what you're doing:
+					if you don't know what you're doing you could invest in something with a lot of debt or over pay for it.
+
+
+		13. What is Inflation?
+			Why does the FED inflate the money?
+				Protects aganst recessions and depressions
+				indirect taxation
+
+			Inflation is the decrease of value of a currency, by circulating more money in the system.
+
+			Inflation heavily effects bonds.
+				Ex.
+				You buy a 1 year bond at $1000 w/ a 5% coupon rate
+				the next year you have $1050
+				but inflation went up 5% that year
+				so $1000 last year = $1050 this year
+
+			Stocks with low debt are generally unaffected by inflation
+				Ex.
+				You buy a $1000 dollars worth of a companies stock
+				The cost of production of the company's product is $100 per product
+				They sell their product for $200
+				so they profit $100 from their product
+				next year infaltion went up 5%
+				so now it cost them 5% more to produce their product, but they sell it 5% higher also, and profit 5% more too
+				cost of production = $105
+				sell price = $210
+				profit = $105
+				and $100 last year = $105 this year
+				so their net profits are uneffected
+				so the earnings per share are uneffected
+				
+			InGENERAL: stocks are effected less by inflation than bonds
+					
+			QUESTIONS:
+				so why is it that only stocks with low debt are uneffected by inflation?
+					if a company has high debt is that accounted for with inflation? aka will their debt increase with inflation
+
+
+		14. What is the S&P Rating
+			how bonds are rated
+			if you're buying stock, look at the rating of the bonds the company has issued
+
+			AAA -  
+			AA  - 
+			A   - 
+			BBB - 
+			BB  - 
+			B   - 
+
+			these letters are meaningless though. The statistics behind what percentage of companies and municiple governments paid back their bonds and what percentage defaulted (on their loans, aka bonds).
+
+			Use your OWN tolerance for risk, and only fuck with shit you understand.
+
+
+		15. What is a Yield Curve?
+			its a graph that plots bond interest vs bond term duration (ex. US federal bonds)
+
+			its lets you know how the government is trying to steer the economy
+			https://www.treasury.gov/resource-center/data-chart-center/interest-rates/Pages/Historic-Yield-Data-Visualization.aspx
+				when its flat, aka high interest rates, you want to be buying bonds, and the gov is trying to slow economy	
+					this means they expect interest rates to go down over a long period of time.
+					i don't understand why, more research is required 
+
+
+		16. How to use a bond calculator
+			input your bond's principle, coupon rate, time to maturity, and the coupon rate someone can get now for the same type of bond, and the calculator will output what you could currently sell you're bond for.
+
+			NOTE:
+				buy bonds when interest rates are high, flat across the yield curve, to know that the fed thinks the market is in a bubble .. when the bubble bursts, the fed will decrease interest rates, you can sell your bonds for a lot of money, which you can then buy stocks really cheap for.
+
+
+		17. Warren Buffett's 4 Rules for Investing.
+
+			Rules Reordered:
+				1. Stock must be managed by vigilent leaders (aka manage dept well)
+				2. Long term prospect (aka the company will exist, and their product is still in demand 30 40 years from now)
+				3. Stable and Understandable 
+				4. Stock must be undervalued (lower than estimated intrinsic value)
+
+				next four videos explains how he evaluates if a stock passes each of these 4 rules.
+
+
+		18. Rule 1: Must Be managed by Vigilant Leaders:
+			Vigilant leadership:
+				Vigilant - carefully observant or attentive; on the look out for possible dangers
+
+				Possible Dangers:
+					Debt
+
+
+			Debt/Equity Ratio:
+				Warren Buffett wants to buy a company that has a debt to equity ratio of .5 or less
+
+			Current Ratio:
+				Current Assets are the Assets the company is likely to convert to cash in the next 12 months.
+				Currenr Liabilities are the liablilities the company is likely going to pay in the next 12 months
+				Current Ratio is the Current Assets / Current Liabilities
+					Current ratio is a good prediction of how the companies equity is going to change over the next year.
+
+				Warren Buffett wants to buy a company that has a current ratio of 1.5 or more
+
+
+		19. Rule 2: Long Term Prospect
+
+			this just means that the companies product/service will still have demand in the long term (20+ years from now)
+
+			captial gains tax - percentage of profits made from buying and selling
+			higher income tax bracet you are, the larger the percentage
+			longer you hold the stock, the smaller the percentage
+
+
+		20. Rule 3: Stable and Understandable 
+			Why stability is important to determine intrinsic value:
+				Equity 
+				Earnings 
+				Debt
+					The more linear the change in these things are over the years the easier it is to predict over time. 
+
+			Why its important to invest in a company you understand:
+				If you don't understand why the business's product is valuable to people, you won't be able to determine its value if it changes it's product a bit, ... or something like that... not sure if i agree with this one. 
+
+
+		21. Rule 4. Stock must be undervalued (lower than estimated intrinsic value)
+			How to calculate the intrinic value of a stock:
+
+			How to use the intrinsic value calculator:
+
+
+		22. What is A Prefered Stock?
+			works like a bond kind of
+			variable dividend rate
+			some companes dont have to pay dividends on time, or even at all!
+			must read the Certificate of Designation
+			they can also be bought back by the company at any time
+
+
+		23.
+		24.
+
+
+		25. What is Income Investing?
+			Income investing is the act of buying very stable stocks and bonds throughout your life and then when you retire you live off the dividends. 
+
+			If you fucked up and invested in a company with a lot of debt, if a recession hits, those dividends will drop quite a bit. 
+			
+			To do it right, 1) don't invest in a company with a lot of debt, but 2) very important ...
+
+				Always invest in a company that is going to increase your cash flow next month (or quarterly or whatever time period).
+
+				Say you have $1000 to invest each month ... the next month you'll have $1000 + the dividends of last months investments ... so theres a compouding effect.
+
+			Preston's Rule of Thumb (just a preference though, don't discount a company thats slightly different):
+				Invest in companies that pay 1/3 of earnings to dividends,and 2/3 to book value (increase in equity that investors don't pay taxes on).
+
+
+		26. What is a Cash Flow Statement?
+		 	The cash flow statement basically shows every monetary transaction made by a company
+			Its divided into 3 sections:
+				Operating Activities:
+					All cash inflow
+						Ex.s: Net income, dividends of stocks owned of other companies, bonds sold, ect. 
+				Investing Activities:
+					Cash outflow for:
+						investing in his own company:
+							more supplies
+							upgrading facilities
+							ect.
+						buying/selling stocks and bonds
+				Financing Activities:
+					Issuing more shares
+					issuing bonds, aka taking out a loan
+					paying off/taking on debt
+
+			operating activities is the lifeblood of the company.
+			you should be looking for a company that has a steady increasing positive number for operating activities and decreasing negative numbers for the other 2.
+		Positive Financing activities means they're taking on debt.
+
+
+
+
+	QUESTION:
+		isn't financing activities cash INflow though?
+
+	27.
+	28.
+	29.
+	30.
+	31.
+	32.
+	33.
+	34.
+	35.
+	36.
+	37.
+	38.
+	39.
+	40.
+	41.
+	42.
+	43.
+	44.
+
+
+	QUESTIONS:
+		why does a stocks price equalize in the long term to its company's true value in society?
+
+
+Sources:
+
+	SEC data
+
+		SEC Form 10-Q Definition
+		https://www.investopedia.com/terms/1/10q.asp
+
+		EDGAR
+
+			EDGAR Company Filings | CIK Lookup
+			https://www.sec.gov/edgar/searchedgar/cik.htm
+				example:
+					AAPL: CIK=320193
+					https://www.sec.gov/edgar/browse/?CIK=320193
+
+			EDGAR Company Search
+				Search by: Name, Ticker, or CIK
+			https://www.sec.gov/edgar/searchedgar/companysearch.html
+
+			Accessing EDGAR Data
+			https://www.sec.gov/os/accessing-edgar-data
+
+			EDGAR API Docs
+			https://www.sec.gov/edgar/sec-api-documentation
+
+			SEC Developer Resources
+			https://www.sec.gov/developer
+
+			Example of what my code downloads
+				https://www.sec.gov/Archives/edgar/data/1326801/0001326801-19-000069-index.html
+				https://www.sec.gov/Archives/edgar/data/1326801/000132680119000069/fb-09302019x10q.htm#s86440F9012665AA1B578CBCDC37CB566
+
+			public companies must submit a report in 40 days
+				"
+				a. 40 days after the end of the fscal quarter for large accelerated flers and accelerated flers (as defned in 17 CFR § 240.12b2) ;and
+				b. 45 days after the end of the fscal quarter for all other registrants.
+				"
+					- https://sec.report/Form/10-Q			    
+
+		libraries:
+
+			https://medium.com/@jan_5421/sec-edgar-api-2-b2cfb82c1d9e
+
+			pysec
+				pulls the forms from the SEC website and parses them for 50 fundamental variables
+			https://github.com/lukerosiak/pysec
+
+			django-sec
+				does the same thing as pysec but more fleshed out
+			https://github.com/chrisspen/django-sec
+
+			ScraXBRL
+				SEC Edgar Scraper and XBRL Parser/Renderer
+			https://github.com/tooksoi/ScraXBRL
+
+			Accessing EDGAR Data
+			https://www.sec.gov/edgar/searchedgar/accessing-edgar-data.htm
+
+			Parsing SEC Documents
+			https://github.com/areed1192/sigma_coding_youtube/blob/master/python/python-finance/sec-web-scraping/Web%20Scraping%20SEC%20-%20Parsing%20SEC%20Documents%20-%20New%20Filings.ipynb
+
+			financial_fundamentals 
+			https://github.com/andrewkittredge/financial_fundamentals
+
+
+	dividend aristocrats list
+
+		The S&P 500 Dividend Aristocrat index was launched by Standard and Poors in May 2005
+		A stock must be a member of the S&P 500
+		A stock must have increased their dividend payment for at least the past 25 consecutive years.
+
+		click here to see the stocks on the list:
+	https://en.wikipedia.org/wiki/S%26P_500_Dividend_Aristocrats
+
+
+
+	This is the Fastest Possible Way to Live Off Dividends
+		Covered Call
+			description
+				sell out of the money covered calls and make a profit on the premiums
+			example tickers:
+				qyld, 11.78%, volitile and steady decline over time
+					it still has a good dividend and if you did rebalancing then when this falls
+					you would buy more and as it grows you would sell parts of it
+		BDC (Business Development Companies)
+			description:
+				a BDC invests in small to medium sized businesses and when these businesses make a profit they are required to give back a negociated percent of their profits to the BDC and the BDC is required by law to give 90% of the money to its shareholders, most of them pay quarterly dividends.
+			example tickers:
+				arcc, 8.38% dividend, price is volitile but not shrinking over time and is generally flat
+				newt stock, 7.03% dividend, price is volitile but not shrinking over time and is generally flat
+	https://www.youtube.com/watch?v=6GgZo5OjDpE
+
+
+	best site for viewing dividend history
+	https://seekingalpha.com/

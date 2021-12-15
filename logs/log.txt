@@ -1,0 +1,46 @@
+
+downloading new quarter filing submission URL paths
+    115 quarters previously downloaded from 1993-QTR1 to 2021-QTR3
+    downloaded list of SEC filing submissions from Q1 of 2021 to present
+    parsed filing submission lists for:
+        2021-QTR4
+done, downloaded 1 new quarters
+
+iterating over the submissions of each new quarter
+    quarter 1 of 1: 2021-QTR4
+        company filing submission 1 of 6660
+            
+            downloading XML of filing submission
+                filing_details_url: https://www.sec.gov/Archives/edgar/data/1000045/0000950170-21-004287-index.html
+                full_xml_url:       https://www.sec.gov/Archives/edgar/data/1000045/000095017021004287/nick-20210930_htm.xml
+            done
+            
+            parsing XML for fundamental data
+                parsing of quarter SUCCEEDED
+                parsing of ticker SUCCEEDED
+                parsing of company_name SUCCEEDED
+                parsing of cik SUCCEEDED
+                parsing of shares_outstanding SUCCEEDED
+                parsing of net_income SUCCEEDED
+                parsing of total_assets SUCCEEDED
+                parsing of total_liabilities SUCCEEDED
+                parsing of dividend_per_share FAILED
+                parsing of dividends_paid FAILED
+                parsing of country SUCCEEDED
+                parsing of SIC SUCCEEDED
+                {
+                    "ticker": "NICK",
+                    "company_name": "NICHOLAS FINANCIAL, INC.",
+                    "cik": 1000045,
+                    "quarter": 3,
+                    "year": 2021,
+                    "shares_outstanding": 7583000,
+                    "net_income": 1603000,
+                    "total_assets": 198468000,
+                    "total_liabilities": 81379000,
+                    "dividend_per_share": 0.0,
+                    "dividends_paid": 0,
+                    "country": "Canada",
+                    "sic": 6153
+                }
+            done
