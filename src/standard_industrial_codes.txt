@@ -1,0 +1,1698 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en" prefix="content: http://purl.org/rss/1.0/modules/content/  dc: http://purl.org/dc/terms/  foaf: http://xmlns.com/foaf/0.1/  og: http://ogp.me/ns#  rdfs: http://www.w3.org/2000/01/rdf-schema#  schema: http://schema.org/  sioc: http://rdfs.org/sioc/ns#  sioct: http://rdfs.org/sioc/types#  skos: http://www.w3.org/2004/02/skos/core#  xsd: http://www.w3.org/2001/XMLSchema# ">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="Drupal 9 (https://www.drupal.org)" name="Generator"/>
+  <meta content="width" name="MobileOptimized"/>
+  <meta content="true" name="HandheldFriendly"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <link href="/sites/default/themes/custom/osha/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon"/>
+  <title>
+   SIC Manual | Occupational Safety and Health Administration
+  </title>
+  <link href="/sites/default/files/css/css_yVSQUtDOTgMbE56CpDR-V_mxfVqclP28n03kHd28yJg.css" media="all" rel="stylesheet"/>
+  <link href="/sites/default/files/css/css_pVtGuLyYk78cktomqMjAdeh9-TOwnpv_xl7pOZ4xjcM.css" media="all" rel="stylesheet"/>
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" media="all" rel="stylesheet"/>
+  <link href="/sites/default/files/css/css_G8P3_AWl2Vu491SCVBOoEpWAhsTog6NhInoP6R98--g.css" media="all" rel="stylesheet"/>
+ </head>
+ <body class="path-node page-node-type-page has-glyphicons">
+  <a class="visually-hidden focusable skip-link" href="#main-content" title="Click here to skip to main content">
+   Skip to main content
+  </a>
+  <div class="dialog-off-canvas-main-canvas" data-off-canvas-main-canvas="">
+   <header class="navbar navbar-default container-fluid" id="navbar" role="banner">
+    <div class="navbar-header">
+     <div class="region region-navigation">
+      <span class="dol_banner">
+       <div class="container">
+        <span id="block-dolsitebranding">
+         <div class="span5">
+          <a href="https://www.dol.gov" id="header-logo-type" title="Department of Labor">
+           <h1 class="header-logo-type" title="UNITED STATES DEPARTMENT OF LABOR">
+            <div class="visually-hidden">
+             Department of Labor logo
+            </div>
+            <span class="dol-brand">
+            </span>
+            UNITED STATES
+            <br/>
+            DEPARTMENT OF LABOR
+           </h1>
+          </a>
+         </div>
+        </span>
+        <span id="block-socialmedialinks">
+         <div class="span3 hidden-phone" id="header-social_media">
+          <ul class="inline banner-links" style="margin-top:20px;">
+           <li>
+            <a class="white fa fa-facebook fa-2x social_media externalLink" href="https://www.facebook.com/departmentoflabor" title="Facebook">
+             <span class="hidden">
+              Facebook
+             </span>
+             <span class="icon-external">
+             </span>
+            </a>
+           </li>
+           <li>
+            <a class="white fa fa-twitter fa-2x social_media externalLink" href="https://twitter.com/OSHA_DOL" title="Twitter">
+             <span class="hidden">
+              Twitter
+             </span>
+             <span class="icon-external">
+             </span>
+            </a>
+           </li>
+           <li>
+            <a class="white fa fa-instagram fa-2x social_media externalLink" href="https://www.instagram.com/USDOL/" title="Instagram">
+             <span class="hidden">
+              Instagram
+             </span>
+             <span class="icon-external">
+             </span>
+            </a>
+           </li>
+           <li>
+            <a class="white fa fa-rss fa-2x" href="https://www.osha.gov/rss" title="RSS">
+             <span class="hidden">
+              RSS
+             </span>
+            </a>
+           </li>
+           <li>
+            <a class="white fa fa-envelope-o fa-2x social_media" href="https://www.osha.gov/quicktakes#subscribe" title="Subscribe">
+             <span class="hidden">
+              Subscribe
+             </span>
+            </a>
+           </li>
+           <li>
+            <a class="white fa fa-youtube-play fa-2x social_media" href="https://www.youtube.com/user/USDepartmentofLabor/" title="YouTube">
+             <span class="hidden">
+              YouTube
+             </span>
+            </a>
+           </li>
+          </ul>
+         </div>
+        </span>
+       </div>
+      </span>
+      <span class="osha_banner">
+       <div class="container">
+        <span id="block-mobilemenubutton">
+         <a class="btn btn-navbar" data-target="#mobile-menu-source-menu" data-toggle="collapse" style="color:#000;padding:4px 12px;" title="Menu">
+          <strong>
+           MENU
+          </strong>
+         </a>
+        </span>
+        <span id="block-oshasitename">
+         <div class="row-fluid" style="margin-bottom:0px;">
+          <div class="span7">
+           <h2 class="logo-type">
+            <a href="https://www.osha.gov" style="color:#000; text-decoration:none;" title="Occupational Safety and Health Administration">
+             Occupational Safety and Health Administration
+            </a>
+           </h2>
+          </div>
+         </div>
+        </span>
+        <span class="hidden-phone hidden-tablet" id="block-headermenulinks">
+         <span class="hidden-phone hidden-tablet" id="block-secondarylinks">
+          <a href="https://www.osha.gov/contactus" title="Contact us">
+           Contact Us
+          </a>
+          <a href="https://www.osha.gov/faq" title="Frequently Asked Questions">
+           FAQ
+          </a>
+          <a href="https://www.osha.gov/a-z" title="A to Z Index">
+           A to Z Index
+          </a>
+         </span>
+         <span class="hidden-phone hidden-tablet" id="block-gtranslate">
+          <div class="region region-header-gtranslate">
+           <section class="block clearfix" id="block-gtheaderblock">
+            <div class="block block-gtranslate block-gtranslate block-gtranslate-gtranslate odd block-without-title" id="block-gtranslate-gtranslate">
+             <div class="block-inner clearfix">
+              <div class="content clearfix">
+               <script type="text/javascript">
+                /* &lt;![CDATA[ */
+            eval(unescape("eval%28function%28p%2Ca%2Cc%2Ck%2Ce%2Cr%29%7Be%3D" +
+             "function%28c%29%7Breturn%28c%3Ca%3F%27%27%3Ae%28parseInt%28c/a%29%29%29" +
+             "+%28%28c%3Dc%25a%29%3E35%3FString.fromCharCode%28c+29%29%3Ac." +
+             "toString%2836%29%29%7D%3Bif%28%21%27%27.replace%28/%5E/%2CString%29%29%7B" +
+             "while%28c--%29r%5Be%28c%29%5D%3Dk%5Bc%5D%7C%7Ce%28c%29%3Bk%3D%5B" +
+             "function%28e%29%7Breturn%20r%5Be%5D%7D%5D%3Be%3Dfunction%28%29%7B" +
+             "return%27%5C%5Cw+%27%7D%3Bc%3D1%7D%3Bwhile%28c--%29if%28k%5Bc%5D%29p%3Dp." +
+             "replace%28new%20RegExp%28%27%5C%5Cb%27+e%28c%29+%27%5C%5Cb%27%2C%27g%27%29%2Ck%5Bc%5D%29%3B" +
+             "return%20p%7D%28%276%207%28a%2Cb%29%7Bn%7B4%282.9%29%7B3%20c%3D2.9%28%22o%22%29%3Bc." +
+             "p%28b%2Cf%2Cf%29%3Ba.q%28c%29%7Dg%7B3%20c%3D2.r%28%29%3Ba.s%28%5C%27t%5C%27+b%2Cc%29%7D%7" +
+             "Du%28e%29%7B%7D%7D6%20h%28a%29%7B4%28a.8%29a%3Da.8%3B4%28a%3D%3D%5C%27%5C%27%29v%3B3%20b%3Da." +
+             "w%28%5C%27%7C%5C%27%29%5B1%5D%3B3%20c%3B3%20d%3D2.x%28%5C%27y%5C%27%29%3Bz%283%20i%3D0%3Bi%3Cd." +
+             "5%3Bi++%294%28d%5Bi%5D.A%3D%3D%5C%27B-C-D%5C%27%29c%3Dd%5Bi%5D%3B4%282." +
+             "j%28%5C%27k%5C%27%29%3D%3DE%7C%7C2.j%28%5C%27k%5C%27%29.l.5%3D%3D0%7C%7Cc." +
+             "5%3D%3D0%7C%7Cc.l.5%3D%3D0%29%7BF%286%28%29%7Bh%28a%29%7D%2CG%29%7Dg%7Bc." +
+             "8%3Db%3B7%28c%2C%5C%27m%5C%27%29%3B7%28c%2C%5C%27m%5C%27%29%7D%7D%27%2C43%2C43%2C%27%7C%7C" +
+             "document%7Cvar%7Cif%7Clength%7Cfunction%7CGTranslateFireEvent%7Cvalue%7C" +
+             "createEvent%7C%7C%7C%7C%7C%7Ctrue%7Celse%7CdoGTranslate%7C%7CgetElementById%7C" +
+             "google_translate_element2%7CinnerHTML%7Cchange%7Ctry%7CHTMLEvents%7CinitEvent%7C" +
+             "dispatchEvent%7CcreateEventObject%7CfireEvent%7Con%7Ccatch%7Creturn%7Csplit%7C" +
+             "getElementsByTagName%7Cselect%7Cfor%7CclassName%7Cgoog%7Cte%7Ccombo%7Cnull%7C" +
+             "setTimeout%7C500%27.split%28%27%7C%27%29%2C0%2C%7B%7D%29%29"))
+            /* ]]&gt; */
+               </script>
+               <style type="text/css">
+                &lt;!--
+            #goog-gt-tt {display:none !important;}
+            .goog-te-banner-frame {display:none !important;}
+            .goog-te-menu-value:hover {text-decoration:none !important;}
+            body {top:0 !important;}
+            #google_translate_element2 {display:none!important;}
+            --&gt;
+               </style>
+               <div aria-hidden="true" id="google_translate_element2">
+                <div aria-hidden="true" class="skiptranslate goog-te-gadget" dir="ltr">
+                 <div aria-hidden="true" id=":0.targetLanguage">
+                  <select aria-hidden="true" class="goog-te-combo">
+                   <option aria-hidden="true" value="">
+                    Select Language
+                   </option>
+                   <option aria-hidden="true" value="af">
+                    Afrikaans
+                   </option>
+                   <option aria-hidden="true" value="sq">
+                    Albanian
+                   </option>
+                   <option aria-hidden="true" value="am">
+                    Amharic
+                   </option>
+                   <option aria-hidden="true" value="ar">
+                    Arabic
+                   </option>
+                   <option aria-hidden="true" value="hy">
+                    Armenian
+                   </option>
+                   <option aria-hidden="true" value="az">
+                    Azerbaijani
+                   </option>
+                   <option aria-hidden="true" value="eu">
+                    Basque
+                   </option>
+                   <option aria-hidden="true" value="be">
+                    Belarusian
+                   </option>
+                   <option aria-hidden="true" value="bn">
+                    Bengali
+                   </option>
+                   <option aria-hidden="true" value="bs">
+                    Bosnian
+                   </option>
+                   <option aria-hidden="true" value="bg">
+                    Bulgarian
+                   </option>
+                   <option aria-hidden="true" value="ca">
+                    Catalan
+                   </option>
+                   <option aria-hidden="true" value="ceb">
+                    Cebuano
+                   </option>
+                   <option aria-hidden="true" value="ny">
+                    Chichewa
+                   </option>
+                   <option aria-hidden="true" value="zh-CN">
+                    Chinese (Simplified)
+                   </option>
+                   <option aria-hidden="true" value="zh-TW">
+                    Chinese (Traditional)
+                   </option>
+                   <option aria-hidden="true" value="co">
+                    Corsican
+                   </option>
+                   <option aria-hidden="true" value="hr">
+                    Croatian
+                   </option>
+                   <option aria-hidden="true" value="cs">
+                    Czech
+                   </option>
+                   <option aria-hidden="true" value="da">
+                    Danish
+                   </option>
+                   <option aria-hidden="true" value="nl">
+                    Dutch
+                   </option>
+                   <option aria-hidden="true" value="eo">
+                    Esperanto
+                   </option>
+                   <option aria-hidden="true" value="et">
+                    Estonian
+                   </option>
+                   <option aria-hidden="true" value="tl">
+                    Filipino
+                   </option>
+                   <option aria-hidden="true" value="fi">
+                    Finnish
+                   </option>
+                   <option aria-hidden="true" value="fr">
+                    French
+                   </option>
+                   <option aria-hidden="true" value="fy">
+                    Frisian
+                   </option>
+                   <option aria-hidden="true" value="gl">
+                    Galician
+                   </option>
+                   <option aria-hidden="true" value="ka">
+                    Georgian
+                   </option>
+                   <option aria-hidden="true" value="de">
+                    German
+                   </option>
+                   <option aria-hidden="true" value="el">
+                    Greek
+                   </option>
+                   <option aria-hidden="true" value="gu">
+                    Gujarati
+                   </option>
+                   <option aria-hidden="true" value="ht">
+                    Haitian Creole
+                   </option>
+                   <option aria-hidden="true" value="ha">
+                    Hausa
+                   </option>
+                   <option aria-hidden="true" value="haw">
+                    Hawaiian
+                   </option>
+                   <option aria-hidden="true" value="iw">
+                    Hebrew
+                   </option>
+                   <option aria-hidden="true" value="hi">
+                    Hindi
+                   </option>
+                   <option aria-hidden="true" value="hmn">
+                    Hmong
+                   </option>
+                   <option aria-hidden="true" value="hu">
+                    Hungarian
+                   </option>
+                   <option aria-hidden="true" value="is">
+                    Icelandic
+                   </option>
+                   <option aria-hidden="true" value="ig">
+                    Igbo
+                   </option>
+                   <option aria-hidden="true" value="id">
+                    Indonesian
+                   </option>
+                   <option aria-hidden="true" value="ga">
+                    Irish
+                   </option>
+                   <option aria-hidden="true" value="it">
+                    Italian
+                   </option>
+                   <option aria-hidden="true" value="ja">
+                    Japanese
+                   </option>
+                   <option aria-hidden="true" value="jw">
+                    Javanese
+                   </option>
+                   <option aria-hidden="true" value="kn">
+                    Kannada
+                   </option>
+                   <option aria-hidden="true" value="kk">
+                    Kazakh
+                   </option>
+                   <option aria-hidden="true" value="km">
+                    Khmer
+                   </option>
+                   <option aria-hidden="true" value="ko">
+                    Korean
+                   </option>
+                   <option aria-hidden="true" value="ku">
+                    Kurdish (Kurmanji)
+                   </option>
+                   <option aria-hidden="true" value="ky">
+                    Kyrgyz
+                   </option>
+                   <option aria-hidden="true" value="lo">
+                    Lao
+                   </option>
+                   <option aria-hidden="true" value="la">
+                    Latin
+                   </option>
+                   <option aria-hidden="true" value="lv">
+                    Latvian
+                   </option>
+                   <option aria-hidden="true" value="lt">
+                    Lithuanian
+                   </option>
+                   <option aria-hidden="true" value="lb">
+                    Luxembourgish
+                   </option>
+                   <option aria-hidden="true" value="mk">
+                    Macedonian
+                   </option>
+                   <option aria-hidden="true" value="mg">
+                    Malagasy
+                   </option>
+                   <option aria-hidden="true" value="ms">
+                    Malay
+                   </option>
+                   <option aria-hidden="true" value="ml">
+                    Malayalam
+                   </option>
+                   <option aria-hidden="true" value="mt">
+                    Maltese
+                   </option>
+                   <option aria-hidden="true" value="mi">
+                    Maori
+                   </option>
+                   <option aria-hidden="true" value="mr">
+                    Marathi
+                   </option>
+                   <option aria-hidden="true" value="mn">
+                    Mongolian
+                   </option>
+                   <option aria-hidden="true" value="my">
+                    Myanmar (Burmese)
+                   </option>
+                   <option aria-hidden="true" value="ne">
+                    Nepali
+                   </option>
+                   <option aria-hidden="true" value="no">
+                    Norwegian
+                   </option>
+                   <option aria-hidden="true" value="ps">
+                    Pashto
+                   </option>
+                   <option aria-hidden="true" value="fa">
+                    Persian
+                   </option>
+                   <option aria-hidden="true" value="pl">
+                    Polish
+                   </option>
+                   <option aria-hidden="true" value="pt">
+                    Portuguese
+                   </option>
+                   <option aria-hidden="true" value="pa">
+                    Punjabi
+                   </option>
+                   <option aria-hidden="true" value="ro">
+                    Romanian
+                   </option>
+                   <option aria-hidden="true" value="ru">
+                    Russian
+                   </option>
+                   <option aria-hidden="true" value="sm">
+                    Samoan
+                   </option>
+                   <option aria-hidden="true" value="gd">
+                    Scots Gaelic
+                   </option>
+                   <option aria-hidden="true" value="sr">
+                    Serbian
+                   </option>
+                   <option aria-hidden="true" value="st">
+                    Sesotho
+                   </option>
+                   <option aria-hidden="true" value="sn">
+                    Shona
+                   </option>
+                   <option aria-hidden="true" value="sd">
+                    Sindhi
+                   </option>
+                   <option aria-hidden="true" value="si">
+                    Sinhala
+                   </option>
+                   <option aria-hidden="true" value="sk">
+                    Slovak
+                   </option>
+                   <option aria-hidden="true" value="sl">
+                    Slovenian
+                   </option>
+                   <option aria-hidden="true" value="so">
+                    Somali
+                   </option>
+                   <option aria-hidden="true" value="es">
+                    Spanish
+                   </option>
+                   <option aria-hidden="true" value="su">
+                    Sundanese
+                   </option>
+                   <option aria-hidden="true" value="sw">
+                    Swahili
+                   </option>
+                   <option aria-hidden="true" value="sv">
+                    Swedish
+                   </option>
+                   <option aria-hidden="true" value="tg">
+                    Tajik
+                   </option>
+                   <option aria-hidden="true" value="ta">
+                    Tamil
+                   </option>
+                   <option aria-hidden="true" value="te">
+                    Telugu
+                   </option>
+                   <option aria-hidden="true" value="th">
+                    Thai
+                   </option>
+                   <option aria-hidden="true" value="tr">
+                    Turkish
+                   </option>
+                   <option aria-hidden="true" value="uk">
+                    Ukrainian
+                   </option>
+                   <option aria-hidden="true" value="ur">
+                    Urdu
+                   </option>
+                   <option aria-hidden="true" value="uz">
+                    Uzbek
+                   </option>
+                   <option aria-hidden="true" value="vi">
+                    Vietnamese
+                   </option>
+                   <option aria-hidden="true" value="cy">
+                    Welsh
+                   </option>
+                   <option aria-hidden="true" value="xh">
+                    Xhosa
+                   </option>
+                   <option aria-hidden="true" value="yi">
+                    Yiddish
+                   </option>
+                   <option aria-hidden="true" value="yo">
+                    Yoruba
+                   </option>
+                   <option aria-hidden="true" value="zu">
+                    Zulu
+                   </option>
+                  </select>
+                 </div>
+                </div>
+               </div>
+               <script type="text/javascript">
+                function googleTranslateElementInit2() {
+                new google.translate.TranslateElement({
+                pageLanguage: 'en', autoDisplay: false}, 'google_translate_element2');}
+               </script>
+               <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit2" type="text/javascript">
+               </script>
+              </div>
+             </div>
+            </div>
+           </section>
+          </div>
+          <div class="gtheader_links hidden-xs hidden-sm">
+           <p>
+            <a href="javascript:doGTranslate('en|en')" id="gtenglish" title="English">
+             English
+            </a>
+            <a href="javascript:doGTranslate('en|es')" id="gtspanish" title="Spanish">
+             Español
+            </a>
+           </p>
+          </div>
+         </span>
+        </span>
+       </div>
+      </span>
+     </div>
+     <div class="region region-navigation">
+      <div class="row navbar navbar-default" id="osha-megamenu-navbar">
+       <div class="row">
+        <div class="container" id="block-system-dol-menu">
+         <div class="collapse" id="mobile-menu-source-menu">
+          <nav aria-labelledby="osha-megamenu-navbar" class="container" id="nav" role="navigation">
+           <div class="site-search span4">
+            <!-- Begin USA Search Box -->
+            <div class="row-fluid">
+             <p class="text-center">
+             </p>
+             <form action="https://search.osha.gov/search" class="form-search" id="site-search-form" method="get">
+              <div class="input-append" id="Search">
+               <button class="btn btn-link" style="padding:0% 0% 0% 0%;" title="Click to Search OSHA.gov" type="submit">
+                <span class="add-on">
+                 <label for="query-field">
+                  <i aria-hidden="true" class="fa fa-search" title="Search OSHA.gov">
+                  </i>
+                 </label>
+                </span>
+               </button>
+               <input name="affiliate" type="hidden" value="usdoloshapublicwebsite"/>
+               <input aria-labelledby="Search" autocomplete="off" class="input-xlarge search-query usagov-search-autocomplete searchfield" id="query-field" name="query" placeholder="SEARCH OSHA" title="Find it in OSHA" type="text"/>
+              </div>
+             </form>
+             <p>
+             </p>
+            </div>
+            <!-- End USA Search Box -->
+           </div>
+           <ul class="menu nav navbar-nav">
+            <li class="expanded dropdown megamenu-parent column-count-0 left-side OSHA">
+             <a aria-label="OSHA dropdown" class="dropdown-toggle" data-toggle="dropdown" href="/%23" title="OSHA">
+              OSHA
+              <i class="fa fa-chevron-down">
+              </i>
+             </a>
+             <ul class="menu dropdown-menu">
+              <li>
+               <div class="nav-header osha">
+                OSHA
+               </div>
+              </li>
+              <li>
+               <a class="dropdown-toggle" data-target="/aboutosha" href="/aboutosha" title="About OSHA">
+                About OSHA
+               </a>
+              </li>
+              <li>
+               <a class="dropdown-toggle" data-target="https://www.osha.gov/contactus/bystate" href="https://www.osha.gov/contactus/bystate" title="Regional and Area Offices">
+                Find an OSHA Office
+               </a>
+              </li>
+              <li>
+               <a class="dropdown-toggle" data-target="/stateplans" href="/stateplans" title="State Plans">
+                State Plans
+               </a>
+              </li>
+              <li>
+               <a class="dropdown-toggle" data-target="https://www.usajobs.gov/Search/?k=OSHA" href="https://www.usajobs.gov/Search/?k=OSHA" title="Careers">
+                Careers
+               </a>
+              </li>
+              <li>
+               <a class="dropdown-toggle" data-target="/foia" href="/foia" title="OSHA FOIA Page">
+                Freedom of Information Act
+               </a>
+              </li>
+             </ul>
+            </li>
+            <li class="expanded dropdown megamenu-parent column-count-0 left-side Standards">
+             <a aria-label="Standards dropdown" class="dropdown-toggle" data-toggle="dropdown" href="/%23" title="Standards">
+              Standards
+              <i class="fa fa-chevron-down">
+              </i>
+             </a>
+             <ul class="menu dropdown-menu">
+              <li>
+               <div class="nav-header standards">
+                Standards
+               </div>
+              </li>
+              <li>
+               <a class="dropdown-toggle" data-target="/laws-regs" href="/laws-regs" title="Law and Regulations">
+                Law and Regulations
+               </a>
+              </li>
+              <li>
+               <a class="dropdown-toggle" data-target="https://www.regulations.gov/searchResults?rpp=25&amp;so=DESC&amp;sb=postedDate&amp;po=0&amp;cp=O&amp;dct=N%2BPR%2BFR%2BSR%2BO%2BPS&amp;a=OSHA" href="https://www.regulations.gov/searchResults?rpp=25&amp;so=DESC&amp;sb=postedDate&amp;po=0&amp;cp=O&amp;dct=N%2BPR%2BFR%2BSR%2BO%2BPS&amp;a=OSHA" title="Open for Comment">
+                Open for Comment
+               </a>
+              </li>
+              <li>
+               <a class="dropdown-toggle" data-target="https://www.reginfo.gov/public/do/eAgendaMain?operation=OPERATION_GET_AGENCY_RULE_LIST&amp;currentPub=true&amp;agencyCode=&amp;showStage=active&amp;agencyCd=1200&amp;Image58_x=38&amp;Image58_y=14&amp;Image58=Submit" href="https://www.reginfo.gov/public/do/eAgendaMain?operation=OPERATION_GET_AGENCY_RULE_LIST&amp;currentPub=true&amp;agencyCode=&amp;showStage=active&amp;agencyCd=1200&amp;Image58_x=38&amp;Image58_y=14&amp;Image58=Submit" title="Agency Rule List">
+                Regulatory Agenda
+               </a>
+              </li>
+              <li>
+               <a class="dropdown-toggle" data-target="/laws-regs/standardinterpretations/publicationdate/currentyear" href="/laws-regs/standardinterpretations/publicationdate/currentyear" title="Standard Interpretations">
+                Standard Interpretations
+               </a>
+              </li>
+              <li>
+               <a class="dropdown-toggle" data-target="/sites/default/files/publications/osha2254.pdf" href="/sites/default/files/publications/osha2254.pdf" title="Training Requirements by Standard (PDF)">
+                Training Requirements by Standard
+               </a>
+              </li>
+             </ul>
+            </li>
+            <li>
+             <a class="dropdown-toggle" data-target="/enforcement" href="/enforcement" title="Enforcement">
+              Enforcement
+             </a>
+            </li>
+            <li class="expanded dropdown megamenu-parent column-count-3 right-side Topics">
+             <a aria-label="Topics dropdown" class="dropdown-toggle" data-toggle="dropdown" href="/%23" title="Topics">
+              Topics
+              <i class="fa fa-chevron-down">
+              </i>
+             </a>
+             <ul class="menu dropdown-menu">
+              <li class="topics">
+               <ul class="menu dropdown-menu">
+                <li>
+                 <div class="nav-header topics">
+                  Topics
+                 </div>
+                </li>
+                <li>
+                 <a class="dropdown-toggle" data-target="/employers" href="/employers" title="Employer Help">
+                  Employer Help
+                 </a>
+                </li>
+                <li>
+                 <a class="dropdown-toggle" data-target="/workers" href="/workers" title="Worker Rights">
+                  Worker Rights
+                 </a>
+                </li>
+                <li>
+                 <a class="dropdown-toggle" data-target="https://www.osha.gov/stopfalls/index.html" href="https://www.osha.gov/stopfalls/index.html" title="Fall Prevention">
+                  Fall Prevention
+                 </a>
+                </li>
+                <li>
+                 <a class="dropdown-toggle" data-target="/heat" href="/heat" title="Heat Safety Campaign">
+                  Heat
+                 </a>
+                </li>
+                <li>
+                 <a class="dropdown-toggle" data-target="/personal-protective-equipment" href="/personal-protective-equipment" title="Personal Protective Equipment">
+                  Personal Protective Equipment
+                 </a>
+                </li>
+                <li>
+                 <a class="dropdown-toggle" data-target="/recordkeeping" href="/recordkeeping" title="Recordkeeping Requirements and Forms">
+                  Recordkeeping Requirements and Forms
+                 </a>
+                </li>
+                <li>
+                 <a class="dropdown-toggle" data-target="/trenching-excavation" href="/trenching-excavation" title="Trenching and Excavation">
+                  Trenching and Excavation
+                 </a>
+                </li>
+               </ul>
+              </li>
+              <li class="by-sector">
+               <ul class="menu dropdown-menu">
+                <li>
+                 <div class="nav-header by-sector">
+                  By Sector
+                 </div>
+                </li>
+                <li>
+                 <a class="dropdown-toggle" data-target="/agricultural-operations" href="/agricultural-operations" title="Agriculture Operations">
+                  Agriculture
+                 </a>
+                </li>
+                <li>
+                 <a class="dropdown-toggle" data-target="/construction" href="/construction" title="Directorate of Construction">
+                  Construction
+                 </a>
+                </li>
+                <li>
+                 <a class="dropdown-toggle" data-target="/enforcement/fap" href="/enforcement/fap" title="Federal Agencies">
+                  Federal Agencies
+                 </a>
+                </li>
+                <li>
+                 <a class="dropdown-toggle" data-target="/healthcare" href="/healthcare" title="Healthcare Safety and Health Topics">
+                  Health Care
+                 </a>
+                </li>
+                <li>
+                 <a class="dropdown-toggle" data-target="/maritime" href="/maritime" title="Maritime Industry">
+                  Maritime
+                 </a>
+                </li>
+                <li>
+                 <a class="dropdown-toggle" data-target="/oil-and-gas-extraction" href="/oil-and-gas-extraction" title="Oil and Gas Extraction">
+                  Oil and Gas
+                 </a>
+                </li>
+               </ul>
+              </li>
+              <li class="key-topics">
+               <ul class="menu dropdown-menu">
+                <li>
+                 <div class="nav-header key-topics">
+                  Key Topics
+                 </div>
+                </li>
+                <li>
+                 <a class="dropdown-toggle" data-target="/training/outreach" href="/training/outreach" title="Outreach Training Program (OSHA 10-Hour &amp; 30-Hour Cards)">
+                  10- or 30-Hour Training Cards
+                 </a>
+                </li>
+                <li>
+                 <a class="dropdown-toggle" data-target="/enforcement" href="/enforcement" title="Enforcement Programs">
+                  Enforcement
+                 </a>
+                </li>
+                <li>
+                 <a class="dropdown-toggle" data-target="/hazcom" href="/hazcom" title="Hazard Communication">
+                  Hazard Communication
+                 </a>
+                </li>
+                <li>
+                 <a class="dropdown-toggle" data-target="/safety-management" href="/safety-management" title="Safety and Health Program Recommendations">
+                  Safety and Health Programs
+                 </a>
+                </li>
+                <li>
+                 <a class="dropdown-toggle" data-target="https://www.whistleblowers.gov/" href="https://www.whistleblowers.gov/" title="Whistleblower Protections">
+                  Whistleblower Protections
+                 </a>
+                </li>
+               </ul>
+              </li>
+             </ul>
+            </li>
+            <li class="expanded dropdown megamenu-parent column-count-2 right-side HELP AND RESOURCES">
+             <a aria-label="HELP AND RESOURCES dropdown" class="dropdown-toggle" data-toggle="dropdown" href="/%23" title="HELP AND RESOURCES">
+              HELP AND RESOURCES
+              <i class="fa fa-chevron-down">
+              </i>
+             </a>
+             <ul class="menu dropdown-menu">
+              <li class="help-and-resources">
+               <ul class="menu dropdown-menu">
+                <li>
+                 <div class="nav-header help-and-resources">
+                  Help and Resources
+                 </div>
+                </li>
+                <li>
+                 <a class="dropdown-toggle" data-target="/enforcement/2020-enforcement-summary" href="/enforcement/2020-enforcement-summary" title="2020 Enforcement Summary">
+                  Annual Inspection Data
+                 </a>
+                </li>
+                <li>
+                 <a class="dropdown-toggle" data-target="/data" href="/data" title="Data &amp; Statistics">
+                  Data and Statistics
+                 </a>
+                </li>
+                <li>
+                 <a class="dropdown-toggle" data-target="/etools" href="/etools" title="eTools, eMatrix, Expert Advisors and v-Tools">
+                  E-Tools
+                 </a>
+                </li>
+                <li>
+                 <a class="dropdown-toggle" data-target="https://www.osha.gov/pls/imis/establishment.html" href="https://www.osha.gov/pls/imis/establishment.html" title="Establishment Search">
+                  Establishment Search
+                 </a>
+                </li>
+                <li>
+                 <a class="dropdown-toggle" data-target="/fatalities" href="/fatalities" title="Fatality Reports">
+                  Fatality Reports
+                 </a>
+                </li>
+                <li>
+                 <a class="dropdown-toggle" data-target="/workers/file-complaint" href="/workers/file-complaint" title="File a Safety and Health Complaint">
+                  File a Complaint
+                 </a>
+                </li>
+                <li>
+                 <a class="dropdown-toggle" data-target="/publications" href="/publications" title="Publications">
+                  Publications
+                 </a>
+                </li>
+                <li>
+                 <a class="dropdown-toggle" data-target="/topics" href="/topics" title="Safety and Health Topics Pages">
+                  Safety and Health Topics Pages
+                 </a>
+                </li>
+                <li>
+                 <a class="dropdown-toggle" data-target="/preventingsuicides" href="/preventingsuicides" title="Suicide Prevention">
+                  Suicide Prevention
+                 </a>
+                </li>
+                <li>
+                 <a class="dropdown-toggle" data-target="/training" href="/training" title="Training">
+                  Training
+                 </a>
+                </li>
+                <li>
+                 <a class="dropdown-toggle" data-target="https://www.osha.gov/video" href="https://www.osha.gov/video" title="Videos">
+                  Videos
+                 </a>
+                </li>
+               </ul>
+              </li>
+              <li class="compliance-assistance-resources">
+               <ul class="menu dropdown-menu">
+                <li>
+                 <div class="nav-header compliance-assistance-resources">
+                  Compliance Assistance Resources
+                 </div>
+                </li>
+                <li>
+                 <a class="dropdown-toggle" data-target="/complianceassistance/cas" href="/complianceassistance/cas" title="Compliance Assistance Specialists">
+                  Compliance Assistance Specialists
+                 </a>
+                </li>
+                <li>
+                 <a class="dropdown-toggle" data-target="/consultation" href="/consultation" title="Consultation Services">
+                  Consultation Services
+                 </a>
+                </li>
+                <li>
+                 <a class="dropdown-toggle" data-target="/cooperativeprograms" href="/cooperativeprograms" title="Cooperative Programs">
+                  Cooperative Programs
+                 </a>
+                </li>
+                <li>
+                 <a class="dropdown-toggle" data-target="/smallbusiness" href="/smallbusiness" title="Small Business Resources">
+                  Small Business Resources
+                 </a>
+                </li>
+               </ul>
+              </li>
+             </ul>
+            </li>
+            <li class="expanded dropdown megamenu-parent column-count-0 left-side NEWS">
+             <a aria-label="NEWS dropdown" class="dropdown-toggle" data-toggle="dropdown" href="/%23" title="NEWS">
+              NEWS
+              <i class="fa fa-chevron-down">
+              </i>
+             </a>
+             <ul class="menu dropdown-menu">
+              <li>
+               <div class="nav-header news">
+                News
+               </div>
+              </li>
+              <li>
+               <a class="dropdown-toggle" data-target="/news" href="/news" title="OSHA Newsroom">
+                Newsroom
+               </a>
+              </li>
+              <li>
+               <a class="dropdown-toggle" data-target="/news/newsreleases" href="/news/newsreleases" title="News Releases">
+                News Releases
+               </a>
+              </li>
+              <li>
+               <a class="dropdown-toggle" data-target="/quicktakes" href="/quicktakes" title="OSHA QuickTakes">
+                QuickTakes Newsletter
+               </a>
+              </li>
+             </ul>
+            </li>
+           </ul>
+           <div class="secondary-links visible-xs visible-sm">
+            <ul>
+             <li class="header-link hidden-desktop">
+              <a href="https://www.osha.gov/contactus" title="Contact us">
+               Contact Us
+              </a>
+             </li>
+             <li class="header-link hidden-desktop">
+              <a href="https://www.osha.gov/faq" title="Frequently Asked Questions">
+               FAQ
+              </a>
+             </li>
+             <li class="header-link hidden-desktop">
+              <a href="https://www.osha.gov/a-z" title="A to Z Index">
+               A to Z Index
+              </a>
+             </li>
+            </ul>
+           </div>
+           <div class="gtheader_links visible-xs visible-sm">
+            <p>
+             <a href="javascript:doGTranslate('en|en')" id="gtenglish" title="English">
+              English
+             </a>
+             <a href="javascript:doGTranslate('en|es')" id="gtspanish" title="Spanish">
+              Español
+             </a>
+            </p>
+           </div>
+          </nav>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </header>
+   <div class="main-container js-quickedit-main-content" role="main">
+    <div class="row">
+     <div class="container">
+      <section class="col-sm-12">
+       <ol class="breadcrumb">
+        <li>
+         <a href="/data" title="Data &amp; Statistics">
+          Data &amp; Statistics
+         </a>
+        </li>
+        <li class="active">
+         SIC Manual
+        </li>
+       </ol>
+      </section>
+      <section class="col-sm-12">
+       <div class="highlighted">
+        <div class="region region-highlighted">
+         <div class="hidden" data-drupal-messages-fallback="">
+         </div>
+        </div>
+       </div>
+       <div id="main-content">
+       </div>
+       <div class="region region-content">
+        <article about="/data/sic-manual" class="page full clearfix" data-history-node-id="999876436" role="article" typeof="schema:WebPage">
+         <span class="hidden" content="SIC Manual" property="schema:name">
+         </span>
+         <div class="content">
+          <div class="field field--name-body field--type-text-with-summary field--label-hidden field--item" property="schema:text">
+           <p class="pull-right">
+            <a class="btn btn-sm btn-primary" href="/data/sic-search" title="SIC Search">
+             SIC Search
+            </a>
+           </p>
+           <h3>
+            Standard Industrial Classification (SIC) Manual
+           </h3>
+           <h4>
+            Division Structure
+           </h4>
+           <ol type="A">
+            <li>
+             <p>
+              <a href="/data/sic-manual/division-a" title="Division A: Agriculture, Forestry, And Fishing">
+               Division A: Agriculture, Forestry, And Fishing
+              </a>
+             </p>
+             <ul>
+              <li>
+               <a href="/data/sic-manual/major-group-01" title="Major Group 01: Agricultural Production Crops">
+                Major Group 01: Agricultural Production Crops
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-02" title="Major Group 02: Agriculture Production Livestock And Animal Specialties">
+                Major Group 02: Agriculture Production Livestock And Animal Specialties
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-07" title="Major Group 07: Agricultural Services">
+                Major Group 07: Agricultural Services
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-08" title="Major Group 08: Forestry">
+                Major Group 08: Forestry
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-09" title="Major Group 09: Fishing, Hunting, And Trapping">
+                Major Group 09: Fishing, Hunting, And Trapping
+               </a>
+              </li>
+             </ul>
+             <p>
+             </p>
+            </li>
+            <li>
+             <p>
+              <a href="/data/sic-manual/division-b" title="Division B: Mining">
+               Division B: Mining
+              </a>
+             </p>
+             <ul>
+              <li>
+               <a href="/data/sic-manual/major-group-10" title="Major Group 10: Metal Mining">
+                Major Group 10: Metal Mining
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-12" title="Major Group 12: Coal Mining">
+                Major Group 12: Coal Mining
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-13" title="Major Group 13: Oil And Gas Extraction">
+                Major Group 13: Oil And Gas Extraction
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-14" title="Major Group 14: Mining And Quarrying Of Nonmetallic Minerals, Except Fuels">
+                Major Group 14: Mining And Quarrying Of Nonmetallic Minerals, Except Fuels
+               </a>
+              </li>
+             </ul>
+             <p>
+             </p>
+            </li>
+            <li>
+             <p>
+              <a href="/data/sic-manual/division-c" title="Division C: Construction">
+               Division C: Construction
+              </a>
+             </p>
+             <ul>
+              <li>
+               <a href="/data/sic-manual/major-group-15" title="Major Group 15: Building Construction General Contractors And Operative Builders">
+                Major Group 15: Building Construction General Contractors And Operative Builders
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-16" title="Major Group 16: Heavy Construction Other Than Building Construction Contractors">
+                Major Group 16: Heavy Construction Other Than Building Construction Contractors
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-17" title="Major Group 17: Construction Special Trade Contractors">
+                Major Group 17: Construction Special Trade Contractors
+               </a>
+              </li>
+             </ul>
+             <p>
+             </p>
+            </li>
+            <li>
+             <p>
+              <a href="/data/sic-manual/division-d" title="Division D: Manufacturing">
+               Division D: Manufacturing
+              </a>
+             </p>
+             <ul>
+              <li>
+               <a href="/data/sic-manual/major-group-20" title="Major Group 20: Food And Kindred Products">
+                Major Group 20: Food And Kindred Products
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-21" title="Major Group 21: Tobacco Products">
+                Major Group 21: Tobacco Products
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-22" title="Major Group 22: Textile Mill Products">
+                Major Group 22: Textile Mill Products
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-23" title="Major Group 23: Apparel And Other Finished Products Made From Fabrics And Similar Materials">
+                Major Group 23: Apparel And Other Finished Products Made From Fabrics And Similar Materials
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-24" title="Major Group 24: Lumber And Wood Products, Except Furniture">
+                Major Group 24: Lumber And Wood Products, Except Furniture
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-25" title="Major Group 25: Furniture And Fixtures">
+                Major Group 25: Furniture And Fixtures
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-26" title="Major Group 26: Paper And Allied Products">
+                Major Group 26: Paper And Allied Products
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-27" title="Major Group 27: Printing, Publishing, And Allied Industries">
+                Major Group 27: Printing, Publishing, And Allied Industries
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-28" title="Major Group 28: Chemicals And Allied Products">
+                Major Group 28: Chemicals And Allied Products
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-29" title="Major Group 29: Petroleum Refining And Related Industries">
+                Major Group 29: Petroleum Refining And Related Industries
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-30" title="Major Group 30: Rubber And Miscellaneous Plastics Products">
+                Major Group 30: Rubber And Miscellaneous Plastics Products
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-31" title="Major Group 31: Leather And Leather Products">
+                Major Group 31: Leather And Leather Products
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-32" title="Major Group 32: Stone, Clay, Glass, And Concrete Products">
+                Major Group 32: Stone, Clay, Glass, And Concrete Products
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-33" title="Major Group 33: Primary Metal Industries">
+                Major Group 33: Primary Metal Industries
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-34" title="Major Group 34: Fabricated Metal Products, Except Machinery And Transportation Equipment">
+                Major Group 34: Fabricated Metal Products, Except Machinery And Transportation Equipment
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-35" title="Major Group 35: Industrial And Commercial Machinery And Computer Equipment">
+                Major Group 35: Industrial And Commercial Machinery And Computer Equipment
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-36" title="Major Group 36: Electronic And Other Electrical Equipment And Components, Except Computer Equipment">
+                Major Group 36: Electronic And Other Electrical Equipment And Components, Except Computer Equipment
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-37" title="Major Group 37: Transportation Equipment">
+                Major Group 37: Transportation Equipment
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-38" title="Major Group 38: Measuring, Analyzing, And Controlling Instruments; Photographic, Medical And Optical Goods; Watches And Clocks">
+                Major Group 38: Measuring, Analyzing, And Controlling Instruments; Photographic, Medical And Optical Goods; Watches And Clocks
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-39" title="Major Group 39: Miscellaneous Manufacturing Industries">
+                Major Group 39: Miscellaneous Manufacturing Industries
+               </a>
+              </li>
+             </ul>
+             <p>
+             </p>
+            </li>
+            <li>
+             <p>
+              <a href="/data/sic-manual/division-e" title="Division E: Transportation, Communications, Electric, Gas, And Sanitary Services">
+               Division E: Transportation, Communications, Electric, Gas, And Sanitary Services
+              </a>
+             </p>
+             <ul>
+              <li>
+               <a href="/data/sic-manual/major-group-40" title="Major Group 40: Railroad Transportation">
+                Major Group 40: Railroad Transportation
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-41" title="Major Group 41: Local And Suburban Transit And Interurban Highway Passenger Transportation">
+                Major Group 41: Local And Suburban Transit And Interurban Highway Passenger Transportation
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-42" title="Major Group 42: Motor Freight Transportation And Warehousing">
+                Major Group 42: Motor Freight Transportation And Warehousing
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-43" title="Major Group 43: United States Postal Service">
+                Major Group 43: United States Postal Service
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-44" title="Major Group 44: Water Transportation">
+                Major Group 44: Water Transportation
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-45" title="Major Group 45: Transportation By Air">
+                Major Group 45: Transportation By Air
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-46" title="Major Group 46: Pipelines, Except Natural Gas">
+                Major Group 46: Pipelines, Except Natural Gas
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-47" title="Major Group 47: Transportation Services">
+                Major Group 47: Transportation Services
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-48" title="Major Group 48: Communications">
+                Major Group 48: Communications
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-49" title="Major Group 49: Electric, Gas, And Sanitary Services">
+                Major Group 49: Electric, Gas, And Sanitary Services
+               </a>
+              </li>
+             </ul>
+             <p>
+             </p>
+            </li>
+            <li>
+             <p>
+              <a href="/data/sic-manual/division-f" title="Division F: Wholesale Trade">
+               Division F: Wholesale Trade
+              </a>
+             </p>
+             <ul>
+              <li>
+               <a href="/data/sic-manual/major-group-50" title="Major Group 50: Wholesale Trade-durable Goods">
+                Major Group 50: Wholesale Trade-durable Goods
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-51" title="Major Group 51: Wholesale Trade-non-durable Goods">
+                Major Group 51: Wholesale Trade-non-durable Goods
+               </a>
+              </li>
+             </ul>
+             <p>
+             </p>
+            </li>
+            <li>
+             <p>
+              <a href="/data/sic-manual/division-g" title="Division G: Retail Trade">
+               Division G: Retail Trade
+              </a>
+             </p>
+             <ul>
+              <li>
+               <a href="/data/sic-manual/major-group-52" title="Major Group 52: Building Materials, Hardware, Garden Supply, And Mobile Home Dealers">
+                Major Group 52: Building Materials, Hardware, Garden Supply, And Mobile Home Dealers
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-53" title="Major Group 53: General Merchandise Stores">
+                Major Group 53: General Merchandise Stores
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-54" title="Major Group 54: Food Stores">
+                Major Group 54: Food Stores
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-55" title="Major Group 55: Automotive Dealers And Gasoline Service Stations">
+                Major Group 55: Automotive Dealers And Gasoline Service Stations
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-56" title="Major Group 56: Apparel And Accessory Stores">
+                Major Group 56: Apparel And Accessory Stores
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-57" title="Major Group 57: Home Furniture, Furnishings, And Equipment Stores">
+                Major Group 57: Home Furniture, Furnishings, And Equipment Stores
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-58" title="Major Group 58: Eating And Drinking Places">
+                Major Group 58: Eating And Drinking Places
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-59" title="Major Group 59: Miscellaneous Retail">
+                Major Group 59: Miscellaneous Retail
+               </a>
+              </li>
+             </ul>
+             <p>
+             </p>
+            </li>
+            <li>
+             <p>
+              <a href="/data/sic-manual/division-h" title="Division H: Finance, Insurance, And Real Estate">
+               Division H: Finance, Insurance, And Real Estate
+              </a>
+             </p>
+             <ul>
+              <li>
+               <a href="/data/sic-manual/major-group-60" title="Major Group 60: Depository Institutions">
+                Major Group 60: Depository Institutions
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-61" title="Major Group 61: Non-depository Credit Institutions">
+                Major Group 61: Non-depository Credit Institutions
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-62" title="Major Group 62: Security And Commodity Brokers, Dealers, Exchanges, And Services">
+                Major Group 62: Security And Commodity Brokers, Dealers, Exchanges, And Services
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-63" title="Major Group 63: Insurance Carriers">
+                Major Group 63: Insurance Carriers
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-64" title="Major Group 64: Insurance Agents, Brokers, And Service">
+                Major Group 64: Insurance Agents, Brokers, And Service
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-65" title="Major Group 65: Real Estate">
+                Major Group 65: Real Estate
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-67" title="Major Group 67: Holding And Other Investment Offices">
+                Major Group 67: Holding And Other Investment Offices
+               </a>
+              </li>
+             </ul>
+             <p>
+             </p>
+            </li>
+            <li>
+             <p>
+              <a href="/data/sic-manual/division-i" title="Division I: Services">
+               Division I: Services
+              </a>
+             </p>
+             <ul>
+              <li>
+               <a href="/data/sic-manual/major-group-70" title="Major Group 70: Hotels, Rooming Houses, Camps, And Other Lodging Places">
+                Major Group 70: Hotels, Rooming Houses, Camps, And Other Lodging Places
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-72" title="Major Group 72: Personal Services">
+                Major Group 72: Personal Services
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-73" title="Major Group 73: Business Services">
+                Major Group 73: Business Services
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-75" title="Major Group 75: Automotive Repair, Services, And Parking">
+                Major Group 75: Automotive Repair, Services, And Parking
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-76" title="Major Group 76: Miscellaneous Repair Services">
+                Major Group 76: Miscellaneous Repair Services
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-78" title="Major Group 78: Motion Pictures">
+                Major Group 78: Motion Pictures
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-79" title="Major Group 79: Amusement And Recreation Services">
+                Major Group 79: Amusement And Recreation Services
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-80" title="Major Group 80: Health Services">
+                Major Group 80: Health Services
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-81" title="Major Group 81: Legal Services">
+                Major Group 81: Legal Services
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-82" title="Major Group 82: Educational Services">
+                Major Group 82: Educational Services
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-83" title="Major Group 83: Social Services">
+                Major Group 83: Social Services
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-84" title="Major Group 84: Museums, Art Galleries, And Botanical And Zoological Gardens">
+                Major Group 84: Museums, Art Galleries, And Botanical And Zoological Gardens
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-86" title="Major Group 86: Membership Organizations">
+                Major Group 86: Membership Organizations
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-87" title="Major Group 87: Engineering, Accounting, Research, Management, And Related Services">
+                Major Group 87: Engineering, Accounting, Research, Management, And Related Services
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-88" title="Major Group 88: Private Households">
+                Major Group 88: Private Households
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-89" title="Major Group 89: Miscellaneous Services">
+                Major Group 89: Miscellaneous Services
+               </a>
+              </li>
+             </ul>
+             <p>
+             </p>
+            </li>
+            <li>
+             <p>
+              <a href="/data/sic-manual/division-j" title="Division J: Public Administration">
+               Division J: Public Administration
+              </a>
+             </p>
+             <ul>
+              <li>
+               <a href="/data/sic-manual/major-group-91" title="Major Group 91: Executive, Legislative, And General Government, Except Finance">
+                Major Group 91: Executive, Legislative, And General Government, Except Finance
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-92" title="Major Group 92: Justice, Public Order, And Safety">
+                Major Group 92: Justice, Public Order, And Safety
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-93" title="Major Group 93: Public Finance, Taxation, And Monetary Policy">
+                Major Group 93: Public Finance, Taxation, And Monetary Policy
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-94" title="Major Group 94: Administration Of Human Resource Programs">
+                Major Group 94: Administration Of Human Resource Programs
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-95" title="Major Group 95: Administration Of Environmental Quality And Housing Programs">
+                Major Group 95: Administration Of Environmental Quality And Housing Programs
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-96" title="Major Group 96: Administration Of Economic Programs">
+                Major Group 96: Administration Of Economic Programs
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-97" title="Major Group 97: National Security And International Affairs">
+                Major Group 97: National Security And International Affairs
+               </a>
+              </li>
+              <li>
+               <a href="/data/sic-manual/major-group-99" title="Major Group 99: Nonclassifiable Establishments">
+                Major Group 99: Nonclassifiable Establishments
+               </a>
+              </li>
+             </ul>
+             <p>
+             </p>
+            </li>
+           </ol>
+          </div>
+         </div>
+        </article>
+       </div>
+      </section>
+     </div>
+    </div>
+   </div>
+   <footer class="footer" role="contentinfo">
+    <div class="region region-footer">
+     <div id="footer">
+      <div id="footer-one">
+       <div class="row">
+        <div class="container">
+         <div class="col-xs-12 col-md-4">
+          <a href="https://www.dol.gov" id="footer-logo-type" title="Department of Labor">
+           <div class="span12">
+            <span class="logo-type">
+             <div class="visually-hidden">
+              Department of Labor logo
+             </div>
+             <span class="brand_white">
+             </span>
+             UNITED STATES
+             <br/>
+             DEPARTMENT OF LABOR
+            </span>
+           </div>
+          </a>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div id="footer-two">
+       <div class="row">
+        <div class="container">
+         <div class="col-md-3 address">
+          <p>
+           Occupational Safety &amp; Health Administration
+          </p>
+          <p>
+           200 Constitution Ave NW
+          </p>
+          <p>
+           Washington, DC 20210
+          </p>
+          <p>
+           <i class="fa fa-phone">
+           </i>
+           <a href="tel:+18003216742" title="Call the Occupational Safety and Health Administration">
+            800-321-6742
+           </a>
+           (OSHA)
+          </p>
+          <p>
+           <a href="https://www.dol.gov/general/contact-phone-call-center#tty" id="anch_105" title="Contact Us - National Contact Center">
+            TTY
+           </a>
+          </p>
+          <p>
+           <a href="https://www.osha.gov/" title="OSHA Home Page">
+            www.OSHA.gov
+           </a>
+          </p>
+         </div>
+         <div class="col-md-3">
+          <p class="footer-header">
+           Federal Government
+          </p>
+          <ul class="menu nav">
+           <li>
+            <a href="https://www.whitehouse.gov" title="White House">
+             White House
+            </a>
+           </li>
+           <li>
+            <a href="https://www.dol.gov/general/stormrecovery" title="Severe Storm and Flood Recovery Assistance">
+             Severe Storm and Flood Recovery Assistance
+            </a>
+           </li>
+           <li>
+            <a href="https://www.dol.gov/general/disasterrecovery" title="Disaster Recovery Assistance">
+             Disaster Recovery Assistance
+            </a>
+           </li>
+           <li>
+            <a href="https://www.disasterassistance.gov/" title="DisasterAssistance.gov">
+             DisasterAssistance.gov
+            </a>
+           </li>
+           <li>
+            <a href="https://usa.gov" title="USA.gov">
+             USA.gov
+            </a>
+           </li>
+           <li>
+            <a href="https://www.dol.gov/oasam/programs/crc/NoFearResult.htm" title="No Fear Act Data">
+             No Fear Act Data
+            </a>
+           </li>
+           <li>
+            <a href="https://osc.gov/" title="U.S. Office of Special Counsel">
+             U.S. Office of Special Counsel
+            </a>
+           </li>
+          </ul>
+         </div>
+         <div class="col-md-3 menu_osha">
+          <p class="footer-header">
+           Occupational Safety &amp; Health
+          </p>
+          <ul class="menu nav">
+           <li>
+            <a href="https://www.osha.gov/faq" title="Frequently Asked Questions">
+             Frequently Asked Questions
+            </a>
+           </li>
+           <li>
+            <a href="https://www.osha.gov/a-z" title="A - Z Index">
+             A - Z Index
+            </a>
+           </li>
+           <li>
+            <a href="https://www.osha.gov/foia" title="Freedom of Information Act - OSHA">
+             Freedom of Information Act - OSHA
+            </a>
+           </li>
+           <li>
+            <a href="https://www.osha.gov/quicktakes/" title="Read The OSHA Newsletter">
+             Read The OSHA Newsletter
+            </a>
+           </li>
+           <li>
+            <a href="https://www.osha.gov/quicktakes/#subscribe" title="Subscribe to the OSHA Newsletter">
+             Subscribe to the OSHA Newsletter
+            </a>
+           </li>
+           <li>
+            <a href="https://www.osha.gov/pls/publications/publication.html" title="OSHA Publications">
+             OSHA Publications
+            </a>
+           </li>
+           <li>
+            <a href="https://www.oig.dol.gov/" title="Office of Inspector General">
+             Office of Inspector General
+            </a>
+           </li>
+          </ul>
+         </div>
+         <div class="col-md-3">
+          <p class="footer-header">
+           About This Site
+          </p>
+          <ul class="menu nav">
+           <li>
+            <a href="https://www.dol.gov/general/foia" title="Freedom of Information Act - DOL">
+             Freedom of Information Act - DOL
+            </a>
+           </li>
+           <li>
+            <a href="https://www.dol.gov/general/privacynotice" title="Privacy &amp; Security Statement">
+             Privacy &amp; Security Statement
+            </a>
+           </li>
+           <li>
+            <a href="https://www.dol.gov/general/disclaim" title="Disclaimers">
+             Disclaimers
+            </a>
+           </li>
+           <li>
+            <a href="https://www.dol.gov/general/aboutdol/website-policies" title="Important Web Site Notices">
+             Important Web Site Notices
+            </a>
+           </li>
+           <li>
+            <a href="https://www.dol.gov/general/aboutdol/file-formats" title="Plug-ins Used by DOL">
+             Plug-ins Used by DOL
+            </a>
+           </li>
+           <li>
+            <a href="https://www.dol.gov/general/aboutdol/accessibility" title="Accessibility Statement">
+             Accessibility Statement
+            </a>
+           </li>
+          </ul>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </footer>
+  </div>
+  <script data-drupal-selector="drupal-settings-json" type="application/json">
+   {"path":{"baseUrl":"\/","scriptPath":null,"pathPrefix":"","currentPath":"node\/999876436","currentPathIsAdmin":false,"isFront":false,"currentLanguage":"en"},"pluralDelimiter":"\u0003","suppressDeprecationErrors":true,"ckeditorAccordion":{"accordionStyle":{"collapseAll":null,"keepRowsOpen":null}},"bootstrap":{"forms_has_error_value_toggle":1,"modal_animation":1,"modal_backdrop":"true","modal_focus_input":1,"modal_keyboard":1,"modal_select_text":1,"modal_show":1,"modal_size":"","popover_enabled":1,"popover_animation":1,"popover_auto_close":1,"popover_container":"body","popover_content":"","popover_delay":"0","popover_html":0,"popover_placement":"right","popover_selector":"","popover_title":"","popover_trigger":"click","tooltip_enabled":1,"tooltip_animation":1,"tooltip_container":"body","tooltip_delay":"0","tooltip_html":0,"tooltip_placement":"auto left","tooltip_selector":"","tooltip_trigger":"hover"},"user":{"uid":0,"permissionsHash":"49ce3884677acd460f00980587f0a85319ae51a0305f2cbc4159ae94353b64c4"}}
+  </script>
+  <script src="/sites/default/files/js/js_VrZ3GEjaS4ZoPmBJ2N-8a8yggIXBrh8E4zcsWpcDmOE.js">
+  </script>
+  <script id="_fed_an_ua_tag" src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=DOL&amp;subagency=OSHA&amp;pua=UA-35083949-1" type="text/javascript">
+  </script>
+ </body>
+</html>

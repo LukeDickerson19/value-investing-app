@@ -885,7 +885,6 @@ Sources:
 			financial_fundamentals 
 			https://github.com/andrewkittredge/financial_fundamentals
 
-
 	dividend aristocrats list
 
 		The S&P 500 Dividend Aristocrat index was launched by Standard and Poors in May 2005
@@ -894,8 +893,6 @@ Sources:
 
 		click here to see the stocks on the list:
 	https://en.wikipedia.org/wiki/S%26P_500_Dividend_Aristocrats
-
-
 
 	This is the Fastest Possible Way to Live Off Dividends
 		Covered Call
@@ -913,6 +910,16 @@ Sources:
 				newt stock, 7.03% dividend, price is volitile but not shrinking over time and is generally flat
 	https://www.youtube.com/watch?v=6GgZo5OjDpE
 
-
 	best site for viewing dividend history
 	https://seekingalpha.com/
+
+
+	python lib to parse XML:
+		ended up using beautiful soup because it was way easier than the library called XML
+			https://www.geeksforgeeks.org/parsing-tables-and-xml-with-beautifulsoup/
+			http://www2.hawaii.edu/~takebaya/cent110/xml_parse/xml_parse.html
+			https://www.crummy.com/software/BeautifulSoup/bs4/doc/
+		this is the xml library though
+			https://www.reddit.com/r/learnpython/comments/6zagt6/is_there_a_python_xml_parser_that_doesnt_suck_ass/
+			https://docs.python.org/3/library/xml.etree.elementtree.html
+

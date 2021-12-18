@@ -7,23 +7,130 @@ filing_quarter = None
 filing_year = None
 
 
-def download_state_and_country_codes():
+def download_standard_industrial_codes(
+    num_indents=0,
+    new_line_start=True):
+
+    log.print('downloading SIC codes:',
+        num_indents=num_indents,
+        new_line_start=new_line_start)
+    sec_url  = 'https://www.sec.gov/corpfin/division-of-corporation-finance-standard-industrial-classification-sic-code-list'
+    osha_url = 'https://www.osha.gov/data/sic-manual'
+    division_href       = '/data/sic-manual/division'
+    major_group_href    = '/data/sic-manual/major-group-'
+    industry_group_href = '/sic-manual/'
+
+    log.print('downloading codes from OSHA source:', num_indents=num_indents+1)
+    log.print(osha_url,   num_indents=num_indents+2, new_line_end=True)
+    df = pd.DataFrame(columns=[
+        'division_code',       'division_name',
+        'major_group_code',    'major_group_name',
+        'industry_group_code', 'industry_group_name'])
+    response = requests.get(osha_url)
+    soup = BeautifulSoup(response.text, 'html.parser')
+    # with open('standard_industrial_codes.txt', 'w') as f:
+    #     f.write(soup.prettify())
+    for division_html in soup.find_all('a', href=lambda href : \
+        href != None and \
+        href.startswith(division_href)):
+
+        division_code = division_html.text.split(':')[0][-1]
+        division_name = division_html.text.split(':')[1][1:]
+        log.print('Division %s: %s' % (division_code, division_name),
+            num_indents=num_indents+1)
+
+        division_url = osha_url + '/' + division_html['href'].split('/')[-1]
+        response = requests.get(division_url)
+        soup = BeautifulSoup(response.text, 'html.parser')
+        for major_group_html in soup.find_all('a', href=lambda href : \
+            href != None and \
+            href.startswith(major_group_href)):
+
+            major_group_code = major_group_html.text.split(' ')[2][:-1]
+            major_group_name = major_group_html.text.split(':')[1][1:]
+            log.print('Major Group %s: %s' % (
+                major_group_code, major_group_name),
+                num_indents=num_indents+2)
+
+            major_group_url  = osha_url + '/major-group-' + major_group_code
+            response = requests.get(major_group_url)
+            soup = BeautifulSoup(response.text, 'html.parser')
+            for industry_group_html in soup.find_all('a', href=lambda href : \
+                href != None and \
+                href.startswith(industry_group_href)):
+
+                industry_group_code = industry_group_html['title'].split(' ')[0]
+                industry_group_name = ' '.join(industry_group_html['title'].split(' ')[1:])
+                log.print('Industry Group %s: %s' % (
+                    industry_group_code, industry_group_name),
+                    num_indents=num_indents+3)
+
+                df = df.append(pd.DataFrame({
+                    'division_code'       : [division_code],       'division_name'       : [division_name],
+                    'major_group_code'    : [major_group_code],    'major_group_name'    : [major_group_name],
+                    'industry_group_code' : [industry_group_code], 'industry_group_name' : [industry_group_name]
+                }))
+
+    log.print('downloading codes from SEC source:', num_indents=num_indents+1)
+    log.print(sec_url, num_indents=num_indents+2, new_line_end=True)
+    sec_df = pd.read_html(sec_url)[0]
+    sec_df['SIC Code'] = sec_df['SIC Code'].apply(lambda sic : str(sic).rjust(4, '0'))
+    undefined_sic_codes = sec_df[~sec_df['SIC Code'].isin(df['industry_group_code'].tolist())]
+    undefined_sic_codes.reset_index(drop=True, inplace=True)
+    log.print('appending %d code(s) that are in the SEC source but not the OSHA source:' % \
+        undefined_sic_codes.shape[0], num_indents=num_indents+2)
+    for i, row in undefined_sic_codes.iterrows():
+        sic                 = row['SIC Code']
+        major_group_code    = sic[:2]
+        df_row              = df[df['major_group_code'] == major_group_code]
+        major_group_name    = df_row['major_group_name'].iloc[0]
+        division_code       = df_row['division_code'].iloc[0]
+        division_name       = df_row['division_name'].iloc[0]
+        industry_group_name = row['Industry Title']
+        log.print(
+            'undefined SIC code %d of %d: %s%s' % (
+                i+1, undefined_sic_codes.shape[0],
+                ' ' * (len(str(undefined_sic_codes.shape[0])) - len(str(i+1))), sic),
+            num_indents=num_indents+3)
+        log.print('division_code ............ %s' % division_code,       num_indents=num_indents+4)
+        log.print('division_name ............ %s' % division_name,       num_indents=num_indents+4)
+        log.print('major_group_code ......... %s' % major_group_code,    num_indents=num_indents+4)
+        log.print('major_group_name ......... %s' % major_group_name,    num_indents=num_indents+4)
+        log.print('industry_group_code ...... %s' % industry_group_code, num_indents=num_indents+4)
+        log.print('industry_group_name ...... %s' % industry_group_name, num_indents=num_indents+4)
+        df = df.append(pd.DataFrame({
+            'division_code'       : [division_code],       'division_name'       : [division_name],
+            'major_group_code'    : [major_group_code],    'major_group_name'    : [major_group_name],
+            'industry_group_code' : [sic],                 'industry_group_name' : [industry_group_name]
+        }))
+
+    df.sort_values(by=['division_code', 'major_group_code', 'industry_group_code'], inplace=True)
+    df.reset_index(drop=True, inplace=True)
+    # log.print(df.to_string(), num_indents=num_indents+1)
+    log.print('done.', num_indents=num_indents)
+    return df
+def download_state_and_country_codes(
+    num_indents=0,
+    new_line_start=True):
 
     # download the codes from the SEC website each time this program is run
     # because we want to know if they've changed it
-    url             = 'https://www.sec.gov/edgar/searchedgar/edgarstatecodes.htm'
-    df              = pd.DataFrame(columns=['code', 'country', 'state'])
-    current_country = 'United States'
+    log.print('downloading latest stand and country codes',
+        num_indents=num_indents, new_line_start=new_line_start)
+    url = 'https://www.sec.gov/edgar/searchedgar/edgarstatecodes.htm'
+    log.print('source: %s' % url, num_indents=num_indents+1)
+    df = pd.DataFrame(columns=['code', 'country', 'state'])
+    current_country = 'UNITED STATES'
     for i, row in pd.read_html(url)[0].iterrows():
         code = row['Code']['States']
         name = row['State or Country Name']['States']
         if code == 'Canadian Provinces' and name == 'Canadian Provinces':
-            current_country = 'Canada'
+            current_country = 'CANADA'
             continue
         elif code == 'Other Countries' and name == 'Other Countries':
             current_country = None
             continue
-        if current_country == 'Canada':
+        if current_country == 'CANADA':
             name = name.split(',')[0]
         df = df.append(pd.DataFrame({
             'code'    : [code],
@@ -31,6 +138,8 @@ def download_state_and_country_codes():
             'state'   : [name if current_country != None else None]
         }))
     df.reset_index(drop=True, inplace=True)
+    log.print(df.to_string(), num_indents=num_indents+1)
+    log.print('done.', num_indents=num_indents)
     return df
 def download_new_quarter_filings_paths(
     num_indents=0,
@@ -182,7 +291,9 @@ def parse_xml_filing(
     dividend_per_share    = parse_dividend_per_share_from_xml(num_indents=num_indents+1)
     dividends_paid        = parse_dividends_paid_from_xml(num_indents=num_indents+1)
     country               = parse_country_from_xml(num_indents=num_indents+1)
-    sic, sector, industry = parse_sector_and_industry(cik, num_indents=num_indents+1)
+    sic, division, major_group, industry_group = \
+        parse_sic_and_industry_classification_names(cik,
+            num_indents=num_indents+1)
 
     fundamental_data = {
         'ticker'             : ticker,
@@ -199,8 +310,9 @@ def parse_xml_filing(
         'dividends_paid'     : dividends_paid,
         'country'            : country,
         'sic'                : sic,
-        'sector'             : sector,
-        'industry'           : industry
+        'division'           : division,
+        'major_group'        : major_group,
+        'industry_group'     : industry_group
     }
     log.print_dct(fundamental_data, num_indents=num_indents+1)
     log.print('done', num_indents=num_indents)
@@ -291,18 +403,40 @@ def parse_country_from_xml(
         'SUCCEEDED' if country != None else 'FAILED'),
         num_indents=num_indents)
     return country
-def parse_sector_and_industry(
+def parse_sic_and_industry_classification_names(
     cik,
     num_indents=0, new_line_start=False):
-    sic = parse_sic_code(cik)
-    if sic == None:
-        return None, None
-    sector = 'tbd'
-    industry = 'tbd'
-    return sic, sector, industry
+
+    sic = parse_sic_code(cik, verbose=False)
+    if sic != None:
+        try:
+            division = sic_codes_df[sic_codes_df['industry_group_code'] == sic]['division_name'].iloc[0]
+        except:
+            division = None
+        try:
+            major_group = sic_codes_df[sic_codes_df['industry_group_code'] == sic]['major_group_name'].iloc[0]
+        except:
+            major_group = None
+        try:
+            industry_group = sic_codes_df[sic_codes_df['industry_group_code'] == sic]['industry_group_name'].iloc[0]
+        except:
+            industry_group = None
+    succeeded = \
+        sic            != None and \
+        division       != None and \
+        major_group    != None and \
+        industry_group != None
+    log.print(
+        'parsing of SIC and industry classification names %s' % (
+            'SUCCEEDED' if succeeded else 'FAILED'),
+        num_indents=num_indents)
+    return sic, division, major_group, industry_group
+
+
+    return sic, division, major_group, industry_group
 def parse_sic_code(
     cik,
-    num_indents=0, new_line_start=False):
+    verbose=True, num_indents=0, new_line_start=False):
     
     ten_digit_cik = str(cik).rjust(10, '0')
     url = 'https://www.sec.gov/cgi-bin/own-disp?action=getissuer&CIK=%s' % ten_digit_cik
@@ -313,15 +447,16 @@ def parse_sic_code(
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
     href_str = '/cgi-bin/browse-edgar?action=getcompany'
-    sic_html_element = soup.find('a', href= lambda href : \
+    sic_html_element = soup.find('a', href=lambda href : \
         href.startswith(href_str) and ('SIC' in href))
     try:
-        sic = int(sic_html_element.text)
+        sic = sic_html_element.text
     except:
         sic = None
-    log.print('parsing of SIC %s' % (
-        'SUCCEEDED' if sic != None else 'FAILED'),
-        num_indents=num_indents)
+    if verbose:
+        log.print('parsing of SIC %s' % (
+            'SUCCEEDED' if sic != None else 'FAILED'),
+            num_indents=num_indents)
     return sic
 def parse_total_cash_inflow_from_xml(
     xml, filing_quarter, filing_year,
@@ -519,6 +654,7 @@ def download_form(
 
 if __name__ == '__main__':
 
+    sic_codes_df = download_standard_industrial_codes()
     state_country_codes_df = download_state_and_country_codes()
     new_quarters = download_new_quarter_filings_paths()
 

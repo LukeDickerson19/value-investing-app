@@ -11,85 +11,125 @@ bot/ui that collects fundamental data and partially automates the management of 
 
   Metrics to save:
 
-    possible filters:
-      total assets / total liabilities
-      determine what this ratio looks like over time for companies that survive a long time
-        - Eric Dickerson
-
-        also include this with total assets - total liabilities because
-
     to do
 
-      parse actual documents for fundamental data
-        because the other one only goes back to 2009
-        fig out best python lib to parse xml
-          https://www.reddit.com/r/learnpython/comments/6zagt6/is_there_a_python_xml_parser_that_doesnt_suck_ass/
-          https://www.crummy.com/software/BeautifulSoup/bs4/doc/
-          https://docs.python.org/3/library/xml.etree.elementtree.html
-          http://www2.hawaii.edu/~takebaya/cent110/xml_parse/xml_parse.html
-          https://www.geeksforgeeks.org/parsing-tables-and-xml-with-beautifulsoup/
-        figure out how to parse
-          did net_income instead of total_cash_inflow and total_cash_outflow
-            might come back to it another time to get total_cash_inflow and total_cash_outflow
-              possibly using tag: us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax
-                in https://www.sec.gov/Archives/edgar/data/1000229/0000950170-21-002488-index.html
+      parse actual documents for fundamental data because the other one only goes back to 2009
+        parsed net_income instead of total_cash_inflow and total_cash_outflow
+          might come back to it another time to get total_cash_inflow and total_cash_outflow
+            possibly using tag: us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax
+              in https://www.sec.gov/Archives/edgar/data/1000229/0000950170-21-002488-index.html
 
-                or tag: us-gaap:Revenues
-                in https://www.sec.gov/Archives/edgar/data/1000045/0000950170-21-004287-index.html
-          next do
-            sector and industry
-              
-              https://smallbusiness.chron.com/company-sic-codes-13398.html
-              https://www.investopedia.com/ask/answers/05/industrysector.asp
+              or tag: us-gaap:Revenues
+              in https://www.sec.gov/Archives/edgar/data/1000045/0000950170-21-004287-index.html
+        next do
 
-              the 2 most common ways to get sector and industry are
-                SIC
-                  https://www.investopedia.com/terms/s/sic_code.asp
-                  https://en.wikipedia.org/wiki/Standard_Industrial_Classification#Structure
-                  https://www.sec.gov/corpfin/division-of-corporation-finance-standard-industrial-classification-sic-code-list
-                  https://libguides.calvin.edu/business/industry
-                    https://www.osha.gov/data/sic-manual
-                  https://www.thecorporatecounsel.net/blog/2016/03/sic-codes-how-does-the-sec-assign-them.html
-                  https://offistraedgarfiling.com/standard-industrial-classification-sic-code-list/
-                NAICS
-                  https://www.census.gov/naics/
-                  https://libguides.calvin.edu/business/industry
-                    https://www.census.gov/naics/?58967?yearbck=2017
-                  https://libguides.umgc.edu/c.php?g=970568&p=7014343
+          stock splits
 
-              I couldn't find the SIC on the 10Q but i found a page on the SEC website with the SIC that just uses the CIK in the URL (see the function parse_sic_code()), so the SIC for each filing has been found
+          sector and industry
+            
+            https://smallbusiness.chron.com/company-sic-codes-13398.html
+            https://www.investopedia.com/ask/answers/05/industrysector.asp
 
-              So now i need to figure out how to parse the name of the sectors and industry of the SIC codes
-              Do something similar to the download_state_and_country_codes() function
+            ways to get sector and industry are
+              SIC
+                https://www.investopedia.com/terms/s/sic_code.asp
+                  The SIC system classifies the economy into 11 major divisions:
+                    Agriculture, forestry, and fishing
+                    Mining
+                    Construction
+                    Manufacturing
+                    Transportation and public utilities
+                    Wholesale trade
+                    Retail trade
+                    Finance, insurance, real estate
+                    Services
+                    Public administration
+                    Nonclassifiable establishments
+                    These are then divided into 83 two-digit major groups, and further subdivided into 416 three-digit industry groups and then into more than 1,000 four-digit industries.
+                  Every company has a primary SIC code that indicates its main line of business. The first two digits of the SIC code identify the major industry group, the third digit identifies the industry group, and the fourth digit identifies the specific industry.
+                https://en.wikipedia.org/wiki/Standard_Industrial_Classification#Structure
+                  SIC codes have a hierarchical, top-down structure that begins with general characteristics and narrows down to the specifics. The first two digits of the code represent the major industry sector to which a business belongs. The third and fourth digits describe the sub-classification of the business group and specialization, respectively. For example, "36" refers to a business that deals in "Electronic and Other Equipment." Adding "7" as a third digit to get "367" indicates that the business operates in "Electronic, Component and Accessories." The fourth digit distinguishes the specific industry sector, so a code of "3672" indicates that the business is concerned with "Printed Circuit Boards."
+                https://www.sec.gov/corpfin/division-of-corporation-finance-standard-industrial-classification-sic-code-list
+                https://libguides.calvin.edu/business/industry
+                  https://www.osha.gov/data/sic-manual
+                https://www.thecorporatecounsel.net/blog/2016/03/sic-codes-how-does-the-sec-assign-them.html
+                https://offistraedgarfiling.com/standard-industrial-classification-sic-code-list/
+              NAICS
+                https://www.census.gov/naics/
+                https://libguides.calvin.edu/business/industry
+                  https://www.census.gov/naics/?58967?yearbck=2017
+                https://libguides.umgc.edu/c.php?g=970568&p=7014343
+              GICS
 
-            stock splits
-            dividend (both total amount and per share)
-      
-              if the dividends paid are not for a 3 month period:
-                for total amount you need to subtract Q1 for Q2 total, Q2 from Q3 total, etc.
-                ex: the dividends for this 10q are for 9 months becuase tis 10q is for Q3
-                  Ctrl + F: "Cash dividends paid to SWM stockholders"
-                  https://www.sec.gov/ix?doc=/Archives/edgar/data/1000623/000100062321000129/swm-20210930.htm
-              however sometimes the dividneds paid are for a 3 month period:
-                for example:
-                  Ctrl + F: "Dividends paid"
-                  https://www.sec.gov/ix?doc=/Archives/edgar/data/1000229/000095017021002488/clb-20210930.htm
-      
-              right now the program will assume a dividend of 0 if it cant find anything in the form
-              all thats left to do is write the code that pulls the data of the previous quarters dividends paid from the mysql db. see fn. parse_dividends_paid_from_xml() in driver.py
-  
-              Important Dividend Dates
-                Dividend payments follow a chronological order of events and the associated dates are important to determine the shareholders who qualify for receiving the dividend payment.
+                Sectors
+                  Energy
+                  Materials
+                  Industrials
+                  Consumer Discretionary
+                  Consumer Staples
+                  Health Care
+                  Financials
+                  Information Technology
+                  Communication Services
+                  Utilities
+                  Real Estate
 
-                Announcement date:
-                  Dividends are announced by company management on the announcement date, or declaration date, and must be approved by the shareholders before they can be paid.
-                Ex-dividend date:
-                  The date on which the dividend eligibility expires is called the ex-dividend date or simply the ex-date. For instance, if a stock has an ex-date of Monday, May 5, then shareholders who buy the stock on or after that day will NOT qualify to get the dividend as they are buying it on or after the dividend expiry date. Shareholders who own the stock one business day prior to the ex-date—that is on Friday, May 2, or earlier—will receive the dividend.
-                Record date:
-                  The record date is the cutoff date, established by the company in order to determine which shareholders are eligible to receive a dividend or distribution.
-                Payment date:
-                  The company issues the payment of the dividend on the payment date, which is when the money gets credited to investors' accounts.
-              https://www.investopedia.com/terms/d/dividend.asp
+                https://www.msci.com/our-solutions/indexes/gics
+
+                https://www.investopedia.com/terms/g/gics.asp
+                https://en.wikipedia.org/wiki/Global_Industry_Classification_Standard
+                https://stackoverflow.com/questions/11339993/getting-stocks-by-industry-via-yahoo-finance
+                https://www.spglobal.com/ratings/en/?ffFix=yes
+                  U: email
+                  P: ajyEDY463@%$
+                  Ratings_Content_Management@spglobal.com
+
+                could potentially scrap it from yahoo finance
+                https://finance.yahoo.com/quote/AAPL/profile/
+                  maybe theres an API?
+
+              ICB (Industry Classification Benchmark), a classification structure maintained by Dow Jones Indexes and FTSE Group
+
+                https://www.ftserussell.com/data/industry-classification-benchmark-icb
+
+            I couldn't find the SIC on the 10Q but i found a page on the SEC website with the SIC that just uses the CIK in the URL (see the function parse_sic_code()), so the SIC for each filing has been found
+
+            So now i need to figure out how to parse the name of the sectors and industry of the SIC codes
+            Do something similar to the download_state_and_country_codes() function
+
+          dividend (both total amount and per share)
+
+            verify the dividends paid divided by the shares outstanding equal dividends per share
+              it seems to be correct, make sure to look at only the dicidends paid for this quarter
+    
+            if the dividends paid are not for a 3 month period:
+              for total amount you need to subtract Q1 for Q2 total, Q2 from Q3 total, etc.
+              ex: the dividends for this 10q are for 9 months becuase tis 10q is for Q3
+                Ctrl + F: "Cash dividends paid to SWM stockholders"
+                https://www.sec.gov/ix?doc=/Archives/edgar/data/1000623/000100062321000129/swm-20210930.htm
+            however sometimes the dividneds paid are for a 3 month period:
+              for example:
+                Ctrl + F: "Dividends paid"
+                https://www.sec.gov/ix?doc=/Archives/edgar/data/1000229/000095017021002488/clb-20210930.htm
+    
+            right now the program will assume a dividend of 0 if it cant find anything in the form
+            all thats left to do is write the code that pulls the data of the previous quarters dividends paid from the mysql db. see fn. parse_dividends_paid_from_xml() in driver.py
+
+            Important Dividend Dates
+              Dividend payments follow a chronological order of events and the associated dates are important to determine the shareholders who qualify for receiving the dividend payment.
+
+              Announcement date:
+                Dividends are announced by company management on the announcement date, or declaration date, and must be approved by the shareholders before they can be paid.
+              Ex-dividend date:
+                The date on which the dividend eligibility expires is called the ex-dividend date or simply the ex-date. For instance, if a stock has an ex-date of Monday, May 5, then shareholders who buy the stock on or after that day will NOT qualify to get the dividend as they are buying it on or after the dividend expiry date. Shareholders who own the stock one business day prior to the ex-date—that is on Friday, May 2, or earlier—will receive the dividend.
+              Record date:
+                The record date is the cutoff date, established by the company in order to determine which shareholders are eligible to receive a dividend or distribution.
+              Payment date:
+                The company issues the payment of the dividend on the payment date, which is when the money gets credited to investors' accounts.
+            https://www.investopedia.com/terms/d/dividend.asp
+
+          would be cool if i also got the type of business it is
+            REIT, etc. ... could this be found from SIC?
 
       figure out which tags you need for the 10-Q
         "Total assets" and "Dividends" need to be searched for with a script
@@ -458,6 +498,13 @@ bot/ui that collects fundamental data and partially automates the management of 
 
       plot this on a graph over time to see how much a company dilutes their shares, see FRONTEND
 
+  possible filters:
+    total assets / total liabilities
+    determine what this ratio looks like over time for companies that survive a long time
+      - Eric Dickerson
+
+      also include this with total assets - total liabilities because
+
   Questions:
 
     Answered:
@@ -552,6 +599,11 @@ bot/ui that collects fundamental data and partially automates the management of 
         - https://www.google.com/search?q=tax+loss+harvesting&sxsrf=AOaemvJ2xNLYQ0BLtovTCzAVB7Ywqqb_zA%3A1639003134181&ei=_jOxYfb9CczD0PEP6r2w-As&ved=0ahUKEwj29OO8otX0AhXMITQIHeoeDL8Q4dUDCA4&uact=5&oq=tax+loss+harvesting&gs_lcp=Cgdnd3Mtd2l6EAMyCggAELEDEIMBEEMyBQgAEIAEMgoIABCABBCHAhAUMgQIABBDMgUIABCABDIFCAAQgAQyBQgAEIAEMgQIABBDMgQIABBDMgUIABCABDoHCAAQRxCwAzoHCAAQsAMQQzoICAAQ5AIQsAM6EAguEMcBEKMCEMgDELADEEM6EAguEMcBENEDEMgDELADEEM6BAgjECc6BggAEAcQHkoECEEYAEoECEYYAVCYA1ijCWDACmgBcAJ4AIABggGIAbEEkgEDMi4zmAEAoAEByAESwAEB&sclient=gws-wiz
 
     maybe include the selling of cash secured puts of stocks that are cheap enough and i want to own anyway
+
+  really interesting investing strategy of Peter Lynch
+    once you have this value investing app built
+      watch it again and take notes
+  https://www.youtube.com/watch?v=J1DFMXL2kXE&t=1934s
 
 ```
 
