@@ -517,7 +517,6 @@ def parse_sic_and_industry_classification_names(
         division = None
         major_group = None
         industry_group = None
-
     succeeded = \
         sic            != None and \
         division       != None and \
@@ -527,9 +526,6 @@ def parse_sic_and_industry_classification_names(
         'parsing of SIC and industry classification names %s' % (
             'SUCCEEDED' if succeeded else 'FAILED'),
         num_indents=num_indents)
-    return sic, division, major_group, industry_group
-
-
     return sic, division, major_group, industry_group
 def parse_sic_code(
     cik,
@@ -635,6 +631,20 @@ def parse_value_from_xml_2(
             num_indents=num_indents)
     return value
 
+def get_daily_price_data(
+    fundamental_data,
+    quarter,
+    num_indents=0,
+    new_line_start=False):
+
+    price_data = pd.DataFrame(columns=['date', 'closing_price'])
+
+    ticker = fundamental_data['ticker']
+    start_date = 'tbd'
+    end_date = 'tbd'
+    # query exchange here
+
+    return price_data
 
 
 
@@ -657,6 +667,7 @@ def restore_windows_1252_characters(restore_string):
     return re.sub(r'[\u0080-\u0099]', to_windows_1252, restore_string)
 def save_to_database(
     fundamental_data,
+    price_data,
     num_indents=0,
     new_line_start=True):
 
@@ -765,7 +776,7 @@ def download_form(
 
 if __name__ == '__main__':
 
-    # sic_codes_df = download_standard_industrial_codes()
+    sic_codes_df = download_standard_industrial_codes()
     state_country_codes_df = download_state_and_country_codes()
     new_quarters = download_new_quarter_filings_paths()
 
@@ -782,12 +793,13 @@ if __name__ == '__main__':
                 log.print('company filing submission %d of %d' % (
                     j+1, filing_df.shape[0]),
                     num_indents=2)
-                if j+1 < 386: continue # for testing purposes only
+                # if j+1 < 386: continue # for testing purposes only
                 xml_filing = download_filing(company_filing, num_indents=3)
                 if xml_filing == None:
                     continue
                 fundamental_data = parse_xml_filing(xml_filing, quarter, num_indents=3)
-                save_to_database(fundamental_data, num_indents=3)
+                price_data = get_daily_price_data(fundamental_data, quarter, num_indents=3)
+                save_to_database(fundamental_data, price_data, num_indents=3)
                 time.sleep(0.5)
                 # if fundamental_data['stock_split'] != None:
                 #     sys.exit()
