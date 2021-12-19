@@ -82,6 +82,10 @@ XML_DATA_TAGS = {
 		'tags' : list(map(lambda tag : tag.lower(), [
 			'dei:EntityIncorporationStateCountryCode'])),
 		'attributes' : {}},
+	'stock_split' : {
+		'tags' : list(map(lambda tag : tag.lower(), [
+			'us-gaap:StockholdersEquityNoteStockSplitConversionRatio1'])),
+		'attributes' : {}},
 	'ticker' : {
 		'tags' : list(map(lambda tag : tag.lower(), [
 			'dei:TradingSymbol'])),

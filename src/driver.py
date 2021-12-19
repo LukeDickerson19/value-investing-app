@@ -82,10 +82,10 @@ def download_standard_industrial_codes(
     for i, row in undefined_sic_codes.iterrows():
         sic                 = row['SIC Code']
         major_group_code    = sic[:2]
-        df_row              = df[df['major_group_code'] == major_group_code]
-        major_group_name    = df_row['major_group_name'].iloc[0]
-        division_code       = df_row['division_code'].iloc[0]
-        division_name       = df_row['division_name'].iloc[0]
+        df_row              = df[df['major_group_code'] == major_group_code].iloc[0]
+        major_group_name    = df_row['major_group_name']
+        division_code       = df_row['division_code']
+        division_name       = df_row['division_name']
         industry_group_name = row['Industry Title']
         log.print(
             'undefined SIC code %d of %d: %s%s' % (
@@ -110,6 +110,7 @@ def download_standard_industrial_codes(
     log.print('done.', num_indents=num_indents)
     return df
 def download_state_and_country_codes(
+    verbose=False,
     num_indents=0,
     new_line_start=True):
 
@@ -138,7 +139,8 @@ def download_state_and_country_codes(
             'state'   : [name if current_country != None else None]
         }))
     df.reset_index(drop=True, inplace=True)
-    log.print(df.to_string(), num_indents=num_indents+1)
+    if verbose:
+        log.print(df.to_string(), num_indents=num_indents+1)
     log.print('done.', num_indents=num_indents)
     return df
 def download_new_quarter_filings_paths(
@@ -219,6 +221,12 @@ def parse_filings_list(filepath):
         lineterminator='\n',
         names=columns.keys(),
         dtype=columns)
+    # print(set(filing_paths_df['form_type'].tolist()))
+    # print('start')
+    for ft in set(filing_paths_df['form_type'].tolist()):
+        if '8-A' in ft:
+            print(ft)
+    # print('end')
     filing_paths_df = filing_paths_df[
         filing_paths_df['form_type'].isin(VALID_FORM_NAMES)]
     return filing_paths_df
@@ -238,30 +246,62 @@ def year_and_quarter_from_quarter_str(quarter_str):
     y = int(quarter_str.split('-')[0])
     return q, y
 
-def download_xml_filing(
+def download_filing(
     company_filing,
+    file_type='xml',
     num_indents=0,
     new_line_start=True):
 
-    log.print('downloading XML of filing submission',
+    # get filing detail url
+    log.print('downloading filing submission',
         num_indents=num_indents, new_line_start=new_line_start)
     filing_details_url = SEC_ARCHIVES_BASE_URL + company_filing['html_path']
     log.print('filing_details_url: %s' % filing_details_url, num_indents=num_indents+1)
     response = requests.get(filing_details_url, headers={'User-Agent' : USER_AGENT})
-    data_files_df = pd.read_html(response.text)[1]
-    # xml_path = data_files_df[data_files_df['Type'] == 'XML']['Document'].iloc[0]
-    xml_path = data_files_df[data_files_df['Description'].isin([
-        'XBRL INSTANCE DOCUMENT',
-        'EXTRACTED XBRL INSTANCE DOCUMENT'])]['Document'].iloc[0]
-    full_xml_url = \
-        SEC_ARCHIVES_BASE_URL + \
-        company_filing['html_path'].replace('-', '').replace('index.html', '') + \
-        '/' + xml_path
+
+    # get filing's HTML url
+    try:
+        document_format_files_df = pd.read_html(response.text)[0]
+        html_path = '/' + document_format_files_df[document_format_files_df['Type'].isin(VALID_FORM_NAMES)]['Document'].iloc[0].split(' ')[0]
+        tagged_base_url = '/'.join([
+            '/'.join(SEC_ARCHIVES_BASE_URL.split('/')[:3]),
+            'ix?doc=',
+            '/'.join(SEC_ARCHIVES_BASE_URL.split('/')[3:])])
+        full_html_url = tagged_base_url + company_filing['html_path'].replace('-', '').replace('index.html', html_path)
+    except:
+        full_html_url = 'FAILED'
+    log.print('full_html_url:      %s' % full_html_url, num_indents=num_indents+1)
+
+    # get filing's XML url
+    try:
+        data_files_df = pd.read_html(response.text)[1]
+        # xml_path = data_files_df[data_files_df['Type'] == 'XML']['Document'].iloc[0]
+        xml_path = data_files_df[data_files_df['Description'].isin([
+            'XBRL INSTANCE FILE',
+            'XBRL INSTANCE DOCUMENT',
+            'EXTRACTED XBRL INSTANCE DOCUMENT'])]['Document'].iloc[0]
+        full_xml_url = \
+            SEC_ARCHIVES_BASE_URL + \
+            company_filing['html_path'].replace('-', '').replace('index.html', '') + \
+            '/' + xml_path
+    except:
+        full_xml_url = 'FAILED'
     log.print('full_xml_url:       %s' % full_xml_url, num_indents=num_indents+1)
-    response = requests.get(full_xml_url, headers={'User-Agent' : USER_AGENT})
-    # with open('test_xml.txt', 'w') as f:
-    #     f.write(response.text)
-    log.print('done', num_indents=num_indents)
+
+    try:
+        if file_type == 'xml':
+            url = full_xml_url
+        elif file_type == 'html':
+            url = full_html_url
+        response = requests.get(url, headers={'User-Agent' : USER_AGENT})
+        # with open('test_xml.txt', 'w') as f:
+        #     f.write(response.text)
+    except:
+        response = None
+    if response != None:
+        log.print('done, downloaded %s filing' % file_type, num_indents=num_indents)
+    else:
+        log.print('done. FAILED to download %s filing' % file_type, num_indents=num_indents)
     return response
 def parse_xml_filing(
     xml_filing,
@@ -282,37 +322,44 @@ def parse_xml_filing(
 
     ticker                = parse_value_from_xml_2('ticker',                num_indents=num_indents+1)
     company_name          = parse_value_from_xml_2('company_name',          num_indents=num_indents+1)
-    cik                   = parse_value_from_xml_2('cik', value_type='int', num_indents=num_indents+1)
-    shares_outstanding    = parse_value_from_xml_1('shares_outstanding',    num_indents=num_indents+1)
+    cik                   = parse_value_from_xml_2('cik',                   num_indents=num_indents+1, value_type='int')
+    shares_outstanding    = parse_value_from_xml_1('shares_outstanding',    num_indents=num_indents+1, period_months=None)
     net_income            = parse_value_from_xml_1('net_income',            num_indents=num_indents+1)
     # total_revenue         = parse_value_from_xml_1('total_revenue',         num_indents=num_indents+1)
     total_assets          = parse_value_from_xml_1('total_assets',          num_indents=num_indents+1)
     total_liabilities     = parse_total_liabilities_from_xml(num_indents=num_indents+1)
     dividend_per_share    = parse_dividend_per_share_from_xml(num_indents=num_indents+1)
     dividends_paid        = parse_dividends_paid_from_xml(num_indents=num_indents+1)
+    stock_split           = parse_stock_split_from_xml(num_indents=num_indents+1)
     country               = parse_country_from_xml(num_indents=num_indents+1)
     sic, division, major_group, industry_group = \
         parse_sic_and_industry_classification_names(cik,
             num_indents=num_indents+1)
 
     fundamental_data = {
-        'ticker'             : ticker,
-        'company_name'       : company_name,
-        'cik'                : cik,
-        'quarter'            : filing_quarter,
-        'year'               : filing_year,
-        'shares_outstanding' : shares_outstanding,
-        'net_income'         : net_income,
-        # 'total_revenue'      : total_revenue,
-        'total_assets'       : total_assets,
-        'total_liabilities'  : total_liabilities,
-        'dividend_per_share' : dividend_per_share,
-        'dividends_paid'     : dividends_paid,
-        'country'            : country,
-        'sic'                : sic,
-        'division'           : division,
-        'major_group'        : major_group,
-        'industry_group'     : industry_group
+        'ticker'                  : ticker,
+        'company_name'            : company_name,
+        'cik'                     : cik,
+        'quarter'                 : filing_quarter,
+        'year'                    : filing_year,
+        'shares_outstanding'      : shares_outstanding,
+        'stock_split'             : stock_split,
+        'net_income'              : net_income,
+        # 'total_revenue'           : total_revenue,
+        'total_assets'            : total_assets,
+        'total_liabilities'       : total_liabilities,
+        'dividend_per_share'      : dividend_per_share,
+        'dividends_paid'          : dividends_paid,
+        'country'                 : country,
+        'industry_classification' : {
+            'sic' : {
+                'sic'             : sic,
+                'division'        : division,
+                'major_group'     : major_group,
+                'industry_group'  : industry_group
+            }
+        },
+
     }
     log.print_dct(fundamental_data, num_indents=num_indents+1)
     log.print('done', num_indents=num_indents)
@@ -330,6 +377,50 @@ def parse_quarter_and_year_from_xml(
         'SUCCEEDED' if (quarter != None and year != None) else 'FAILED'),
         num_indents=num_indents)
     return quarter, year
+def parse_stock_split_from_xml(
+    num_indents=0):
+
+    split_type = None
+    ratio      = None
+    split_date = None
+    tags       = XML_DATA_TAGS['stock_split']['tags']
+    attributes = XML_DATA_TAGS['stock_split']['attributes']
+    for row in xml.find_all(tags, attrs=attributes):
+        # print(row)
+        context = xml.find(['context', 'xbrli:context'], id=row['contextref'])
+        # print(context)
+        if context == None:
+            continue
+        try:
+            row_end_date = context.find(['instant', 'xbrli:instant']).string
+            period_duration = 0
+        except:
+            row_end_date   = context.find(['enddate', 'xbrli:enddate']).string
+            row_start_date = context.find(['startdate', 'xbrli:startdate']).string
+            period_duration = (date.fromisoformat(row_end_date) - date.fromisoformat(row_start_date)).days
+
+        # filter out period durations that aren't an instant
+        if period_duration != 0:
+            continue
+
+        # just take the first one
+        try:
+            split_type = 'tbd'
+            ratio      = int(row.string)
+            split_date = row_end_date
+            break
+        except:
+            continue
+
+    succeeded = (ratio != None) and (split_date != None) and (split_type != None)
+    log.print('parsing of stock_split %s' % (
+        'SUCCEEDED' if succeeded else 'FAILED'),
+        num_indents=num_indents)
+    return {
+        'type'  : split_type,
+        'ratio' : ratio,
+        'date'  : split_date
+    } if succeeded else None
 def parse_total_liabilities_from_xml(
     num_indents=0, new_line_start=False):
 
@@ -398,7 +489,8 @@ def parse_country_from_xml(
     num_indents=0, new_line_start=False):
 
     code = parse_value_from_xml_2('state_or_country_code', verbose=False)
-    country = state_country_codes_df[state_country_codes_df['code'] == code]['country'].iloc[0]
+    country = state_country_codes_df[state_country_codes_df['code'] == code]['country'].iloc[0] \
+        if code != None else None
     log.print('parsing of country %s' % (
         'SUCCEEDED' if country != None else 'FAILED'),
         num_indents=num_indents)
@@ -421,6 +513,11 @@ def parse_sic_and_industry_classification_names(
             industry_group = sic_codes_df[sic_codes_df['industry_group_code'] == sic]['industry_group_name'].iloc[0]
         except:
             industry_group = None
+    else:
+        division = None
+        major_group = None
+        industry_group = None
+
     succeeded = \
         sic            != None and \
         division       != None and \
@@ -479,12 +576,15 @@ def parse_value_from_xml_1(
     tags = XML_DATA_TAGS[value_name]['tags']
     attributes = XML_DATA_TAGS[value_name]['attributes']
     for row in xml.find_all(tags, attrs=attributes):
-        context = xml.find('context', id=row['contextref'])
+        # print(row)
+        context = xml.find(['context', 'xbrli:context'], id=row['contextref'])
+        if context == None:
+            continue
         try:
-            row_end_date = context.find('instant').string
+            row_end_date = context.find(['instant', 'xbrli:instant']).string
         except:
-            row_end_date   = context.find('enddate').string
-            row_start_date = context.find('startdate').string
+            row_end_date   = context.find(['enddate', 'xbrli:enddate']).string
+            row_start_date = context.find(['startdate', 'xbrli:startdate']).string
 
             # filter out period durations that aren't a quarter
             period_duration = date.fromisoformat(row_end_date) - date.fromisoformat(row_start_date)
@@ -497,7 +597,16 @@ def parse_value_from_xml_1(
         if not (row_quarter == filing_quarter and row_year == filing_year):
             continue
 
+        # filter out non numeric values if value_type = 'int'
+        if value_type == 'int':
+            try:
+                value = int(row.string)
+            except:
+                continue
+
         # just take the first one
+        # print(row)
+        # print('row_end_date row_quarter row_year: %s %s %s' % (row_end_date, row_quarter, row_year))
         if   value_type == 'int':   value = int(row.string)
         elif value_type == 'float': value = float(row.string)
         break
@@ -514,8 +623,10 @@ def parse_value_from_xml_2(
     attributes = XML_DATA_TAGS[value_name]['attributes']
     try:
         value = xml.find(tags, attrs=attributes).string
-        if   value_type == 'int':   value = int(value.string)
-        elif value_type == 'float': value = float(value.string)
+        if   value_type == 'int':    value = int(value.string)
+        elif value_type == 'float':  value = float(value.string)
+        elif value_type == 'string':
+            value = value.replace('\u00a0', ' ')
     except:
         value = None
     if verbose:
@@ -654,7 +765,7 @@ def download_form(
 
 if __name__ == '__main__':
 
-    sic_codes_df = download_standard_industrial_codes()
+    # sic_codes_df = download_standard_industrial_codes()
     state_country_codes_df = download_state_and_country_codes()
     new_quarters = download_new_quarter_filings_paths()
 
@@ -671,10 +782,14 @@ if __name__ == '__main__':
                 log.print('company filing submission %d of %d' % (
                     j+1, filing_df.shape[0]),
                     num_indents=2)
-                xml_filing = download_xml_filing(company_filing, num_indents=3)
+                if j+1 < 386: continue # for testing purposes only
+                xml_filing = download_filing(company_filing, num_indents=3)
+                if xml_filing == None:
+                    continue
                 fundamental_data = parse_xml_filing(xml_filing, quarter, num_indents=3)
                 save_to_database(fundamental_data, num_indents=3)
                 time.sleep(0.5)
-                input()
+                # if fundamental_data['stock_split'] != None:
+                #     sys.exit()
 
 
