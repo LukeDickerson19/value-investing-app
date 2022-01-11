@@ -10,6 +10,7 @@ import shutil
 import pathlib
 import requests
 from datetime import datetime, date
+import re
 
 # import non-standard libraries
 import pandas as pd
@@ -46,7 +47,7 @@ METADATA_FILEPATH = os.path.join(DATA_PATH, METADATA_FILENAME)
 TMP_FILINGS_PATH  = os.path.join(DATA_PATH, 'quarterly_filings')
 USER_AGENT = 'Norman Lucius Dickerson (lucius.dickerson@gmail.com)'
 EARLIEST_YEAR_EDGAR_OFFERS = 1993
-VALID_FORM_NAMES=['10-Q', '10-K']
+VALID_FORM_NAMES=['10-K']#, '10-Q']
 SEC_ARCHIVES_BASE_URL = 'https://www.sec.gov/Archives/'
 XML_DATA_TAGS = {
 	'cik' : {
@@ -70,7 +71,9 @@ XML_DATA_TAGS = {
 		'attributes' : {}},
 	'net_income' : {
 		'tags' : list(map(lambda tag : tag.lower(), [
-			'us-gaap:NetIncomeLoss'])),
+			'us-gaap:NetIncomeLoss',
+			'us-gaap:ProfitLoss',
+			'us-gaap:NetIncomeLossAvailableToCommonStockholdersBasic'])),
 		'attributes' : {}},
 	'shares_outstanding' : {
 		'tags' : list(map(lambda tag : tag.lower(), [

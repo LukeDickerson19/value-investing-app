@@ -194,14 +194,13 @@ How to read a 10-Q and 10-K form:
 Exchanges:
 
 	desired qualities:
-		has easy to use api
-		provides market fundamental data for free
+		has api
+		available to US citizens
+		zero trading fee
 		provides options trading
-		provides margin trading with high leverage
+		provides stock investing
 
 	best so far is Alpaca
-
-
 
 	Fidelity Investments
 		deposit fee: $0.00
@@ -211,7 +210,7 @@ Exchanges:
 		sells your order flow?: No
 			"Fidelity doesn't engage in payment for order flow (PFOF)"
 				- https://www.investopedia.com/fidelity-vs-robinhood-4587945#:~:text=Fidelity%20doesn't%20engage%20in,market%20maker%20execute%20the%20order.&text=Fidelity%20clients%20enjoy%20a%20healthy,but%20below%20average%20for%20options.
-		has margin trading: 
+		has margin trading:
 		margin fee: 
 		leverage:
 		web/mobile: yes/yes
@@ -393,6 +392,12 @@ Exchanges:
 			https://algotrading101.com/learn/interactive-brokers-python-api-native-guide/
 			but its hard to use
 			https://www.reddit.com/r/algotrading/comments/ig1cd5/alpaca_vs_interactive_brokers_for_python/
+			and its not free:
+				https://www.reddit.com/r/algotrading/comments/maml8l/some_questions_about_ib_api_data_cost/
+				https://www.interactivebrokers.com/en/pricing/research-news-marketdata.phpo
+
+			other sources:
+				https://www.elitetrader.com/et/threads/ib-api-vs-td-ameritrade-api.326079/
 		has paper trading: yes
 			https://www.interactivebrokers.com/en/software/omnibrokers/topics/papertrader.htm
 		fractional share trading: yes
@@ -913,7 +918,6 @@ Sources:
 	best site for viewing dividend history
 	https://seekingalpha.com/
 
-
 	python lib to parse XML:
 		ended up using beautiful soup because it was way easier than the library called XML
 			https://www.geeksforgeeks.org/parsing-tables-and-xml-with-beautifulsoup/
@@ -923,3 +927,5 @@ Sources:
 			https://www.reddit.com/r/learnpython/comments/6zagt6/is_there_a_python_xml_parser_that_doesnt_suck_ass/
 			https://docs.python.org/3/library/xml.etree.elementtree.html
 
+	https://www.youtube.com/watch?v=Wi9PPoS9cxI
+	https://www.youtube.com/watch?v=KDVH9eDF5QA

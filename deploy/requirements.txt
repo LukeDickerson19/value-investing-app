@@ -1,4 +1,4 @@
-urllib3
+numpy
+pandas
 python-edgar
-html5lib
 bs4

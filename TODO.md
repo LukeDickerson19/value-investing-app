@@ -9,192 +9,101 @@ bot/ui that collects fundamental data and partially automates the management of 
   - learn to read 10-Q and 10-K forms
 ```
 
-  Metrics to save:
+  try to use yahoo finance instead
 
-    to do
+    see function "get_ticker_by_isin" in utils file of yfinance
+      i think it could get ALL the tickers on yahoo finance
 
-      parse actual documents for fundamental data because the other one only goes back to 2009
-        parsed net_income instead of total_cash_inflow and total_cash_outflow
-          might come back to it another time to get total_cash_inflow and total_cash_outflow
-            possibly using tag: us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax
-              in https://www.sec.gov/Archives/edgar/data/1000229/0000950170-21-002488-index.html
+    figure out API stuff
+      how is yfinance using the yahoo finance API?
+      how can i still use yfinance but use my API key?
+      why are my API calls in yf_api.py not appearing on the dashboard
+        https://www.yahoofinanceapi.com/dashboard
 
-              or tag: us-gaap:Revenues
-              in https://www.sec.gov/Archives/edgar/data/1000045/0000950170-21-004287-index.html
-        next do
+    it will be way easier to get the data I want than parsing SEC filings
+    setup the code to find all the tickers from the SEC
+    then set up the yahoo finance calls on this list of tickers (calling it from the json)
+      libs
+        yfinance
+          https://pypi.org/project/yfinance/
+          https://github.com/ranaroussi/yfinance
+          https://analyticsindiamag.com/top-python-libraries-to-get-historical-stock-data-with-code/
+          https://algotrading101.com/learn/yahoo-finance-api-guide/
+          https://aroussi.com/post/python-yahoo-finance
+        yahoo_fin
+          http://theautomatic.net/yahoo_fin-documentation/#stock_info
+          http://theautomatic.net/2020/05/05/how-to-download-fundamentals-data-with-python/
+          https://algotrading101.com/learn/yahoo-finance-api-guide/
+    then set up the code to save the data
+      save the raw data and also the parsed data to different databases
+    then get the Yahoo Finance Essentials Plus 14 day free trial
+      and see if you can get data for each of the tickers for each quarter in the list
+      https://finance.yahoo.com/quote/NFLX/financials?p=NFLX
+      https://www.yahoo.com/plus/finance?ncid=dcm_306158723_490172245_127172993
+      i still need to figure out how im going to make api calls using Yahoo Finance Essentials Plus
+        how will the server know its me? does yfinance lib have anything I could use to specify its me
+        at the very least i can just iterate over the tickers and 
+      other libs
+        https://github.com/janlukasschroeder/sec-api
+    run it on your raspi and save the data on your external hard drive
 
-          stock splits
+  i dont want to invest in a company where execs take it all for themselves
+    "All executive compensation information can be found in public filings with the Securities and Exchange Commission (SEC)."
+      - https://www.investopedia.com/articles/stocks/07/executive_compensation.asp
 
-          sector and industry
-            
-            https://smallbusiness.chron.com/company-sic-codes-13398.html
-            https://www.investopedia.com/ask/answers/05/industrysector.asp
+  parse 10-Ks
 
-            ways to get sector and industry are
-              SIC
-                https://www.investopedia.com/terms/s/sic_code.asp
-                  The SIC system classifies the economy into 11 major divisions:
-                    Agriculture, forestry, and fishing
-                    Mining
-                    Construction
-                    Manufacturing
-                    Transportation and public utilities
-                    Wholesale trade
-                    Retail trade
-                    Finance, insurance, real estate
-                    Services
-                    Public administration
-                    Nonclassifiable establishments
-                    These are then divided into 83 two-digit major groups, and further subdivided into 416 three-digit industry groups and then into more than 1,000 four-digit industries.
-                  Every company has a primary SIC code that indicates its main line of business. The first two digits of the SIC code identify the major industry group, the third digit identifies the industry group, and the fourth digit identifies the specific industry.
-                https://en.wikipedia.org/wiki/Standard_Industrial_Classification#Structure
-                  SIC codes have a hierarchical, top-down structure that begins with general characteristics and narrows down to the specifics. The first two digits of the code represent the major industry sector to which a business belongs. The third and fourth digits describe the sub-classification of the business group and specialization, respectively. For example, "36" refers to a business that deals in "Electronic and Other Equipment." Adding "7" as a third digit to get "367" indicates that the business operates in "Electronic, Component and Accessories." The fourth digit distinguishes the specific industry sector, so a code of "3672" indicates that the business is concerned with "Printed Circuit Boards."
-                https://www.sec.gov/corpfin/division-of-corporation-finance-standard-industrial-classification-sic-code-list
-                https://libguides.calvin.edu/business/industry
-                  https://www.osha.gov/data/sic-manual
-                https://www.thecorporatecounsel.net/blog/2016/03/sic-codes-how-does-the-sec-assign-them.html
-                https://offistraedgarfiling.com/standard-industrial-classification-sic-code-list/
-              NAICS
-                https://www.census.gov/naics/
-                https://libguides.calvin.edu/business/industry
-                  https://www.census.gov/naics/?58967?yearbck=2017
-                https://libguides.umgc.edu/c.php?g=970568&p=7014343
-              GICS
+  daily price data
+    then compare the total number of tickers the exchange has to the number of tickers that submitted a filing this most recent quarter
+    I want the program to get the most current price owned, and get the price of all the days from then until the current day. this way the get_daily_price_data function (or whatever its called) can be run on daily intervals or quarterly intervals.
+    I want the exchange to provide trading stocks and via an API and with zero trading fee.
+    the price is going to be collected on quarterly intervals
 
-                Sectors
-                  Energy
-                  Materials
-                  Industrials
-                  Consumer Discretionary
-                  Consumer Staples
-                  Health Care
-                  Financials
-                  Information Technology
-                  Communication Services
-                  Utilities
-                  Real Estate
+    using this API wrapper for yahoo finance
+    https://pypi.org/project/yfinance/
 
-                https://www.msci.com/our-solutions/indexes/gics
+    yahoo finance has free historical daily price data for global stocks
+    https://help.yahoo.com/kb/SLN2310.html
 
-                https://www.investopedia.com/terms/g/gics.asp
-                https://en.wikipedia.org/wiki/Global_Industry_Classification_Standard
-                https://stackoverflow.com/questions/11339993/getting-stocks-by-industry-via-yahoo-finance
-                https://www.spglobal.com/ratings/en/?ffFix=yes
-                  U: email
-                  P: ajyEDY463@%$
-                  Ratings_Content_Management@spglobal.com
+    historical fundamentals back to a company's IPO requires payment though
+      https://finance.yahoo.com/quote/NFLX/financials?p=NFLX
+        theres a 14 day free trial though, i might be able to get all the data i need without paying for it then run the program for current data and be fine so long as the program continued to run
+        if i were to do this i'd need a list of all tickers of current public companies
+          i think ill just use the SEC tickers
+      https://www.yahoo.com/plus/finance?ncid=dcm_311080551_490172245_127172993
 
-                could potentially scrap it from yahoo finance
-                https://finance.yahoo.com/quote/AAPL/profile/
-                  maybe theres an API?
+    it seems to have stock split and dividend per share history all the way back though
+      ex: MSFT
 
-              ICB (Industry Classification Benchmark), a classification structure maintained by Dow Jones Indexes and FTSE Group
+  interactive brokers
+    https://www.reddit.com/r/algotrading/comments/mkthpv/ib_apis_pricing_and_some_questions/
+    https://interactivebrokers.github.io/tws-api/initial_setup.html#enable_api
+    https://www.interactivebrokers.com/en/index.php?f=4969
+    https://algotrading101.com/learn/ib_insync-interactive-brokers-api-guide/#why-shouldn't-i-use-ib-insync
+    https://www.interactivebrokers.com/en/trading/ib-api.php
 
-                https://www.ftserussell.com/data/industry-classification-benchmark-icb
+  write the code to store the data
+    use a mysql database because it'll make integrating into airflow involve using the MySQLOperator
+      mysql is in general about just as fast as csv
+      https://stackoverflow.com/questions/561058/csv-vs-mysql-performance
+      https://www.quora.com/What-makes-SQL-faster-than-just-reading-through-a-CSV-file-using-a-language-like-Python-or-Java
 
-            I couldn't find the SIC on the 10Q but i found a page on the SEC website with the SIC that just uses the CIK in the URL (see the function parse_sic_code()), so the SIC for each filing has been found
+      you can set the mysql data dir in your docker image
+      https://stackoverflow.com/questions/6754944/where-is-my-database-saved-when-i-create-it-in-mysql
+    see the DESIGN section for database tables and columns
 
-            So now i need to figure out how to parse the name of the sectors and industry of the SIC codes
-            Do something similar to the download_state_and_country_codes() function
-
-          dividend (both total amount and per share)
-
-            verify the dividends paid divided by the shares outstanding equal dividends per share
-              it seems to be correct, make sure to look at only the dicidends paid for this quarter
+  determine the data coverage for each data source individually and also collectively:
+    [10-Q, 10-K, Finanical Statements Data Set]
     
-            if the dividends paid are not for a 3 month period:
-              for total amount you need to subtract Q1 for Q2 total, Q2 from Q3 total, etc.
-              ex: the dividends for this 10q are for 9 months becuase tis 10q is for Q3
-                Ctrl + F: "Cash dividends paid to SWM stockholders"
-                https://www.sec.gov/ix?doc=/Archives/edgar/data/1000623/000100062321000129/swm-20210930.htm
-            however sometimes the dividneds paid are for a 3 month period:
-              for example:
-                Ctrl + F: "Dividends paid"
-                https://www.sec.gov/ix?doc=/Archives/edgar/data/1000229/000095017021002488/clb-20210930.htm
-    
-            right now the program will assume a dividend of 0 if it cant find anything in the form
-            all thats left to do is write the code that pulls the data of the previous quarters dividends paid from the mysql db. see fn. parse_dividends_paid_from_xml() in driver.py
+    make df with a column for each variable gathered
+    and a row for each quarter
+    each value will be a fraction
 
-            Important Dividend Dates
-              Dividend payments follow a chronological order of events and the associated dates are important to determine the shareholders who qualify for receiving the dividend payment.
+  check this out, might be useful if i can't parse everything successfully
+    http://www.xbrl.org/Specification/XBRL-RECOMMENDATION-2003-12-31+Corrected-Errata-2005-04-25.htm#_4.6.1
+    original source: https://stackoverflow.com/questions/14513938/xbrl-us-gaap-contextref-standard
 
-              Announcement date:
-                Dividends are announced by company management on the announcement date, or declaration date, and must be approved by the shareholders before they can be paid.
-              Ex-dividend date:
-                The date on which the dividend eligibility expires is called the ex-dividend date or simply the ex-date. For instance, if a stock has an ex-date of Monday, May 5, then shareholders who buy the stock on or after that day will NOT qualify to get the dividend as they are buying it on or after the dividend expiry date. Shareholders who own the stock one business day prior to the ex-date—that is on Friday, May 2, or earlier—will receive the dividend.
-              Record date:
-                The record date is the cutoff date, established by the company in order to determine which shareholders are eligible to receive a dividend or distribution.
-              Payment date:
-                The company issues the payment of the dividend on the payment date, which is when the money gets credited to investors' accounts.
-            https://www.investopedia.com/terms/d/dividend.asp
-
-          would be cool if i also got the type of business it is
-            REIT, etc. ... could this be found from SIC?
-
-      figure out which tags you need for the 10-Q
-        "Total assets" and "Dividends" need to be searched for with a script
-        click on the metric in the 10-Q to find its tag
-
-        Total Assets tag is "Assets" in most of the forms
-        some of the forms dont have this tag though
-        so figure out how to contruct the URL of the form on the SEC site
-        go to the form and click on the metric in the form to find the tags name
-
-        sadly a few of the submissions dont have the data i need
-          the data is in the form on the SEC website
-          but its not in the num.txt file for some reason
-
-          so i need to create a program that parses this stuff
-          then if anything is missing, i parse the xml
-
-        and also verify "Assets" is the right tag for the forms that do work
-
-      then verify the numbers are the same as in the actual 10-Q
-      repeat for 10-K
-      code it!
-
-      check this out, might be useful if i can't parse everything successfully
-        http://www.xbrl.org/Specification/XBRL-RECOMMENDATION-2003-12-31+Corrected-Errata-2005-04-25.htm#_4.6.1
-        original source: https://stackoverflow.com/questions/14513938/xbrl-us-gaap-contextref-standard
-
-    THIS LINK WILL BE WAAAAYYYYYYY EASIER TO PARSE, only goes back to 2009 though :(
-      https://www.sec.gov/dera/data/financial-statement-data-sets.html
-
-      does it have the data i need? does it have share splits?
-        it has country, sector, and industry data
-
-      this link explains what the downloaded data contains
-      https://www.sec.gov/files/aqfs.pdf
-
-      metrics to grab:
-        sub
-          adsh - Accession Number. The 20-character string formed from the 18-digit number assigned by the SEC to each EDGAR submission.
-            "Accession number: In the example above, 0001193125-15-118890 is the accession number, a unique identifier assigned automatically to an accepted submission by EDGAR. The first set of numbers (0001193125) is the CIK of the entity submitting the filing. This could be the company or a third-party filer agent. Some filer agents without a regulatory requirement to make disclosure filings with the SEC have a CIK but no searchable presence in the public EDGAR database. The next two numbers (15) represent the year. The last series of numbers represent a sequential count of submitted filings from that CIK. The count is usually, but not always, reset to zero at the start of each calendar year."
-              - https://www.sec.gov/os/accessing-edgar-data
-          cik - C entral Index Key (C IK). Ten digit number assigned by the SEC to each registrant that submits filings.
-          name - Name of registrant. This corresponds to the name of the legal entity as recorded in EDGAR as of the filing date.
-          sic - Standard Industrial Classification (SIC ). Four digit code assigned by the SEC as of the filing date, indicating the registrant’s type of business.
-            https://en.wikipedia.org/wiki/Industry_classification
-          countryba - The ISO 3166-1 country of the registrant's business address.
-          form - The submission type of the registrant’s filing.
-            10-Q, 10-K, etc.
-          period - Balance Sheet Date
-          fy - Fiscal Year Focus (as defined in EFM Ch. 6).
-          fp - Fiscal Period Focus (as defined in EFM Ch. 6) within Fiscal Year. The 10-Q for the 1st, 2nd and 3rd quarters would have a fiscal period focus of Q1, Q2 (or H1), and Q3 (or M9) respectively, and a 10-K would have a fiscal period focus of FY.
-          filed - The date of the registrant’s filing with the Commission.
-          instance - The name of the submitted XBRL Instance Document (EX101.INS) type data file. The name often begins with the company ticker symbol.
-        tag
-          tag - The unique identifier (name) for a tag in a specific taxonomy release.
-          doc - The detailed definition for the tag (truncated to 2048 characters). If a standard tag, then the text provided by the taxonomy, otherwise the text assigned by the filer. Some tags have neither, and this field is NULL.
-        num
-          adsh
-          tag
-          ddate - The end date for the data value, rounded to the nearest month end.
-          qtrs - The count of the number of quarters represented by the data value, rounded to the nearest whole number. “0” indicates it is a point-in-time value.
-          uom - The unit of measure for the value.
-          value - The value. This is not scaled, it is as found in the Interactive Data file, but is limited to four digits to the right of the decimal point. 
-        pre
-          nothing from this table
+  data sources:
 
     10-Q
 
@@ -408,23 +317,201 @@ bot/ui that collects fundamental data and partially automates the management of 
 
         nothing taken from this table
 
-      Common Stock Split
-        get the date of the stock split and the nature of the stock split (aka, 4-to-1, 2-to-1, etc)
-
       also grab the quarter and year from the page footer on every page after the table of contents on page 2
         cant, on some forms the footer is just the page number
           ex: https://www.sec.gov/ix?doc=/Archives/edgar/data/1000045/000095017021004287/nick-20210930.htm
+
+        done notes
+          parsed net_income instead of total_cash_inflow and total_cash_outflow
+            might come back to it another time to get total_cash_inflow and total_cash_outflow
+              possibly using tag: us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax
+                in https://www.sec.gov/Archives/edgar/data/1000229/0000950170-21-002488-index.html
+
+                or tag: us-gaap:Revenues
+                in https://www.sec.gov/Archives/edgar/data/1000045/0000950170-21-004287-index.html
+          stock splits
+            see if they match up with shares outstanding
+            stock splits are in form 10-K
+
+            couldn't find stock split data for most of the 10-K forms, did find it fo rthe below 10-K though
+              company filing submission 355 of 6777
+                downloading filing submission
+                  https://www.sec.gov/Archives/edgar/data/1057352/0001057352-21-000104-index.html
+                  https://www.sec.gov/ix?doc=/Archives/edgar/data/1057352/000105735221000104/csgp-20210930.htm
+                  https://www.sec.gov/Archives/edgar/data/1057352/000105735221000104/csgp-20210930_htm.xml
+
+                need to figure out a way to determine if its a forward stock split or a reverse stock split
+                  "A reverse split reduces the overall number of shares a shareholder owns, causing some shareholders who hold less than the minimum required by the split to be cashed out. The forward stock split increases the overall number of shares a shareholder owns."
+                  https://www.investopedia.com/terms/r/reverse-forward-split.asp
+
+                need to verify the stock splits are correct
+                https://www.stocksplithistory.com/
+
+            Adjusting Historical Stock Prices for Splits Using SQL
+            https://stackoverflow.com/questions/63945130/adjusting-historical-stock-prices-for-splits-using-sql
+          dividend (both total amount and per share)
+
+            verify the dividends paid divided by the shares outstanding equal dividends per share
+              it seems to be correct, make sure to look at only the dividends paid for this quarter
+
+            if the dividends paid are not for a 3 month period:
+              for total amount you need to subtract Q1 for Q2 total, Q2 from Q3 total, etc.
+              ex: the dividends for this 10q are for 9 months becuase tis 10q is for Q3
+                Ctrl + F: "Cash dividends paid to SWM stockholders"
+                https://www.sec.gov/ix?doc=/Archives/edgar/data/1000623/000100062321000129/swm-20210930.htm
+            however sometimes the dividneds paid are for a 3 month period:
+              for example:
+                Ctrl + F: "Dividends paid"
+                https://www.sec.gov/ix?doc=/Archives/edgar/data/1000229/000095017021002488/clb-20210930.htm
+    
+            right now the program will assume a dividend of 0 if it cant find anything in the form
+            all thats left to do is write the code that pulls the data of the previous quarters dividends paid from the mysql db. see fn. parse_dividends_paid_from_xml() in driver.py
+
+            Important Dividend Dates
+              Dividend payments follow a chronological order of events and the associated dates are important to determine the shareholders who qualify for receiving the dividend payment.
+
+              Announcement date:
+                Dividends are announced by company management on the announcement date, or declaration date, and must be approved by the shareholders before they can be paid.
+              Ex-dividend date:
+                The date on which the dividend eligibility expires is called the ex-dividend date or simply the ex-date. For instance, if a stock has an ex-date of Monday, May 5, then shareholders who buy the stock on or after that day will NOT qualify to get the dividend as they are buying it on or after the dividend expiry date. Shareholders who own the stock one business day prior to the ex-date—that is on Friday, May 2, or earlier—will receive the dividend.
+              Record date:
+                The record date is the cutoff date, established by the company in order to determine which shareholders are eligible to receive a dividend or distribution.
+              Payment date:
+                The company issues the payment of the dividend on the payment date, which is when the money gets credited to investors' accounts.
+            https://www.investopedia.com/terms/d/dividend.asp
 
     10-K
 
       example 10-Ks:
 
         AAPL's 10-K for 2020
-        https://www.sec.gov/ix?doc=/Archives/edgar/data/0000320193/000032019320000096/aapl-20200926.htm        
+        https://www.sec.gov/ix?doc=/Archives/edgar/data/0000320193/000032019320000096/aapl-20200926.htm
+
+        AAPL search
+        https://www.sec.gov/edgar/browse/?CIK=320193&owner=exclude
 
       How do you find a public company’s Q4 results?
         "You can’t. The SEC does not require a 10-Q for the fourth quarter, as it would be unnecessarily redundant, given the information found in the 10-K. About the best you can do to look at Q4 is to take the annual numbers from the 10-K income statement and subtract the third quarter year to date figures found in the third quarter 10-Q."
       https://www.quora.com/How-do-you-find-a-public-company%E2%80%99s-Q4-results
+
+    Finanical Statements Data Set:
+
+      THIS LINK WILL BE WAAAAYYYYYYY EASIER TO PARSE, only goes back to 2009 though :(
+      https://www.sec.gov/dera/data/financial-statement-data-sets.html
+
+      done notes:
+        does it have the data i need? does it have share splits?
+          it has country, sector, and industry data
+
+          sadly a few of the submissions dont have the data i need
+            the data is in the form on the SEC website
+            but its not in the num.txt file for some reason
+
+            so i need to create a program that parses this stuff
+            then if anything is missing, i parse the xml
+
+      this link explains what the downloaded data contains
+      https://www.sec.gov/files/aqfs.pdf
+
+      metrics to grab:
+        sub
+          adsh - Accession Number. The 20-character string formed from the 18-digit number assigned by the SEC to each EDGAR submission.
+            "Accession number: In the example above, 0001193125-15-118890 is the accession number, a unique identifier assigned automatically to an accepted submission by EDGAR. The first set of numbers (0001193125) is the CIK of the entity submitting the filing. This could be the company or a third-party filer agent. Some filer agents without a regulatory requirement to make disclosure filings with the SEC have a CIK but no searchable presence in the public EDGAR database. The next two numbers (15) represent the year. The last series of numbers represent a sequential count of submitted filings from that CIK. The count is usually, but not always, reset to zero at the start of each calendar year."
+              - https://www.sec.gov/os/accessing-edgar-data
+          cik - C entral Index Key (C IK). Ten digit number assigned by the SEC to each registrant that submits filings.
+          name - Name of registrant. This corresponds to the name of the legal entity as recorded in EDGAR as of the filing date.
+          sic - Standard Industrial Classification (SIC ). Four digit code assigned by the SEC as of the filing date, indicating the registrant’s type of business.
+            https://en.wikipedia.org/wiki/Industry_classification
+          countryba - The ISO 3166-1 country of the registrant's business address.
+          form - The submission type of the registrant’s filing.
+            10-Q, 10-K, etc.
+          period - Balance Sheet Date
+          fy - Fiscal Year Focus (as defined in EFM Ch. 6).
+          fp - Fiscal Period Focus (as defined in EFM Ch. 6) within Fiscal Year. The 10-Q for the 1st, 2nd and 3rd quarters would have a fiscal period focus of Q1, Q2 (or H1), and Q3 (or M9) respectively, and a 10-K would have a fiscal period focus of FY.
+          filed - The date of the registrant’s filing with the Commission.
+          instance - The name of the submitted XBRL Instance Document (EX101.INS) type data file. The name often begins with the company ticker symbol.
+        tag
+          tag - The unique identifier (name) for a tag in a specific taxonomy release.
+          doc - The detailed definition for the tag (truncated to 2048 characters). If a standard tag, then the text provided by the taxonomy, otherwise the text assigned by the filer. Some tags have neither, and this field is NULL.
+        num
+          adsh
+          tag
+          ddate - The end date for the data value, rounded to the nearest month end.
+          qtrs - The count of the number of quarters represented by the data value, rounded to the nearest whole number. “0” indicates it is a point-in-time value.
+          uom - The unit of measure for the value.
+          value - The value. This is not scaled, it is as found in the Interactive Data file, but is limited to four digits to the right of the decimal point. 
+        pre
+          nothing from this table
+
+    Other:
+      done notes:
+        sector and industry
+          
+          https://smallbusiness.chron.com/company-sic-codes-13398.html
+          https://www.investopedia.com/ask/answers/05/industrysector.asp
+
+          ways to get sector and industry are
+            SIC
+              https://www.investopedia.com/terms/s/sic_code.asp
+                The SIC system classifies the economy into 11 major divisions:
+                  Agriculture, forestry, and fishing
+                  Mining
+                  Construction
+                  Manufacturing
+                  Transportation and public utilities
+                  Wholesale trade
+                  Retail trade
+                  Finance, insurance, real estate
+                  Services
+                  Public administration
+                  Nonclassifiable establishments
+                  These are then divided into 83 two-digit major groups, and further subdivided into 416 three-digit industry groups and then into more than 1,000 four-digit industries.
+                Every company has a primary SIC code that indicates its main line of business. The first two digits of the SIC code identify the major industry group, the third digit identifies the industry group, and the fourth digit identifies the specific industry.
+              https://en.wikipedia.org/wiki/Standard_Industrial_Classification#Structure
+                SIC codes have a hierarchical, top-down structure that begins with general characteristics and narrows down to the specifics. The first two digits of the code represent the major industry sector to which a business belongs. The third and fourth digits describe the sub-classification of the business group and specialization, respectively. For example, "36" refers to a business that deals in "Electronic and Other Equipment." Adding "7" as a third digit to get "367" indicates that the business operates in "Electronic, Component and Accessories." The fourth digit distinguishes the specific industry sector, so a code of "3672" indicates that the business is concerned with "Printed Circuit Boards."
+              https://www.sec.gov/corpfin/division-of-corporation-finance-standard-industrial-classification-sic-code-list
+              https://libguides.calvin.edu/business/industry
+                https://www.osha.gov/data/sic-manual
+              https://www.thecorporatecounsel.net/blog/2016/03/sic-codes-how-does-the-sec-assign-them.html
+              https://offistraedgarfiling.com/standard-industrial-classification-sic-code-list/
+            NAICS
+              https://www.census.gov/naics/
+              https://libguides.calvin.edu/business/industry
+                https://www.census.gov/naics/?58967?yearbck=2017
+              https://libguides.umgc.edu/c.php?g=970568&p=7014343
+            GICS
+
+              Sectors
+                Energy
+                Materials
+                Industrials
+                Consumer Discretionary
+                Consumer Staples
+                Health Care
+                Financials
+                Information Technology
+                Communication Services
+                Utilities
+                Real Estate
+
+              https://www.msci.com/our-solutions/indexes/gics
+
+              https://www.investopedia.com/terms/g/gics.asp
+              https://en.wikipedia.org/wiki/Global_Industry_Classification_Standard
+              https://stackoverflow.com/questions/11339993/getting-stocks-by-industry-via-yahoo-finance
+              https://www.spglobal.com/ratings/en/?ffFix=yes
+                U: email
+                P: ajyEDY463@%$
+                Ratings_Content_Management@spglobal.com
+
+              could potentially scrap it from yahoo finance
+              https://finance.yahoo.com/quote/AAPL/profile/
+                maybe theres an API?
+            ICB (Industry Classification Benchmark), a classification structure maintained by Dow Jones Indexes and FTSE Group
+
+              https://www.ftserussell.com/data/industry-classification-benchmark-icb
+
+          I couldn't find the SIC on the 10Q but i found a page on the SEC website with the SIC that just uses the CIK in the URL (see the function parse_sic_code()). For the mapping of the SIC to the industry classification names i created the function download_standard_industrial_codes(), which uses 2 sources to create a list of all SIC codes, the SEC and OSHA. Of the SIC codes I've encountered in the 1st dozen 10-Qs of 2021 Q4, all of them have been in the SEC source, but the OSHA source provides the hierarchical structure the SIC codes use (as described in Wikipedia and Investopedia). I have found codes in the first dozen 10-Qs of 2021 Q4 that aren't in the OSHA source though. So both sources are needed.
 
   Metrics the front end plots:
 
@@ -605,58 +692,25 @@ bot/ui that collects fundamental data and partially automates the management of 
       watch it again and take notes
   https://www.youtube.com/watch?v=J1DFMXL2kXE&t=1934s
 
-```
+  maybe make a file with all the metric definitions
 
-  - read a bunch of balance sheets and verify all the "Things to save" are in the balance sheets
-```
-  if they're all there (and in the same format) you should be able to parse them ... hopefully
-```
-
-  - i dont want to invest in a company where execs take it all for themselves
-
-    "All executive compensation information can be found in public filings with the Securities and Exchange Commission (SEC)."
-      - https://www.investopedia.com/articles/stocks/07/executive_compensation.asp
-
-  - determine if the XBRL parsing is the same as the HTML parsing
-    is the XBRL file the same as the HTML file?
-
-    if it is then do it
-      keep the code for parsing all data (in case you want to sell the data one day)
-        make it so you can easily comment/uncomment the code that gets the fundamental metrics you want and then be able to pass an argument to run the program from the beginning and recreate the database with all the metrics. and make the logs output a summary of how successful it was at gathering each data value
-      but only store the data you want
-    if it isn't, then either
-      figure out how to parse the HTML by looking at the XLBR
-      or figure out how to download the XLBR instead
-
-  - and then make a file with all the metric definitions
-
-  - for testing
+  for testing
     Facebook 2020 q3
     https://www.sec.gov/Archives/edgar/data/1326801/0001326801-20-000076-index.html
     https://www.sec.gov/Archives/edgar/data/1326801/000132680120000076/fb-06302020x10q.htm
 
-  - then write the code to store the data
-    use a mysql database because it'll make integrating into airflow involve using the MySQLOperator
-      mysql is in general about just as fast as csv
-      https://stackoverflow.com/questions/561058/csv-vs-mysql-performance
-      https://www.quora.com/What-makes-SQL-faster-than-just-reading-through-a-CSV-file-using-a-language-like-Python-or-Java
-
-      you can set the mysql data dir in your docker image
-      https://stackoverflow.com/questions/6754944/where-is-my-database-saved-when-i-create-it-in-mysql
-
-    see the DESIGN section for database tables and columns
-
-  - on daily intervals:
-    check to see if the SEC has released a new quarters company filings
-      you can either:
-        store all the filings (parsed for the relevant info)
-        or store a variable in a file of the most recent quarter data has been gathered for
+  create cronjob:
+    on daily intervals:
+      check to see if the SEC has released a new quarters company filings
+        you can either:
+          store all the filings (parsed for the relevant info)
+          or store a variable in a file of the most recent quarter data has been gathered for
 
     THIS MIGHT NOT WORK!!!
 
       you need to verify that the SEC doesn't just update the list of companies that have submitted a filin when they submit it by downloading the new list each time and seeing if theres any new companies on it
 
-  - each quarter form is getting the quarter before
+  each quarter form is getting the quarter before
     the 10-K is the annual report that has q4 data
     the 10-Q is the quarterly report that has q1, q2, and q3 data
 
@@ -664,55 +718,39 @@ bot/ui that collects fundamental data and partially automates the management of 
       "For the quarterly period ended September 30, 2019"
         https://www.sec.gov/Archives/edgar/data/1326801/000132680119000069/fb-09302019x10q.htm#s86440F9012665AA1B578CBCDC37CB566
 
-  - I want the data to be RELIABLE! ideally directly from the SEC
+  EDGAR
 
-    read through pysec and pull out the code that you need
-      pulls the forms from the SEC website and parses them for 50 fundamental variables
-      https://github.com/lukerosiak/pysec
+    using this tutorial to download all the forms (see driver2.py)
+      https://codingandfun.com/python-sec-edgar-scraper/
 
-      https://data.sec.gov/submissions/CIK0000320193.json
+      the tutorial uses this library, if you wanted you could just take the parts of the library you need and not import it.
+        https://pypi.org/project/python-edgar/
+        https://github.com/edgarminers/python-edgar
 
-    EDGAR API
+    used this link to figure out what to assign the user_agent variable
+      https://sec-edgar.github.io/sec-edgar/usage.html      
 
-      using this tutorial to download all the forms (see driver2.py)
-        https://codingandfun.com/python-sec-edgar-scraper/
+      user_agent is a value thats passed to the SEC API to identify you
+        https://www.sec.gov/os/accessing-edgar-data
 
-        the tutorial uses this library, if you wanted you could just take the parts of the library you need and not import it.
-          https://pypi.org/project/python-edgar/
-          https://github.com/edgarminers/python-edgar
+      and copied the way this script formats the header the user_agent is passed in
+        https://github.com/edgarminers/python-edgar/blob/master/edgar/main.py
 
-      used this link to figure out what to assign the user_agent variable
-        https://sec-edgar.github.io/sec-edgar/usage.html      
-  
-        user_agent is a value thats passed to the SEC API to identify you
-          https://www.sec.gov/os/accessing-edgar-data
-  
-        and copied the way this script formats the header the user_agent is passed in
-          https://github.com/edgarminers/python-edgar/blob/master/edgar/main.py
+    list of tickers and CIKs
+      contains 12424 tickers
+    https://www.sec.gov/include/ticker.txt
 
-    EDGAR
-
-      list of tickers and CIKs
-        contains 12424 tickers
-      https://www.sec.gov/include/ticker.txt
-
-    when your done uninstall
-      django
-      python-edgar
-
-  - integrate it with apache airflow as a PythonOperator
+  integrate it with apache airflow as a PythonOperator
     it will need to be a function that grabs data as far back into the past as is missing and append it to the database
       like the bitcoin price data collector
       either store the data in a mysql database or csv files
     run it in a docker image
 
-  - re-read through stockpup and simfin scrappers
+  re-read through stockpup and simfin scrappers
     give them better logs and stuff
+    verification:
 
-
-    verify this
-
-              Revenue  Cost of Revenue  Total Assets  Total Liabilities
+            Revenue  Cost of Revenue  Total Assets  Total Liabilities
       9734000000.00   -5751000000.00   48140000000        22252000000
       12207000000.00  -7102000000.00   47501000000        15861000000
 
@@ -724,26 +762,24 @@ bot/ui that collects fundamental data and partially automates the management of 
        ______________
         3983000000.00
 
-    ok so it doesn't add up, but its still pretty good
-      im not accounting for taxes or shares sold / bought
-    lets try stockpup and see what we get
-      are the numbers the same as simfin for AAPL for specific quarters?
+      ok so it doesn't add up, but its still pretty good
+        im not accounting for taxes or shares sold / bought
+      lets try stockpup and see what we get
+        are the numbers the same as simfin for AAPL for specific quarters?
 
-      2019-03-31 84310000000.00  -52279000000.00  373719000000       255827000000  -3568000000.00
-      2019-03-30    97000000.00    2363000000.00  341998000000       236138000000            0.73
+        2019-03-31 84310000000.00  -52279000000.00  373719000000       255827000000  -3568000000.00
+        2019-03-30    97000000.00    2363000000.00  341998000000       236138000000            0.73
 
-      assets and liabilities are about the same, revenue and cost of revenue are vastly different
+        assets and liabilities are about the same, revenue and cost of revenue are vastly different
 
-      use yahoo finance to determine which is right
+        use yahoo finance to determine which is right
 
-  - design system so that it can use an exchange
-    I want the exchange to provide trading stocks and via an API and with zero trading fee.
+  use flutter for the front end, i want to be able to view it on my phone and my computer
 
-  - use flutter for the front end, i want to be able to view it on my phone and my computer
+  Side Experiment:
 
-  - Side Experiment:
     What do the fundamentals of companies with no dividend but long term price growth look like in the beginning when they first went public? Is there a consistent pattern in their fundamentals that doesn't exist in the stocks that don't grow?
-
+```
 
 
 ### Column Name
