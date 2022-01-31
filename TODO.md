@@ -180,6 +180,56 @@ bot/ui that collects fundamental data and partially automates the management of 
     sigma coding youtube
     https://github.com/areed1192/sigma_coding_youtube/blob/master/python/python-finance/sec-web-scraping/Web%20Scraping%20SEC%20-%2010K%20Landing%20Page%20-%20Single.ipynb
 
+  the sec-api lib has "standardized financial statements from any 10-K and 10-Q filing"
+
+    to do:
+
+      its a paid service, but i might be able to get the data via their sandbox with selenium
+
+    done:
+
+      create acount and get free api key
+        signed in with github
+        api key: 6ded5e35010ea5c85645a89881ef3b225431878c964d85e064830511c9ba694f
+
+    notes:
+
+      "The query API gives access to all over 18 million SEC Edgar filings of over 8000 publicly listed companies, ETFs, hedge funds, mutual funds, and investors dating back to 1993"
+
+      i think this means i can query it and the data will be better quality
+
+      still not sure how to get all tickers (or CIKs) with the edgar lib though
+
+        does sec-api have a way to iterate over them (for each quarter)?
+          this! it provides a list of all companies in a given sector, AND it provides a list of ALL supported sectors
+            https://sec-api.io/docs/mapping-api/list-companies-by-sector
+
+          maybe this? run the example query and modify it to see if you can get the ticker or cik set
+            https://sec-api.io/docs/query-api/request-parameters
+
+        however once i have all the tickers I still wont be able to know which quarters each ticker has submitted filings for. If i can't figure out a way to do this then I'll have to use the edgar API for that
+
+          i think i can use the query language to get all filing urls for a given ticker or cik
+          https://sec-api.io/sandbox
+          https://sec-api.io/sandbox/apple-sec-filings
+
+    souces:
+
+      pip install
+      https://pypi.org/project/sec-api/
+
+      sign up and get free api keys
+      https://sec-api.io/
+
+      docs
+        it also has
+          executive comp: https://sec-api.io/docs/executive-compensation-api
+          sector and industry of multiple types: https://sec-api.io/docs/mapping-api
+      https://sec-api.io/docs
+
+      github
+          https://github.com/janlukasschroeder/sec-api-python     
+
   see if one of these things has data for companies farther back in time
     https://www.sec.gov/os/accessing-edgar-data
     if they do then parse these instead of the edgar stuff that only goes back to 1993

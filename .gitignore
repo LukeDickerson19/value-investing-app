@@ -1,6 +1,7 @@
 
 
-database/*
+database/sec/financial_statements_data_sets/data/*
+!database/sec/financial_statements_data_sets/data/metadata.json
 
 
 #######################################################################
