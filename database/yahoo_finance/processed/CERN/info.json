@@ -1,0 +1,10 @@
+{
+    "name": "Cerner Corporation",
+    "ticker": "CERN",
+    "asset_type": "EQUITY",
+    "sector": "Healthcare",
+    "industry": "Health Information Services",
+    "country": "United States",
+    "current_yield": "1.2 %",
+    "ex_dividend_date": "2021-12-23"
+}

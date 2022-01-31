@@ -1,0 +1,10 @@
+{
+    "name": "POSCO",
+    "ticker": "PKX",
+    "asset_type": "EQUITY",
+    "sector": "Basic Materials",
+    "industry": "Steel",
+    "country": "South Korea",
+    "current_yield": "5.7 %",
+    "ex_dividend_date": "2021-09-29"
+}

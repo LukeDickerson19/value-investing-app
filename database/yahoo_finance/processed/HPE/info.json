@@ -1,0 +1,10 @@
+{
+    "name": "Hewlett Packard Enterprise Company",
+    "ticker": "HPE",
+    "asset_type": "EQUITY",
+    "sector": "Technology",
+    "industry": "Communication Equipment",
+    "country": "United States",
+    "current_yield": "2.8 %",
+    "ex_dividend_date": "2021-12-09"
+}

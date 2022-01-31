@@ -1,0 +1,10 @@
+{
+    "name": "Interactive Brokers Group, Inc.",
+    "ticker": "IBKR",
+    "asset_type": "EQUITY",
+    "sector": "Financial Services",
+    "industry": "Capital Markets",
+    "country": "United States",
+    "current_yield": "0.5 %",
+    "ex_dividend_date": "2021-11-30"
+}

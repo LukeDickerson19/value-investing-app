@@ -1,0 +1,10 @@
+{
+    "name": "Barrick Gold Corporation",
+    "ticker": "GOLD",
+    "asset_type": "EQUITY",
+    "sector": "Basic Materials",
+    "industry": "Gold",
+    "country": "Canada",
+    "current_yield": "1.9 %",
+    "ex_dividend_date": "2021-11-29"
+}

@@ -3,11 +3,186 @@ bot/ui that collects fundamental data and partially automates the management of 
 
 
 
-
 ### To Do:
 
   - learn to read 10-Q and 10-K forms
 ```
+
+  maybe i should give up
+  https://www.reddit.com/r/algotrading/comments/qho8l8/have_you_been_able_to_parse_sec_filings_prior_to/
+
+    and just do 2009 to present
+      https://www.sec.gov/dera/data/financial-statement-data-sets.html
+      https://www.sec.gov/files/aqfs.pdf
+
+      lets finish that algo just to have something
+        put its data in a different directory also
+        one day i might return to get data that goes further back than 2009
+        ... *cries* ...
+
+      to do:
+
+        code data_saved var - so that no matter which submission we restart the algo at we know we're not fucking up the database or the data quality reports
+
+          test command to get data for just 3 stocks over 4 quarters
+          python driver.py -rvcd -q 2021q1 2021q2 2021q3 2021q4 -t HRB BARK TRNS
+          i just ran this command, read through the log and the database and the quality report and make sure everything is correct
+
+          --replace -r
+            for each metric in each submission
+              the database's value of this metric will only be replaced if:
+                the old value is "None" and the new value isn't "None" or
+                the old value isn't "None" and the new value isn't "None" and the --replace/-r argument is provided
+              the data quality report's count of this metric will only be incremented if:
+                the old value is "None" and the new value isn't "None"
+
+              not sure if i should put values from dfs in the quality report because they're not quarterly
+              same with info.json
+
+                maybe on a different chart?
+                  stocks vs metrics
+
+        step through the submissions and see what errors occur
+          then maybe throw a try/catch in parse_value_with_ddate() and collect the data on your raspi, after updating these notes
+
+          ConnectionResetError: [Errno 104] Connection reset by peer
+
+            solution
+              1) put a try catch around it
+                  try:
+
+                  except ConnectionResetError:
+                    tbd
+
+                  source: https://stackoverflow.com/questions/20568216/python-handling-socket-error-errno-104-connection-reset-by-peer
+
+              2) grab data in bulk
+                self.num_tickers_to_query_yahoo_finance = 100 # or some big number
+                self.tickers = []
+
+                for sub in ...
+                  if len(self.tickers) > self.num_tickers_to_query_yahoo_finance:
+                    # do your queries in bulk here  
+                  else:
+                    self.tickers.append(ticker)
+
+                option 2) only works for price data, this will be useful for daily price data collection though
+                im going with option 1), i just made it iteratively keep trying every minute forever, so next time this error occurs, see if it resolves the next minute or if it continues forever.
+                  Ctrl + F for "ConnectionResetError" in the log when its done
+
+          make sure total_number_of_stocks is put into METADATA_FILEPATH somewhere in the script
+
+        try to parse total revenue and total expenses for each submission
+          does total revenue minus total expenses = net income?
+          if so
+            then calculate 1 of them if its None and the other 2 aren't None
+
+        gather price data on daily intervals
+          this should be done with whatever exchange API i eventually connect to
+          that will still have to be done on daily intervals though, and needs to be setup regardless
+
+          maybe i could just make that a separate script and run it on daily intervals with a separate cronjob from this script
+
+            this script would require a list of tickers to get the data for
+              these tickers could either be ALL tickers or just the ones we got a submission for last quarter
+                i think i'll try ALL because i don't want to miss any. this also has the added bonus that a list doesn't have to be stored to track the currently trading tickers
+                this script is going to
+                  for each CIK:
+                    ticker = ...
+                    date_of_last_known_price = pd.read_csv(os.path.join())
+                    try to get data from last known price until now
+                      from exchange (interactive brokers)
+                        https://algotrading101.com/learn/interactive-brokers-python-api-native-guide/
+                          delayed price data is free
+                            "By default, users will receive free delayed market data for available exchanges."
+                              - https://www.interactivebrokers.com/en/index.php?f=14193
+                            "Delayed market data is on a time lag that is usually 10-20 minutes behind real-time"
+                              - https://ibkr.info/article/2966
+
+                      from yahoo finance
+
+        other potentially interesting data from the company.info yahoo finance API call
+          debtToEquity
+          totalCash
+          totalDebt
+          totalRevenue
+          totalCashPerShare
+          revenuePerShare
+          shortName
+          longName
+          sharesOutstanding
+          bookValue
+          heldPercentInstitutions
+          heldPercentInsiders
+          priceToBook
+          floatShares # not over time, but just comparing current float shares to currect shares outstanding
+          logo_url
+
+          to display on the GUI
+          note:
+            anythings to do with price such as P/E, dividend yield, and price to book ratio, should be calculated on the fly by the GUI using the current day's price
+
+      note!!!
+        dividend_per_share history was put in a different table than fundamentals.csv because some companies provide dividends on a different frequency than quarterly, so it would fuck up the rows in fundamentals.csv, the dividend_per_share_history table has columns: [date, dividend_per_share]
+
+      iso codes, these are different codes than what the 10-Q uses
+      https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes
+
+  can i leverage up on the stocks this algo suggests then put an options collar on it?  
+    maybe, if yes i could get like 7 or 8 % stocks that are safer than 10 %
+
+    "the requirement on individual stocks (initial = maintenance) generally ranges from 15% - 30%, translating to buying power of between 6.67 – 3.33:1. As the margin rate under this methodology can change daily as it considers risk factors such as the observed volatility of each stock and concentration, portfolios comprised of low-volatility stocks and which are diversified in nature tend to receive the most favorable margin treatment (e.g., higher buying power)."
+    https://ibkr.info/node/2085/
+
+    https://www.reddit.com/r/options/comments/dqcubk/leveragemargin_on_interactive_brokers/
+
+  try to find a FREE github project that parses SEC filings with python
+  
+    maybe try this lib thats also imported as "edgar"
+    https://pypi.org/project/edgar/
+
+    edgar python lib
+    https://github.com/edgarminers/python-edgar
+
+    ScraXBRL
+      SEC Edgar Scraper and XBRL Parser/Renderer
+    https://github.com/tooksoi/ScraXBRL
+
+    py-sec-xbrl
+      This is a tool intended to parse XBRL files from SEC. Thus, the focus is to parse XBRL XML files so that data is more easily accessible. The idea is to provide a tool for you to code you want instead of a tool that implements a workflow but is rigid.
+    https://github.com/zhaolewen/py-sec-xbrl
+
+    https://redwallanalytics.com/2020/02/18/a-walk-though-of-accessing-financial-statements-with-xbrl-in-r-part-1/
+
+    https://www.fasb.org/cs/Satellite?blobcol=urldata&blobheader=application%2Fpdf&blobheadername1=Content-Disposition&blobheadername2=Content-Length&blobheadervalue1=filename%3DXBRL__Academic_Research-A_Workshop_on_How_to_Pull_XBRL_Data.pdf&blobheadervalue2=2199300&blobkey=id&blobnocache=true&blobtable=MungoBlobs&blobwhere=1175836305528&ssbinary=true
+
+    parsing 10Ks
+    https://gist.github.com/anshoomehra/ead8925ea291e233a5aa2dcaa2dc61b2
+
+    pysec
+      This is Django code that compiles a list of all SEC filings from EDGAR into SQL, allows you to download them at will, and parses 50+ key accounting terms from XBRL filings. It is also a Python XBRL parser that allows you to easily extract arbitrary XBRL terms while it handles the contexts, etc. appropriately.
+      
+      The XBRL parsing is translated from VB script written by Charles Hoffman, an accountant and XBRL expert, and reliably extracts more than 50 commonly used accounting terms.
+    https://github.com/lukerosiak/pysec
+
+    openedgar
+      OpenEDGAR is a comprehensive framework for building databases from EDGAR, and can automate the retrieval and parsing of EDGAR forms.
+    https://github.com/LexPredict/openedgar
+    https://law.mit.edu/pub/openedgar/release/1
+
+    py sec edgar
+      A Python application used to download and parse complete submission filings from the sec.gov/edgar website. The goal for this project is to make it easy to get filings from the SEC website onto your computer for the companies and forms you desire.
+    https://github.com/ryansmccoy/py-sec-edgar
+    https://github.com/ryansmccoy/py-sec-edgar/blob/master/py_sec_edgar/extract.py
+    https://py-sec-edgar.readthedocs.io/en/latest/readme.html#features
+    https://awesomeopensource.com/project/ryansmccoy/py-sec-edgar
+
+    sigma coding youtube
+    https://github.com/areed1192/sigma_coding_youtube/blob/master/python/python-finance/sec-web-scraping/Web%20Scraping%20SEC%20-%2010K%20Landing%20Page%20-%20Single.ipynb
+
+  see if one of these things has data for companies farther back in time
+    https://www.sec.gov/os/accessing-edgar-data
+    if they do then parse these instead of the edgar stuff that only goes back to 1993
 
   try to use yahoo finance instead
 
@@ -47,15 +222,10 @@ bot/ui that collects fundamental data and partially automates the management of 
         https://github.com/janlukasschroeder/sec-api
     run it on your raspi and save the data on your external hard drive
 
-  i dont want to invest in a company where execs take it all for themselves
-    "All executive compensation information can be found in public filings with the Securities and Exchange Commission (SEC)."
-      - https://www.investopedia.com/articles/stocks/07/executive_compensation.asp
-
-  parse 10-Ks
-
   daily price data
     then compare the total number of tickers the exchange has to the number of tickers that submitted a filing this most recent quarter
     I want the program to get the most current price owned, and get the price of all the days from then until the current day. this way the get_daily_price_data function (or whatever its called) can be run on daily intervals or quarterly intervals.
+      but will the exchange let me make that many api calls? maybe if its ibkr instread of yahoo finance
     I want the exchange to provide trading stocks and via an API and with zero trading fee.
     the price is going to be collected on quarterly intervals
 
@@ -90,7 +260,7 @@ bot/ui that collects fundamental data and partially automates the management of 
 
       you can set the mysql data dir in your docker image
       https://stackoverflow.com/questions/6754944/where-is-my-database-saved-when-i-create-it-in-mysql
-    see the DESIGN section for database tables and columns
+    see the DESIGN section of NOTES.txt for database tables and columns
 
   determine the data coverage for each data source individually and also collectively:
     [10-Q, 10-K, Finanical Statements Data Set]
@@ -592,6 +762,10 @@ bot/ui that collects fundamental data and partially automates the management of 
 
       also include this with total assets - total liabilities because
 
+  i dont want to invest in a company where execs take it all for themselves
+    "All executive compensation information can be found in public filings with the Securities and Exchange Commission (SEC)."
+      - https://www.investopedia.com/articles/stocks/07/executive_compensation.asp
+
   Questions:
 
     Answered:
@@ -691,13 +865,6 @@ bot/ui that collects fundamental data and partially automates the management of 
     once you have this value investing app built
       watch it again and take notes
   https://www.youtube.com/watch?v=J1DFMXL2kXE&t=1934s
-
-  maybe make a file with all the metric definitions
-
-  for testing
-    Facebook 2020 q3
-    https://www.sec.gov/Archives/edgar/data/1326801/0001326801-20-000076-index.html
-    https://www.sec.gov/Archives/edgar/data/1326801/000132680120000076/fb-06302020x10q.htm
 
   create cronjob:
     on daily intervals:

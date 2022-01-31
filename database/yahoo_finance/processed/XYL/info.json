@@ -1,0 +1,10 @@
+{
+    "name": "Xylem Inc.",
+    "ticker": "XYL",
+    "asset_type": "EQUITY",
+    "sector": "Industrials",
+    "industry": "Specialty Industrial Machinery",
+    "country": "United States",
+    "current_yield": "0.9 %",
+    "ex_dividend_date": "2021-11-22"
+}

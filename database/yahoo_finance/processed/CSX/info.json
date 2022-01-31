@@ -1,0 +1,10 @@
+{
+    "name": "CSX Corporation",
+    "ticker": "CSX",
+    "asset_type": "EQUITY",
+    "sector": "Industrials",
+    "industry": "Railroads",
+    "country": "United States",
+    "current_yield": "1.0 %",
+    "ex_dividend_date": "2021-11-29"
+}

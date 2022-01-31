@@ -1,0 +1,10 @@
+{
+    "name": "First Republic Bank",
+    "ticker": "FRC",
+    "asset_type": "EQUITY",
+    "sector": "Financial Services",
+    "industry": "Banks\u2014Regional",
+    "country": "United States",
+    "current_yield": "0.4 %",
+    "ex_dividend_date": "2021-10-27"
+}

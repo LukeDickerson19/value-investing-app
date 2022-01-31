@@ -1,0 +1,10 @@
+{
+    "name": "Discover Financial Services",
+    "ticker": "DFS",
+    "asset_type": "EQUITY",
+    "sector": "Financial Services",
+    "industry": "Credit Services",
+    "country": "United States",
+    "current_yield": "1.7 %",
+    "ex_dividend_date": "2021-11-23"
+}

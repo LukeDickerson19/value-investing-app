@@ -1,0 +1,10 @@
+{
+    "name": "Amcor plc",
+    "ticker": "AMCR",
+    "asset_type": "EQUITY",
+    "sector": "Consumer Cyclical",
+    "industry": "Packaging & Containers",
+    "country": "Switzerland",
+    "current_yield": "4.0 %",
+    "ex_dividend_date": "2021-11-23"
+}

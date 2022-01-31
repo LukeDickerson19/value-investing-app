@@ -1,0 +1,10 @@
+{
+    "name": "Nutrien Ltd.",
+    "ticker": "NTR",
+    "asset_type": "EQUITY",
+    "sector": "Basic Materials",
+    "industry": "Agricultural Inputs",
+    "country": "Canada",
+    "current_yield": "2.7 %",
+    "ex_dividend_date": "2021-12-30"
+}

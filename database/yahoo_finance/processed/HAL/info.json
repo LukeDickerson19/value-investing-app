@@ -1,0 +1,10 @@
+{
+    "name": "Halliburton Company",
+    "ticker": "HAL",
+    "asset_type": "EQUITY",
+    "sector": "Energy",
+    "industry": "Oil & Gas Equipment & Services",
+    "country": "United States",
+    "current_yield": "0.7 %",
+    "ex_dividend_date": "2021-12-08"
+}

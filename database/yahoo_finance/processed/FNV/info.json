@@ -1,0 +1,10 @@
+{
+    "name": "Franco-Nevada Corporation",
+    "ticker": "FNV",
+    "asset_type": "EQUITY",
+    "sector": "Basic Materials",
+    "industry": "Gold",
+    "country": "Canada",
+    "current_yield": "0.9 %",
+    "ex_dividend_date": "2021-12-08"
+}

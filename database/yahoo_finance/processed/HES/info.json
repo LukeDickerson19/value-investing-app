@@ -1,0 +1,10 @@
+{
+    "name": "Hess Corporation",
+    "ticker": "HES",
+    "asset_type": "EQUITY",
+    "sector": "Energy",
+    "industry": "Oil & Gas E&P",
+    "country": "United States",
+    "current_yield": "1.2 %",
+    "ex_dividend_date": "2021-12-14"
+}

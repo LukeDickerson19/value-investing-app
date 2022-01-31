@@ -1,0 +1,10 @@
+{
+    "name": "Waters Corporation",
+    "ticker": "WAT",
+    "asset_type": "EQUITY",
+    "sector": "Healthcare",
+    "industry": "Diagnostics & Research",
+    "country": "United States",
+    "current_yield": null,
+    "ex_dividend_date": "1996-11-26"
+}

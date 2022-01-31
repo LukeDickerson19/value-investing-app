@@ -1,0 +1,10 @@
+{
+    "name": "Cummins Inc.",
+    "ticker": "CMI",
+    "asset_type": "EQUITY",
+    "sector": "Industrials",
+    "industry": "Specialty Industrial Machinery",
+    "country": "United States",
+    "current_yield": "2.5 %",
+    "ex_dividend_date": "2021-08-19"
+}

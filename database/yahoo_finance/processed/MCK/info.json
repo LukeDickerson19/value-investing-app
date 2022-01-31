@@ -1,0 +1,10 @@
+{
+    "name": "McKesson Corporation",
+    "ticker": "MCK",
+    "asset_type": "EQUITY",
+    "sector": "Healthcare",
+    "industry": "Medical Distribution",
+    "country": "United States",
+    "current_yield": "0.9 %",
+    "ex_dividend_date": "2021-05-28"
+}

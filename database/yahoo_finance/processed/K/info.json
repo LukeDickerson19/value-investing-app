@@ -1,0 +1,10 @@
+{
+    "name": "Kellogg Company",
+    "ticker": "K",
+    "asset_type": "EQUITY",
+    "sector": "Consumer Defensive",
+    "industry": "Packaged Foods",
+    "country": "United States",
+    "current_yield": "3.5 %",
+    "ex_dividend_date": "2021-11-30"
+}

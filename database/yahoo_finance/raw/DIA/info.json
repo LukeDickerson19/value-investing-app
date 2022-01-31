@@ -1,0 +1,250 @@
+{
+    "exchange": "PCX",
+    "shortName": "SPDR Dow Jones Industrial Avera",
+    "longName": "SPDR Dow Jones Industrial Average ETF Trust",
+    "exchangeTimezoneName": "America/New_York",
+    "exchangeTimezoneShortName": "EST",
+    "isEsgPopulated": true,
+    "gmtOffSetMilliseconds": "-18000000",
+    "underlyingSymbol": null,
+    "quoteType": "ETF",
+    "symbol": "DIA",
+    "underlyingExchangeSymbol": null,
+    "headSymbol": null,
+    "messageBoardId": "finmb_6184218",
+    "uuid": "6c158591-4e0c-35b9-b97d-df821c43c9ab",
+    "market": "us_market",
+    "annualHoldingsTurnover": null,
+    "enterpriseToRevenue": null,
+    "beta3Year": 0.98,
+    "profitMargins": null,
+    "enterpriseToEbitda": null,
+    "52WeekChange": null,
+    "morningStarRiskRating": null,
+    "forwardEps": null,
+    "revenueQuarterlyGrowth": null,
+    "fundInceptionDate": 884649600,
+    "annualReportExpenseRatio": null,
+    "totalAssets": 30459787264,
+    "bookValue": null,
+    "fundFamily": "SPDR State Street Global Advisors",
+    "lastFiscalYearEnd": null,
+    "netIncomeToCommon": null,
+    "trailingEps": null,
+    "lastDividendValue": null,
+    "SandP52WeekChange": null,
+    "priceToBook": null,
+    "nextFiscalYearEnd": null,
+    "yield": 0.0161,
+    "mostRecentQuarter": null,
+    "enterpriseValue": null,
+    "priceHint": 2,
+    "threeYearAverageReturn": 0.1373,
+    "lastSplitDate": null,
+    "lastSplitFactor": null,
+    "legalType": "Exchange Traded Fund",
+    "morningStarOverallRating": null,
+    "earningsQuarterlyGrowth": null,
+    "priceToSalesTrailing12Months": null,
+    "pegRatio": null,
+    "ytdReturn": null,
+    "forwardPE": null,
+    "maxAge": 1,
+    "lastCapGain": null,
+    "category": "Large Value",
+    "fiveYearAverageReturn": 0.16129999,
+    "phone": "800-732-0330",
+    "longBusinessSummary": "The investment seeks to provide investment results that, before expenses, correspond generally to the price and yield performance of the Dow Jones Industrial Average (the \u00e2\u0080\u009cDJIA\u00e2\u0080\u009d).\n The Trust seeks to achieve its investment objective by holding a portfolio of the common stocks that are included in the DJIA (the \u00e2\u0080\u009cPortfolio\u00e2\u0080\u009d), with the weight of each stock in the Portfolio substantially corresponding to the weight of such stock in the DJIA.",
+    "companyOfficers": [],
+    "previousClose": 357.39,
+    "regularMarketOpen": 358.39,
+    "twoHundredDayAverage": 346.8882,
+    "trailingAnnualDividendYield": null,
+    "payoutRatio": null,
+    "volume24Hr": null,
+    "regularMarketDayHigh": 359.94,
+    "navPrice": 349.34,
+    "averageDailyVolume10Day": 5955060,
+    "regularMarketPreviousClose": 357.39,
+    "fiftyDayAverage": 356.4282,
+    "trailingAnnualDividendRate": null,
+    "open": 358.39,
+    "averageVolume10days": 5955060,
+    "expireDate": null,
+    "algorithm": null,
+    "dividendRate": null,
+    "exDividendDate": null,
+    "beta": null,
+    "circulatingSupply": null,
+    "startDate": null,
+    "regularMarketDayLow": 358.16,
+    "currency": "USD",
+    "regularMarketVolume": 1544705,
+    "lastMarket": null,
+    "maxSupply": null,
+    "openInterest": null,
+    "marketCap": null,
+    "volumeAllCurrencies": null,
+    "strikePrice": null,
+    "averageVolume": 4796004,
+    "dayLow": 358.16,
+    "ask": 359.62,
+    "askSize": 900,
+    "volume": 1544705,
+    "fiftyTwoWeekHigh": 365.64,
+    "fromCurrency": null,
+    "fiveYearAvgDividendYield": null,
+    "fiftyTwoWeekLow": 298.59,
+    "bid": 359.61,
+    "tradeable": false,
+    "dividendYield": null,
+    "bidSize": 800,
+    "dayHigh": 359.94,
+    "preferredPosition": null,
+    "bondPosition": 0,
+    "convertiblePosition": null,
+    "sectorWeightings": [
+        {
+            "realestate": 0
+        },
+        {
+            "consumer_cyclical": 0.1344
+        },
+        {
+            "basic_materials": 0.0121
+        },
+        {
+            "consumer_defensive": 0.063
+        },
+        {
+            "technology": 0.1732
+        },
+        {
+            "communication_services": 0.0442
+        },
+        {
+            "financial_services": 0.2068
+        },
+        {
+            "utilities": 0
+        },
+        {
+            "industrials": 0.16700001
+        },
+        {
+            "energy": 0.02
+        },
+        {
+            "healthcare": 0.1792
+        }
+    ],
+    "holdings": [
+        {
+            "symbol": "UNH",
+            "holdingName": "UnitedHealth Group Inc",
+            "holdingPercent": 0.0763
+        },
+        {
+            "symbol": "GS",
+            "holdingName": "Goldman Sachs Group Inc",
+            "holdingPercent": 0.0723
+        },
+        {
+            "symbol": "HD",
+            "holdingName": "The Home Depot Inc",
+            "holdingPercent": 0.060700003
+        },
+        {
+            "symbol": "MSFT",
+            "holdingName": "Microsoft Corp",
+            "holdingPercent": 0.051599998
+        },
+        {
+            "symbol": "CRM",
+            "holdingName": "Salesforce.com Inc",
+            "holdingPercent": 0.0465
+        },
+        {
+            "symbol": "AMGN",
+            "holdingName": "Amgen Inc",
+            "holdingPercent": 0.0464
+        },
+        {
+            "symbol": "BA",
+            "holdingName": "Boeing Co",
+            "holdingPercent": 0.0456
+        },
+        {
+            "symbol": "V",
+            "holdingName": "Visa Inc Class A",
+            "holdingPercent": 0.044499997
+        },
+        {
+            "symbol": "MCD",
+            "holdingName": "McDonald's Corp",
+            "holdingPercent": 0.044
+        },
+        {
+            "symbol": "HON",
+            "holdingName": "Honeywell International Inc",
+            "holdingPercent": 0.0418
+        }
+    ],
+    "bondHoldings": {
+        "maturity": null,
+        "duration": null,
+        "creditQuality": null,
+        "maturityCat": null,
+        "durationCat": null,
+        "creditQualityCat": null
+    },
+    "bondRatings": [
+        {
+            "bb": 0
+        },
+        {
+            "aa": 0
+        },
+        {
+            "aaa": 0
+        },
+        {
+            "a": 0
+        },
+        {
+            "other": 0
+        },
+        {
+            "b": 0
+        },
+        {
+            "bbb": 0
+        },
+        {
+            "below_b": 0
+        },
+        {
+            "us_government": 0
+        }
+    ],
+    "equityHoldings": {
+        "priceToCashflow": 16.78,
+        "priceToSales": 2.57,
+        "priceToBookCat": null,
+        "priceToEarningsCat": null,
+        "medianMarketCapCat": null,
+        "threeYearEarningsGrowthCat": null,
+        "threeYearEarningsGrowth": null,
+        "medianMarketCap": null,
+        "priceToEarnings": 22.49,
+        "priceToBook": 4.45,
+        "priceToSalesCat": null,
+        "priceToCashflowCat": null
+    },
+    "otherPosition": null,
+    "cashPosition": null,
+    "stockPosition": 0.9979,
+    "regularMarketPrice": 359.5316,
+    "preMarketPrice": null,
+    "logo_url": ""
+}

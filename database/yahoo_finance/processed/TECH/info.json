@@ -1,0 +1,10 @@
+{
+    "name": "Bio-Techne Corporation",
+    "ticker": "TECH",
+    "asset_type": "EQUITY",
+    "sector": "Healthcare",
+    "industry": "Biotechnology",
+    "country": "United States",
+    "current_yield": "0.3 %",
+    "ex_dividend_date": "2021-11-10"
+}

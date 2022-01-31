@@ -1,0 +1,10 @@
+{
+    "name": "Holcim Ltd",
+    "ticker": "HCMLY",
+    "asset_type": "EQUITY",
+    "sector": "Basic Materials",
+    "industry": "Building Materials",
+    "country": "Switzerland",
+    "current_yield": "4.5 %",
+    "ex_dividend_date": "2021-05-07"
+}

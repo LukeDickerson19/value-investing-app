@@ -1,0 +1,14 @@
+{
+    "number_of_metrics": {
+        "constant": 17,
+        "total": 32,
+        "variable": 15
+    },
+    "price_data": {
+        "max_date": "2022-01-28",
+        "min_date": "1973-02-21",
+        "num_stocks_with_price_data": 3
+    },
+    "quarters_downloaded": [],
+    "total_number_of_stocks": 0
+}

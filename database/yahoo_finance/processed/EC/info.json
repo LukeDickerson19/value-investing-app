@@ -1,0 +1,10 @@
+{
+    "name": "Ecopetrol S.A.",
+    "ticker": "EC",
+    "asset_type": "EQUITY",
+    "sector": "Energy",
+    "industry": "Oil & Gas Integrated",
+    "country": "Colombia",
+    "current_yield": "0.7 %",
+    "ex_dividend_date": "2021-04-20"
+}

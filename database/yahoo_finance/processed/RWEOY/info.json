@@ -1,0 +1,10 @@
+{
+    "name": "RWE Aktiengesellschaft",
+    "ticker": "RWEOY",
+    "asset_type": "EQUITY",
+    "sector": "Utilities",
+    "industry": "Utilities\u2014Diversified",
+    "country": "Germany",
+    "current_yield": "2.6 %",
+    "ex_dividend_date": "2021-04-29"
+}

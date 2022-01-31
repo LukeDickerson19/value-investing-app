@@ -1,0 +1,10 @@
+{
+    "name": "Jacobs Engineering Group Inc.",
+    "ticker": "J",
+    "asset_type": "EQUITY",
+    "sector": "Industrials",
+    "industry": "Engineering & Construction",
+    "country": "United States",
+    "current_yield": "0.6 %",
+    "ex_dividend_date": "2021-10-14"
+}

@@ -1,0 +1,10 @@
+{
+    "name": "AmerisourceBergen Corporation",
+    "ticker": "ABC",
+    "asset_type": "EQUITY",
+    "sector": "Healthcare",
+    "industry": "Medical Distribution",
+    "country": "United States",
+    "current_yield": "1.4 %",
+    "ex_dividend_date": "2021-11-12"
+}

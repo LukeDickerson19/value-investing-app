@@ -1,0 +1,10 @@
+{
+    "name": "PACCAR Inc",
+    "ticker": "PCAR",
+    "asset_type": "EQUITY",
+    "sector": "Industrials",
+    "industry": "Farm & Heavy Construction Machinery",
+    "country": "United States",
+    "current_yield": "1.6 %",
+    "ex_dividend_date": "2021-11-15"
+}

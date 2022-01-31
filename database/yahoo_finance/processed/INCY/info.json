@@ -1,0 +1,10 @@
+{
+    "name": "Incyte Corporation",
+    "ticker": "INCY",
+    "asset_type": "EQUITY",
+    "sector": "Healthcare",
+    "industry": "Biotechnology",
+    "country": "United States",
+    "current_yield": null,
+    "ex_dividend_date": null
+}

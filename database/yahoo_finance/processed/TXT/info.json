@@ -1,0 +1,10 @@
+{
+    "name": "Textron Inc.",
+    "ticker": "TXT",
+    "asset_type": "EQUITY",
+    "sector": "Industrials",
+    "industry": "Aerospace & Defense",
+    "country": "United States",
+    "current_yield": "0.1 %",
+    "ex_dividend_date": "2021-12-09"
+}

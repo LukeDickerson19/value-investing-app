@@ -1,0 +1,10 @@
+{
+    "name": "Cincinnati Financial Corporation",
+    "ticker": "CINF",
+    "asset_type": "EQUITY",
+    "sector": "Financial Services",
+    "industry": "Insurance\u2014Property & Casualty",
+    "country": "United States",
+    "current_yield": "2.1 %",
+    "ex_dividend_date": "2021-12-15"
+}

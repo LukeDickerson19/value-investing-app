@@ -1,0 +1,10 @@
+{
+    "name": "Tesco PLC",
+    "ticker": "TSCDY",
+    "asset_type": "EQUITY",
+    "sector": "Consumer Defensive",
+    "industry": "Grocery Stores",
+    "country": "United Kingdom",
+    "current_yield": "3.2 %",
+    "ex_dividend_date": "2021-10-15"
+}

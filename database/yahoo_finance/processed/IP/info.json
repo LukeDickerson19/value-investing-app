@@ -1,0 +1,10 @@
+{
+    "name": "International Paper Company",
+    "ticker": "IP",
+    "asset_type": "EQUITY",
+    "sector": "Consumer Cyclical",
+    "industry": "Packaging & Containers",
+    "country": "United States",
+    "current_yield": "3.8 %",
+    "ex_dividend_date": "2021-11-12"
+}

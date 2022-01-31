@@ -1,0 +1,10 @@
+{
+    "name": "Synchrony Financial",
+    "ticker": "SYF",
+    "asset_type": "EQUITY",
+    "sector": "Financial Services",
+    "industry": "Credit Services",
+    "country": "United States",
+    "current_yield": "1.9 %",
+    "ex_dividend_date": "2021-10-29"
+}

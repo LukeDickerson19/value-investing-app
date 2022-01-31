@@ -1,0 +1,10 @@
+{
+    "name": "WPP plc",
+    "ticker": "WPP",
+    "asset_type": "EQUITY",
+    "sector": "Communication Services",
+    "industry": "Advertising Agencies",
+    "country": "United Kingdom",
+    "current_yield": "2.2 %",
+    "ex_dividend_date": "2021-10-14"
+}

@@ -1,0 +1,10 @@
+{
+    "name": "The Clorox Company",
+    "ticker": "CLX",
+    "asset_type": "EQUITY",
+    "sector": "Consumer Defensive",
+    "industry": "Household & Personal Products",
+    "country": "United States",
+    "current_yield": "2.6 %",
+    "ex_dividend_date": "2022-01-25"
+}

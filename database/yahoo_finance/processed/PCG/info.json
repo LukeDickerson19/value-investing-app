@@ -1,0 +1,10 @@
+{
+    "name": "PG&E Corporation",
+    "ticker": "PCG",
+    "asset_type": "EQUITY",
+    "sector": "Utilities",
+    "industry": "Utilities\u2014Regulated Electric",
+    "country": "United States",
+    "current_yield": null,
+    "ex_dividend_date": "2017-09-28"
+}

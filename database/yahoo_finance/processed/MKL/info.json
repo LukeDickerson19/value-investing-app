@@ -1,0 +1,10 @@
+{
+    "name": "Markel Corporation",
+    "ticker": "MKL",
+    "asset_type": "EQUITY",
+    "sector": "Financial Services",
+    "industry": "Insurance\u2014Property & Casualty",
+    "country": "United States",
+    "current_yield": null,
+    "ex_dividend_date": null
+}

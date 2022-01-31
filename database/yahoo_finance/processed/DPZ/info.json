@@ -1,0 +1,10 @@
+{
+    "name": "Domino's Pizza, Inc.",
+    "ticker": "DPZ",
+    "asset_type": "EQUITY",
+    "sector": "Consumer Cyclical",
+    "industry": "Restaurants",
+    "country": "United States",
+    "current_yield": "0.7 %",
+    "ex_dividend_date": "2021-12-14"
+}

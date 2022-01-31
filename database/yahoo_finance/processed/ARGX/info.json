@@ -1,0 +1,10 @@
+{
+    "name": "argenx SE",
+    "ticker": "ARGX",
+    "asset_type": "EQUITY",
+    "sector": "Healthcare",
+    "industry": "Biotechnology",
+    "country": "Netherlands",
+    "current_yield": null,
+    "ex_dividend_date": null
+}

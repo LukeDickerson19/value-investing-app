@@ -1,0 +1,10 @@
+{
+    "name": "Nucor Corporation",
+    "ticker": "NUE",
+    "asset_type": "EQUITY",
+    "sector": "Basic Materials",
+    "industry": "Steel",
+    "country": "United States",
+    "current_yield": "1.8 %",
+    "ex_dividend_date": "2021-12-30"
+}

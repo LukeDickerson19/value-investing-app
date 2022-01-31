@@ -43,6 +43,92 @@ Design
 						sector
 						industry
 
+			data quality report:
+
+				chart 1: price data of each stock vs days
+					y axis: stocks
+					x axis: days (from 2009 Q1 to present)
+
+					each cell will either be black or white
+						black means we have no price data for this day
+						white means we do have price data for this day
+
+					to the right of chart 1 will be another chart with a different x axis the x axis will have
+					1 value and be labeled "if ever?" (label tbd) and it will be black or white if we have any price data on the individual stock at all, underneath it, it will show the total percentage of all stocks that we have price data for as just a number.
+
+				chart 2: stocks vs quarters
+					y axis = stocks
+					x axis = quarters
+					each cell:
+						black if no data was collected for this stock for this quarter
+						red to green spectrum of the data collected for this stock/quarter
+							red   = 0%   of the metrics were collected for this stock and quarter
+							green = 100% of the metrics were collected for this stock and quarter
+
+					to the right of chart 2 will be another chart with a different x axis the x axis will have
+					1 value and be labeled "constant metrics" such as ticker, name, etc.
+					as opposed to the "variable metrics" of chart 1 such as total_assets, total_liabilities, etc.
+
+				chart 3: metrics vs quarters
+					y axis = metrics
+					x axis = quarters
+					each cell:
+						black if no data was collected for this metric for this quarter
+						red to green spectrum of the data collected for this stock/quarter
+							red   = 0%   of the stocks had this metric for this quarter
+							green = 100% of the stocks had this metric for this quarter
+
+					to the right of chart 3 is going to be another chart with different y axis values
+						a different list of metrics
+					its going to be a color chart too but with only one value on the x axis labeled "constant_metrics"
+					this chart reprensents the metrics that dont change over time such as company_name, ticker symbol, company description etc. These metrics are listed alphabetically along the y axis. 
+						These metrics listed are:
+							all metrics in the info.json file
+							price data
+							dividend history
+							stock split history
+								note: the last 3 do vary over time but this chart will only count them if the dataframe isn't empty for each stock.
+
+				chart 4: stocks vs metrics
+					y axis = stocks
+					x axis = metrics
+						each cell:
+							black if no data was collected for this metric for this stock
+							red to green spectrum of the data collected for this stock/metric
+								red   = 0%   of the quarters had this metric for this stock
+								green = 100% of the quarters had this metric for this stock
+							note:
+								the metrics listed on chart 3 are both variable and constant metrics
+								because chart 3 compresses the variable metrics down into 1 number anyway by summing them.
+
+			  it would be nice if all this could be stored in a 3d array
+			  but this would require each cell to have 3 possible values:
+				never searched for because this quarter/stock/metric wasn't submitted
+				searched for but not found
+				searched for and found
+
+			  flutter probably wants a 2d array to plot it though so its probably best to just store it as 3 separate csv files:
+				chart 1 csv:
+				  columns: cik, list of all quarters
+				  each value will be an int that represents the number of metrics
+				  successfully collected for this stock/quarter
+				chart 2 csv:
+				  columns: metric_name, list of all quarters
+				  each value will be an int that represents the number of stocks
+				  successfully collected for this metric/quarter
+				chart 3 csv:
+				  columns: cik, list of all metrics
+				  each value will be an int that represents the number of quarters
+				  successfully collected for this metric/stock
+			  json file: totals.json
+				{
+				  'total_number_of_stocks'   : int tbd,
+				  'total_number_of_metrics'  : int tbd,
+				  'total_number_of_quarters' : int tbd,
+				}
+				these total_numbers_of_* are used to calculate the percentages for each int
+
+
 		OTHER WEB SERVER BACKEND STUFF
 
 			tbd
@@ -88,57 +174,88 @@ Design
 						provide tooltips of the definitions of each of these values
 
 
-Value Investing Strategy:
+Possible Strategy Ideas:
 
-	for each stock s:
+	Value Investing Strategy:
 
-		get the quarterly history of the:
-			A. amount of money made that quarter (from products/services sold), basically all cash inflow
-			B. amount of money spent that quarter (on paying off debt, on paying employees, ect.), basically all cash outflow
-				show executive compensation vs employee compensation if you can get the data
-			C. net value of all assets (money, physical objects they could sell if they had too, etc.)
-			D. net value of all liabilities (debt, etc.)
-			E. dividend
+		for each stock s:
 
-		calculate what we'll call total_value (for lack of a better term)
-			F. total_value = (A + C) - (B + D + E)
+			get the quarterly history of the:
+				A. amount of money made that quarter (from products/services sold), basically all cash inflow
+				B. amount of money spent that quarter (on paying off debt, on paying employees, ect.), basically all cash outflow
+					show executive compensation vs employee compensation if you can get the data
+				C. net value of all assets (money, physical objects they could sell if they had too, etc.)
+				D. net value of all liabilities (debt, etc.)
+				E. dividend
 
-		plot these quarterly values over time
-			along with the total_value and the price
-				but make the price on daily intervals instead of quarterly
-				because we want to see how price responds (if at all, to changes in these fundamental values)
-			give the user the ability to checkbox certain values and plot some or all of them
-			default plot shows all of them
-			colors
-				total_assets      = green
-				total_liabilities = red
-				cash_inflow       = blue
-				cash_outflow      = orange
-				dividend          = yellow
+			calculate what we'll call total_value (for lack of a better term)
+				F. total_value = (A + C) - (B + D + E)
 
-		create 2 more values
-			the equation needs to rank a stock better if it, has a steadly growing dividend, and a large dividend.
-				G. dividend as a percentage of price (aka yield)
-					this shows me where i can get the most money for my investment
-				H. but price fluxtuates chaotically so also dividend as a percentage of total_value
-					this measures the generosity to its shareholds of a company
-				I. also just total_value
+			plot these quarterly values over time
+				along with the total_value and the price
+					but make the price on daily intervals instead of quarterly
+					because we want to see how price responds (if at all, to changes in these fundamental values)
+				give the user the ability to checkbox certain values and plot some or all of them
+				default plot shows all of them
+				colors
+					total_assets	  = green
+					total_liabilities = red
+					cash_inflow	   = blue
+					cash_outflow	  = orange
+					dividend		  = yellow
 
-			TBD: how is the steady-ness going to be mathematically represented?
+			create 2 more values
+				the equation needs to rank a stock better if it, has a steadly growing dividend, and a large dividend.
+					G. dividend as a percentage of price (aka yield)
+						this shows me where i can get the most money for my investment
+					H. but price fluxtuates chaotically so also dividend as a percentage of total_value
+						this measures the generosity to its shareholds of a company
+					I. also just total_value
 
-	on a 2d graph, plot G on the x axis and H on the y axis
-	and make each stock a dot on the plot
+				TBD: how is the steady-ness going to be mathematically represented?
 
-	is it possible for me to find companies that will be successful before they are successful?
-		are there consistent patterns?
-		how is success defined:
-			success is defined as a company I want to invest in:
-			I want to invest in:
-				consistently growing dividend
-				fast growing dividend
-				consistently growing price
-				fast growing price
+		on a 2d graph, plot G on the x axis and H on the y axis
+		and make each stock a dot on the plot
 
+		is it possible for me to find companies that will be successful before they are successful?
+			are there consistent patterns?
+			how is success defined:
+				success is defined as a company I want to invest in:
+				I want to invest in:
+					consistently growing dividend
+					fast growing dividend
+					consistently growing price
+					fast growing price
+
+
+	spread trade idea:
+		Basic Idea:
+			What if i looked at the p/e ratio over time for all stocks and did a spread trade where i shorted a basket of a lot of stocks with a high P/E ratio and longed a basket with a low P/E ratio?
+		Problem:
+			The market isn't 100% rational value investors though so some stocks with a high P/E ratio will defy all odds and the mania will lead to a "bubble" (aka a game of who's the greatest fool? Its sort of like a pyramid scheme) and continue to outperform their earnings more and more. At some point there won't be any more buyers and it will burst but it can't be timed (so far as i know). Could this idea perhaps be implemented with puts on high P/E stocks and calls on low P/E stocks instead of going long and short? If you could use options instead then so long as the stock market as a whole (or the sector as a whole) didn't stay sideways, then eventually some of your calls or some of your puts would start profiting, and the ones that don't just loose the premium cost instead of even bigger losses from going long or short.
+
+				What is the correlation coefficient of
+					all stocks?
+					all stocks in each country?
+					all stocks in each sector?
+					all stocks in each industry?
+					all stocks filtered by the other industry classification systems as well
+
+			It would be best to view price to earnings over time for all stocks on a single chart, and from that data determine if this would be an effective strategy, or something similar.
+				make the chart have 3 check boxes on the side that determine if the chart shows:
+					1 price
+					2 earnings (on a separate axis than price)
+					3 earnings_per_share (on the same axis as price)
+					4 price to earnings ratio (on a 3rd axis)
+
+					color code the axes and the chart data to make it obvious which axis is for which lines on the plot
+
+	According to this interview with lyn alden (at 0:00:00) foreign stocks usually have a better dividend yield than US stocks.
+
+		https://www.youtube.com/watch?v=-9I318eoJec&t=821s
+
+		What is the number of stocks this database parses by each country.
+	
 
 Possible Data Sources:
 
@@ -395,6 +512,11 @@ Exchanges:
 			and its not free:
 				https://www.reddit.com/r/algotrading/comments/maml8l/some_questions_about_ib_api_data_cost/
 				https://www.interactivebrokers.com/en/pricing/research-news-marketdata.phpo
+				delayed price data is free though
+					"By default, users will receive free delayed market data for available exchanges."
+						- https://www.interactivebrokers.com/en/index.php?f=14193
+					"Delayed market data is on a time lag that is usually 10-20 minutes behind real-time"
+						- https://ibkr.info/article/2966
 
 			other sources:
 				https://www.elitetrader.com/et/threads/ib-api-vs-td-ameritrade-api.326079/
@@ -863,7 +985,7 @@ Sources:
 				a. 40 days after the end of the fscal quarter for large accelerated flers and accelerated flers (as defned in 17 CFR § 240.12b2) ;and
 				b. 45 days after the end of the fscal quarter for all other registrants.
 				"
-					- https://sec.report/Form/10-Q			    
+					- https://sec.report/Form/10-Q				
 
 		libraries:
 

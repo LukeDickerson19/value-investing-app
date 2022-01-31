@@ -1,0 +1,10 @@
+{
+    "name": "Imperial Oil Limited",
+    "ticker": "IMO",
+    "asset_type": "EQUITY",
+    "sector": "Energy",
+    "industry": "Oil & Gas Integrated",
+    "country": "Canada",
+    "current_yield": "2.3 %",
+    "ex_dividend_date": "2021-12-02"
+}
