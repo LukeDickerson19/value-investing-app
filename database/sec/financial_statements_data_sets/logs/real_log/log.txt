@@ -5565,3 +5565,463 @@ done
             saving data ... done
             updating data quality report ... done
         done parsing submission, duration: 0 minutes 14.38 seconds
+        
+        submission 67 of 5631 for 2011q3:
+            form type ... 10-Q
+            ticker ...... None
+            cik ......... 1005214
+            parsing yahoo finance data ... done
+            parsing SEC Financial Statements Data Sets data ... done
+            saving data ... done
+            updating data quality report ... done
+        done parsing submission, duration: 0 minutes 0.59 seconds
+        
+        submission 68 of 5631 for 2011q3:
+            form type ... 10-Q
+            ticker ...... CMCO
+            cik ......... 1005229
+            parsing yahoo finance data ... done
+            parsing SEC Financial Statements Data Sets data ... done
+            saving data ... done
+            updating data quality report ... done
+        done parsing submission, duration: 0 minutes 15.50 seconds
+        
+        submission 69 of 5631 for 2011q3:
+            form type ... 10-Q
+            ticker ...... None
+            cik ......... 1005276
+            parsing yahoo finance data ... done
+            parsing SEC Financial Statements Data Sets data ... done
+            saving data ... done
+            updating data quality report ... done
+        done parsing submission, duration: 0 minutes 0.81 seconds
+        
+        submission 70 of 5631 for 2011q3:
+            form type ... 10-Q
+            ticker ...... OLED
+            cik ......... 1005284
+            parsing yahoo finance data ... done
+            parsing SEC Financial Statements Data Sets data ... done
+            saving data ... done
+            updating data quality report ... done
+        done parsing submission, duration: 0 minutes 18.98 seconds
+        
+        submission 71 of 5631 for 2011q3:
+            form type ... 10-Q
+            ticker ...... None
+            cik ......... 1005414
+            parsing yahoo finance data ... done
+            parsing SEC Financial Statements Data Sets data ... done
+            saving data ... done
+            updating data quality report ... done
+        done parsing submission, duration: 0 minutes 0.58 seconds
+        
+        submission 72 of 5631 for 2011q3:
+            form type ... 10-Q
+            ticker ...... None
+            cik ......... 100548
+            parsing yahoo finance data ... done
+            parsing SEC Financial Statements Data Sets data ... done
+            saving data ... done
+            updating data quality report ... done
+        done parsing submission, duration: 0 minutes 0.55 seconds
+        
+        submission 73 of 5631 for 2011q3:
+            form type ... 10-Q
+            ticker ...... None
+            cik ......... 1005663
+            parsing yahoo finance data ... done
+            parsing SEC Financial Statements Data Sets data ... done
+            saving data ... done
+            updating data quality report ... done
+        done parsing submission, duration: 0 minutes 0.73 seconds
+        
+        submission 74 of 5631 for 2011q3:
+            form type ... 10-Q
+            ticker ...... CSGS
+            cik ......... 1005757
+            parsing yahoo finance data ... done
+            parsing SEC Financial Statements Data Sets data ... done
+            saving data ... done
+            updating data quality report ... done
+        done parsing submission, duration: 0 minutes 14.26 seconds
+        
+        submission 75 of 5631 for 2011q3:
+            form type ... 10-Q
+            ticker ...... TMP
+            cik ......... 1005817
+            parsing yahoo finance data ... done
+            parsing SEC Financial Statements Data Sets data ... done
+            saving data ... done
+            updating data quality report ... done
+        done parsing submission, duration: 0 minutes 15.51 seconds
+        
+        submission 76 of 5631 for 2011q3:
+            form type ... 10-Q
+            ticker ...... AGX
+            cik ......... 100591
+            parsing yahoo finance data ... done
+            parsing SEC Financial Statements Data Sets data ... done
+            saving data ... done
+            updating data quality report ... done
+        done parsing submission, duration: 0 minutes 15.30 seconds
+        
+        submission 77 of 5631 for 2011q3:
+            form type ... 10-Q
+            ticker ...... IRIX
+            cik ......... 1006045
+            parsing yahoo finance data ... done
+            parsing SEC Financial Statements Data Sets data ... done
+            saving data ... done
+            updating data quality report ... done
+        done parsing submission, duration: 0 minutes 13.41 seconds
+        
+        submission 78 of 5631 for 2011q3:
+            form type ... 10-Q
+            ticker ...... None
+            cik ......... 100625
+            parsing yahoo finance data ... done
+            parsing SEC Financial Statements Data Sets data ... done
+            saving data ... done
+            updating data quality report ... done
+        done parsing submission, duration: 0 minutes 0.62 seconds
+        
+        submission 79 of 5631 for 2011q3:
+            form type ... 10-Q
+            ticker ...... None
+            cik ......... 1006269
+            parsing yahoo finance data ... done
+            parsing SEC Financial Statements Data Sets data ... done
+            saving data ... done
+            updating data quality report ... done
+        done parsing submission, duration: 0 minutes 0.72 seconds
+        
+        submission 80 of 5631 for 2011q3:
+            form type ... 10-Q
+            ticker ...... PLX
+            cik ......... 1006281
+            parsing yahoo finance data ... done
+            parsing SEC Financial Statements Data Sets data ... done
+            saving data ... done
+            updating data quality report ... done
+        done parsing submission, duration: 0 minutes 14.09 seconds
+        
+        submission 81 of 5631 for 2011q3:
+            form type ... 10-Q
+            ticker ...... None
+            cik ......... 1006424
+            parsing yahoo finance data ... done
+            parsing SEC Financial Statements Data Sets data ... done
+            saving data ... done
+            updating data quality report ... done
+        done parsing submission, duration: 0 minutes 0.51 seconds
+        
+        submission 82 of 5631 for 2011q3:
+            form type ... 10-Q
+            ticker ...... None
+            cik ......... 1006820
+            parsing yahoo finance data ... done
+            parsing SEC Financial Statements Data Sets data ... done
+            saving data ... done
+            updating data quality report ... done
+        done parsing submission, duration: 0 minutes 0.55 seconds
+        
+        submission 83 of 5631 for 2011q3:
+            form type ... 10-Q
+            ticker ...... VATE
+            cik ......... 1006837
+            parsing yahoo finance data ... done
+            parsing SEC Financial Statements Data Sets data ... done
+            saving data ... done
+            updating data quality report ... done
+        done parsing submission, duration: 0 minutes 13.02 seconds
+        
+        submission 84 of 5631 for 2011q3:
+            form type ... 10-Q
+            ticker ...... None
+            cik ......... 1006892
+            parsing yahoo finance data ... done
+            parsing SEC Financial Statements Data Sets data ... done
+            saving data ... done
+            updating data quality report ... done
+        done parsing submission, duration: 0 minutes 0.63 seconds
+        
+        submission 85 of 5631 for 2011q3:
+            form type ... 10-Q
+            ticker ...... JVA
+            cik ......... 1007019
+            parsing yahoo finance data ... done
+            parsing SEC Financial Statements Data Sets data ... done
+            saving data ... done
+            updating data quality report ... done
+        done parsing submission, duration: 0 minutes 13.91 seconds
+        
+        submission 86 of 5631 for 2011q3:
+            form type ... 10-Q
+            ticker ...... UNAM
+            cik ......... 100716
+            parsing yahoo finance data ... done
+            parsing SEC Financial Statements Data Sets data ... done
+            saving data ... done
+            updating data quality report ... done
+        done parsing submission, duration: 0 minutes 14.78 seconds
+        
+        submission 87 of 5631 for 2011q3:
+            form type ... 10-Q
+            ticker ...... BKSC
+            cik ......... 1007273
+            parsing yahoo finance data ... done
+            parsing SEC Financial Statements Data Sets data ... done
+            saving data ... done
+            updating data quality report ... done
+        done parsing submission, duration: 0 minutes 14.58 seconds
+        
+        submission 88 of 5631 for 2011q3:
+            form type ... 10-Q
+            ticker ...... None
+            cik ......... 1007330
+            parsing yahoo finance data ... done
+            parsing SEC Financial Statements Data Sets data ... done
+            saving data ... done
+            updating data quality report ... done
+        done parsing submission, duration: 0 minutes 0.65 seconds
+        
+        submission 89 of 5631 for 2011q3:
+            form type ... 10-Q
+            ticker ...... None
+            cik ......... 100790
+            parsing yahoo finance data ... done
+            parsing SEC Financial Statements Data Sets data ... done
+            saving data ... done
+            updating data quality report ... done
+        done parsing submission, duration: 0 minutes 0.61 seconds
+        
+        submission 90 of 5631 for 2011q3:
+            form type ... 10-Q
+            ticker ...... None
+            cik ......... 1008579
+            parsing yahoo finance data ... done
+            parsing SEC Financial Statements Data Sets data ... done
+            saving data ... done
+            updating data quality report ... done
+        done parsing submission, duration: 0 minutes 0.58 seconds
+        
+        submission 91 of 5631 for 2011q3:
+            form type ... 10-Q
+            ticker ...... STRM
+            cik ......... 1008586
+            parsing yahoo finance data ... done
+            parsing SEC Financial Statements Data Sets data ... done
+            saving data ... done
+            updating data quality report ... done
+        done parsing submission, duration: 0 minutes 14.58 seconds
+        
+        submission 92 of 5631 for 2011q3:
+            form type ... 10-Q
+            ticker ...... TUP
+            cik ......... 1008654
+            parsing yahoo finance data ... done
+            parsing SEC Financial Statements Data Sets data ... done
+            saving data ... done
+            updating data quality report ... done
+        done parsing submission, duration: 0 minutes 17.49 seconds
+        
+        submission 93 of 5631 for 2011q3:
+            form type ... 10-Q
+            ticker ...... None
+            cik ......... 1008817
+            parsing yahoo finance data ... done
+            parsing SEC Financial Statements Data Sets data ... done
+            saving data ... done
+            updating data quality report ... done
+        done parsing submission, duration: 0 minutes 2.08 seconds
+        
+        submission 94 of 5631 for 2011q3:
+            form type ... 10-Q
+            ticker ...... ACOR
+            cik ......... 1008848
+            parsing yahoo finance data ... done
+            parsing SEC Financial Statements Data Sets data ... done
+            saving data ... done
+            updating data quality report ... done
+        done parsing submission, duration: 0 minutes 14.66 seconds
+        
+        submission 95 of 5631 for 2011q3:
+            form type ... 10-Q
+            ticker ...... UNP
+            cik ......... 100885
+            parsing yahoo finance data ... done
+            parsing SEC Financial Statements Data Sets data ... done
+            saving data ... done
+            updating data quality report ... done
+        done parsing submission, duration: 0 minutes 15.64 seconds
+        
+        submission 96 of 5631 for 2011q3:
+            form type ... 10-Q
+            ticker ...... None
+            cik ......... 1009356
+            parsing yahoo finance data ... done
+            parsing SEC Financial Statements Data Sets data ... done
+            saving data ... done
+            updating data quality report ... done
+        done parsing submission, duration: 0 minutes 0.59 seconds
+        
+        submission 97 of 5631 for 2011q3:
+            form type ... 10-Q
+            ticker ...... None
+            cik ......... 1009626
+            parsing yahoo finance data ... done
+            parsing SEC Financial Statements Data Sets data ... done
+            saving data ... done
+            updating data quality report ... done
+        done parsing submission, duration: 0 minutes 0.76 seconds
+        
+        submission 98 of 5631 for 2011q3:
+            form type ... 10-Q
+            ticker ...... None
+            cik ......... 1009672
+            parsing yahoo finance data ... done
+            parsing SEC Financial Statements Data Sets data ... done
+            saving data ... done
+            updating data quality report ... done
+        done parsing submission, duration: 0 minutes 0.71 seconds
+        
+        submission 99 of 5631 for 2011q3:
+            form type ... 10-Q
+            ticker ...... CGRN
+            cik ......... 1009759
+            parsing yahoo finance data ... done
+            parsing SEC Financial Statements Data Sets data ... done
+            saving data ... done
+            updating data quality report ... done
+        done parsing submission, duration: 0 minutes 13.66 seconds
+        
+        submission 100 of 5631 for 2011q3:
+            form type ... 10-Q
+            ticker ...... JAKK
+            cik ......... 1009829
+            parsing yahoo finance data ... done
+            parsing SEC Financial Statements Data Sets data ... done
+            saving data ... done
+            updating data quality report ... done
+        done parsing submission, duration: 0 minutes 15.18 seconds
+        
+        submission 101 of 5631 for 2011q3:
+            form type ... 10-Q
+            ticker ...... SIGA
+            cik ......... 1010086
+            parsing yahoo finance data ... done
+            parsing SEC Financial Statements Data Sets data ... done
+            saving data ... done
+            updating data quality report ... done
+        done parsing submission, duration: 0 minutes 15.27 seconds
+        
+        submission 102 of 5631 for 2011q3:
+            form type ... 10-Q
+            ticker ...... None
+            cik ......... 1010247
+            parsing yahoo finance data ... done
+            parsing SEC Financial Statements Data Sets data ... done
+            saving data ... done
+            updating data quality report ... done
+        done parsing submission, duration: 0 minutes 0.51 seconds
+        
+        submission 103 of 5631 for 2011q3:
+            form type ... 10-Q
+            ticker ...... None
+            cik ......... 1010286
+            parsing yahoo finance data ... done
+            parsing SEC Financial Statements Data Sets data ... done
+            saving data ... done
+            updating data quality report ... done
+        done parsing submission, duration: 0 minutes 0.71 seconds
+        
+        submission 104 of 5631 for 2011q3:
+            form type ... 10-Q
+            ticker ...... None
+            cik ......... 1010552
+            parsing yahoo finance data ... done
+            parsing SEC Financial Statements Data Sets data ... done
+            saving data ... done
+            updating data quality report ... done
+        done parsing submission, duration: 0 minutes 0.69 seconds
+        
+        submission 105 of 5631 for 2011q3:
+            form type ... 10-Q
+            ticker ...... None
+            cik ......... 1010566
+            parsing yahoo finance data ... done
+            parsing SEC Financial Statements Data Sets data ... done
+            saving data ... done
+            updating data quality report ... done
+        done parsing submission, duration: 0 minutes 0.87 seconds
+        
+        submission 106 of 5631 for 2011q3:
+            form type ... 10-Q
+            ticker ...... None
+            cik ......... 1010612
+            parsing yahoo finance data ... done
+            parsing SEC Financial Statements Data Sets data ... done
+            saving data ... done
+            updating data quality report ... done
+        done parsing submission, duration: 0 minutes 0.64 seconds
+        
+        submission 107 of 5631 for 2011q3:
+            form type ... 10-Q
+            ticker ...... None
+            cik ......... 101063
+            parsing yahoo finance data ... done
+            parsing SEC Financial Statements Data Sets data ... done
+            saving data ... done
+            updating data quality report ... done
+        done parsing submission, duration: 0 minutes 0.71 seconds
+        
+        submission 108 of 5631 for 2011q3:
+            form type ... 10-Q
+            ticker ...... None
+            cik ......... 1011006
+            parsing yahoo finance data ... done
+            parsing SEC Financial Statements Data Sets data ... done
+            saving data ... done
+            updating data quality report ... done
+        done parsing submission, duration: 0 minutes 0.69 seconds
+        
+        submission 109 of 5631 for 2011q3:
+            form type ... 10-Q
+            ticker ...... None
+            cik ......... 1011064
+            parsing yahoo finance data ... done
+            parsing SEC Financial Statements Data Sets data ... done
+            saving data ... done
+            updating data quality report ... done
+        done parsing submission, duration: 0 minutes 0.56 seconds
+        
+        submission 110 of 5631 for 2011q3:
+            form type ... 10-Q
+            ticker ...... None
+            cik ......... 1011174
+            parsing yahoo finance data ... done
+            parsing SEC Financial Statements Data Sets data ... done
+            saving data ... done
+            updating data quality report ... done
+        done parsing submission, duration: 0 minutes 0.63 seconds
+        
+        submission 111 of 5631 for 2011q3:
+            form type ... 10-Q
+            ticker ...... None
+            cik ......... 1011290
+            parsing yahoo finance data ... done
+            parsing SEC Financial Statements Data Sets data ... done
+            saving data ... done
+            updating data quality report ... done
+        done parsing submission, duration: 0 minutes 0.58 seconds
+        
+        submission 112 of 5631 for 2011q3:
+            form type ... 10-Q
+            ticker ...... AUMN
+            cik ......... 1011509
+            parsing yahoo finance data ... done
+            parsing SEC Financial Statements Data Sets data ... done
+            saving data ... done
+            updating data quality report ... done
+        done parsing submission, duration: 0 minutes 15.43 seconds
