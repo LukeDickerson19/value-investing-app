@@ -1,8 +1,5 @@
 from libraries_and_constants import *
 
-# global variables
-log = logging_utils.Log(LOG_FILEPATH)
-
 
 
 def clear_and_reset_database(
@@ -20,11 +17,19 @@ def clear_and_reset_database(
     os.mkdir(DATA_WAREHOUSE_PATH)
     os.mkdir(DATA_STOCKS_PATH)
     os.mkdir(QUALITY_REPORT_PATH)
-    for c in QUALITY_REPORT_PATHS.columns.values:
-        os.mkdir(QUALITY_REPORT_PATHS[c]['chart'])
-
+    for paths in QUALITY_REPORT_PATHS.values():
+        os.mkdir(paths['chart'])
     metadata_template = {
-        "quarters_downloaded" : [],
+        "quarters_downloaded"    : [],
+        "quarters_parsed"        : {
+            "quarters" : [],
+            "count"    : 0,
+        },
+        "last_sub_parsed"        : {
+            "qtr"       : None,
+            "cik"       : None,
+            "form_type" : None
+        },
         "total_number_of_stocks" : 0,
         "number_of_metrics" : {
             "total"    : 0,
@@ -300,14 +305,15 @@ def get_new_quarter_raw_data(
                 quarters_downloaded[-1])))),
         num_indents=num_indents+1)
 
+    # remove quarter_list quarters from quarters_downloaded
+    # so we can download them again if neccessary
+    quarters_to_exclude = ['File: %s Q%s' % tuple(qtr.split('q')) \
+        for qtr in quarters_downloaded if qtr not in quarter_list]
+
     # determine if there's any new quarters released on the
     # SEC's Financial Statements Data Sets webpage
-    last_downloaded_quarter, last_downloaded_year = \
-        year_and_quarter_from_quarter_str(quarters_downloaded[-1]) \
-        if len(quarters_downloaded) > 0 else (None, None)
     df = pd.read_html(FINANCIAL_STATEMENTS_DATA_SETS_URL)[0]
-    df = df[df['File'] > 'File: %d Q%d' % (last_downloaded_year, last_downloaded_quarter)] \
-        if last_downloaded_year != None else df
+    df = df[~df['File'].isin(quarters_to_exclude)]
     df.sort_values(by=['File'], inplace=True)
     df.reset_index(inplace=True)
 
@@ -319,14 +325,12 @@ def get_new_quarter_raw_data(
     if df.shape[0] == 0:
         log.print('nothing to do. program terminated', num_indents=num_indents, new_line_end=True)
         sys.exit()
-    data_paths = []
+    data_paths, new_quarters = [], []
     for i, row in df.iterrows():
         year    = row['File'].split(' ')[1]
         quarter = row['File'].split(' ')[2][1]
         qtr     = '%sq%s' % (year, quarter)
-        if quarter_list != []:
-            if qtr not in quarter_list:
-                continue
+        if quarter_list != [] and qtr not in quarter_list: continue
         log.print('downloading quarter %d of %d: %s Q%s' % (i+1, df.shape[0], year, quarter),
             num_indents=num_indents+2, new_line_start=verbose)
         zip_file_url = FINANCIAL_STATEMENTS_DATA_SETS_BASE_DOWNLOAD_URL.format(
@@ -334,13 +338,46 @@ def get_new_quarter_raw_data(
         extraction_dir = os.path.join(TMP_FILINGS_PATH, qtr)
         if verbose:
             log.print('from: %s' % zip_file_url, num_indents=num_indents+3)
-            log.print('to:   %s' % extraction_dir, num_indents=num_indents+3)
-        r = requests.get(zip_file_url)
-        z = zipfile.ZipFile(io.BytesIO(r.content))
-        z.extractall(extraction_dir)
+            repo_extraction_dir = extraction_dir[extraction_dir.index('value-investing-app'):]
+            log.print('to:   %s' % repo_extraction_dir, num_indents=num_indents+3)
+        while True:
+            try:
+                r = requests.get(zip_file_url)
+                z = zipfile.ZipFile(io.BytesIO(r.content))
+                z.extractall(extraction_dir)
+                break
+            except Exception as e:
+                log.print('failed to download and extract zip file', num_indents=num_indents+3)
+                log.print('Exception:', num_indents=num_indents+4)
+                log.print(str(e), num_indents=num_indents+5)
+                time.sleep(10)
         data_paths.append(extraction_dir)
-    log.print('done', num_indents=num_indents)
+        new_quarters.append(qtr)
+
+    if data_paths != []:
+        metadata_dct['quarters_downloaded'] = \
+            sorted(list(set(quarters_downloaded + new_quarters)))
+        with open(METADATA_FILEPATH, 'w') as f:
+            json.dump(metadata_dct, f, indent=4, sort_keys=True)
+    log.print('done, downloaded %d new quarter(s)' % len(new_quarters),
+        num_indents=num_indents)
     return data_paths
+def get_last_sub_parsed(last_sub):
+    if not last_sub:
+        return None
+    with open(METADATA_FILEPATH, 'r') as f:
+        metadata_dct = json.load(f)
+    return metadata_dct['last_sub_parsed']
+def set_last_sub_parsed(qtr, cik, form_type):
+    with open(METADATA_FILEPATH, 'r') as f:
+        metadata_dct = json.load(f)
+    metadata_dct['last_sub_parsed'] = {
+        'qtr'       : qtr,
+        'cik'       : cik,
+        'form_type' : form_type
+    }
+    with open(METADATA_FILEPATH, 'w') as f:
+        json.dump(metadata_dct, f, indent=4, sort_keys=True)
 
 def current_year_and_quarter():
     d = date.today()
@@ -354,10 +391,6 @@ def year_and_quarter(d):
     q = pd.Timestamp(d).quarter
     y = d.year
     return q, y
-def year_and_quarter_from_quarter_str(quarter_str):
-    q = int(quarter_str.split('-')[1][-1])
-    y = int(quarter_str.split('-')[0])
-    return q, y
 def get_quarter_date_range(y, q):
     if q == '1': return '-'.join([y, '01', '01']), '-'.join([y, '03', '31'])
     if q == '2': return '-'.join([y, '04', '01']), '-'.join([y, '06', '30'])
@@ -367,32 +400,39 @@ def get_quarter_date_range(y, q):
 class SubmissionParser:
 
     def __init__(self):
+
         pass
 
     def parse_submissions(
         self,
+        qtr,
         path,
+        form_type,
+        last_cik_parsed=None,
         ticker_list=[],
+        pause=False,
         replace=False,
         verbose=False,
         num_indents=0):
 
-        num_df, sub_df = self.read_quarter_data(path)
+        self.form_type = form_type
+        num_df, sub_df = self.read_quarter_data(path, ticker_list, last_cik_parsed)
         num_subs = sub_df.shape[0]
-        if ticker_list != []:
-            sub_df['ticker'] = sub_df['cik'].apply(lambda cik : self.parse_ticker(cik))
-            sub_df = sub_df[sub_df['ticker'].isin(ticker_list)]
-        log.print(', iterating over %d submission(s)' % num_subs)
+        log.print(', iterating over %d %s submission(s)' % (num_subs, form_type))
         for i, sub in sub_df.iterrows():
+            submission_parsing_start_time = datetime.now()
             self.ticker = self.parse_ticker(sub['cik'])
-            self.form_type = sub['form']
             self.sub_qtr_enddate = sub['period']
             self.sub_nums = num_df[num_df['adsh'] == sub['adsh']]#.copy()
             if self.form_type == '10-Q': self.num_qtrs = 1
             if self.form_type == '10-K': self.num_qtrs = 4
 
-            log.print('submission %d of %d:' % (i+1, num_subs),
-                num_indents=num_indents, new_line_start=verbose)
+            ##################### FOR TESTING PURPOSES ONLY #####################
+            # if i+1 < 15: continue
+            #####################################################################
+
+            log.print('submission %d of %d for %s:' % (i+1, num_subs, qtr),
+                num_indents=num_indents, new_line_start=True)
             log.print('form type ... %s' % self.form_type, num_indents=num_indents+1)
             log.print('ticker ...... %s' % self.ticker,    num_indents=num_indents+1)
             log.print('cik ......... %s' % sub['cik'],     num_indents=num_indents+1)
@@ -423,34 +463,42 @@ class SubmissionParser:
             new_values_found = self.save_data(
                 data,
                 replace=replace,
-                verbose=True,#verbose,
+                verbose=verbose,
                 num_indents=num_indents+1,
                 new_line_start=verbose)
 
             self.update_data_quality_report(
                 data,
                 new_values_found,
+                verbose=verbose,
                 num_indents=num_indents+1,
                 new_line_start=verbose)
-            # input()
-            time.sleep(5)
+            submission_parsing_end_time = datetime.now()
+            duration = (submission_parsing_end_time - submission_parsing_start_time).total_seconds()
+            set_last_sub_parsed(path.split('/')[-1], sub['cik'], self.form_type)
+            log.print('done parsing submission, duration: %s minutes %.2f seconds' % \
+                (int(duration // 60), duration % 60), num_indents=num_indents)
+
+            if pause:
+                input()
+            else:
+                time.sleep(5)
     def read_quarter_data(
         self,
-        path):
+        path,
+        ticker_list,
+        last_cik_parsed):
 
-        num_df = pd.read_csv(
-            os.path.join(path, 'num.txt'),
-            sep='\t',
-            dtype=str)
-        sub_df = pd.read_csv(
-            os.path.join(path, 'sub.txt'),
-            sep='\t',
-            dtype=str)
-        sub_df = sub_df[sub_df['form'].isin(VALID_FORM_TYPES)]
-        # sort by 'form' descending to parse 10-Qs before 10-Ks
-        # to increase the odds of 10-Ks having the data they need
-        sub_df.sort_values(by=['form'], ascending=False, inplace=True)
-        sub_df.reset_index(drop=True, inplace=True)
+        num_df = pd.read_csv(os.path.join(path, 'num.txt'), sep='\t', dtype=str)
+        sub_df = pd.read_csv(os.path.join(path, 'sub.txt'), sep='\t', dtype=str)
+        sub_df = sub_df[sub_df['form'] == self.form_type]
+        if ticker_list != []:
+            sub_df['ticker'] = sub_df['cik'].apply(lambda cik : self.parse_ticker(cik))
+            sub_df = sub_df[sub_df['ticker'].isin(ticker_list)]
+            sub_df.drop(columns=['ticker'], inplace=True)
+        if last_cik_parsed != None:
+            sub_df = sub_df[sub_df['cik'] >= last_cik_parsed]
+        sub_df.sort_values(by=['cik'], inplace=True, ignore_index=True)
         return num_df, sub_df
     def get_data_from_yahoo_finance(
         self,
@@ -465,7 +513,7 @@ class SubmissionParser:
             new_line_start=new_line_start,
             end=('\n' if verbose else ''))
         yf_company = yf.Ticker(self.ticker) if self.ticker != None else None
-        yf_info = yf_company.info if yf_company != None else None
+        yf_info = self.parse_yf_info(yf_company) if yf_company != None else None
         if yf_info != None:
             data['info']['asset_type']                      = self.parse_yf_key(yf_info, 'quoteType')
             data['info']['description']                     = self.parse_yf_key(yf_info, 'longBusinessSummary')
@@ -508,20 +556,17 @@ class SubmissionParser:
         data['info']['ticker']                         = self.ticker
         data['info']['country']                        = self.parse_country(sub)
         data['info']['industry_classification']['sic'] = self.parse_sic(sub)
-        data['info']['name']                           = data['info']['name'] \
-                                                            if data['info']['name'] != None \
-                                                            else sub['name']
-        data['fundamentals']['sub_qtr_enddate'] = '-'.join([
-            self.sub_qtr_enddate[0:4],
-            self.sub_qtr_enddate[4:6],
-            self.sub_qtr_enddate[6:8]])
+        data['info']['name']                           = self.parse_name(data, sub)
+        data['fundamentals']['sub_qtr_enddate']        = '-'.join([
+                                                            self.sub_qtr_enddate[0:4],
+                                                            self.sub_qtr_enddate[4:6],
+                                                            self.sub_qtr_enddate[6:8]])
         data['fundamentals']['quarter'], data['fundamentals']['year'] = self.parse_year_and_quarter(data['fundamentals']['sub_qtr_enddate'])
-        data['fundamentals']['shares_outstanding']                    = self.parse_value_with_ddate('shares_outstanding', num_qtrs=self.num_qtrs)
+        data['fundamentals']['shares_outstanding']                    = self.parse_shares_outstanding()
         data['fundamentals']['total_assets']                          = self.parse_value_with_ddate('total_assets')
         data['fundamentals']['total_liabilities']                     = self.parse_total_liabilities()
-        data['fundamentals']['total_revenue']                         = self.parse_total_revenue(data)
-        data['fundamentals']['total_expenses']                        = self.parse_total_expenses(data)
         data['fundamentals']['net_income']                            = self.parse_net_income(data)
+        # data['fundamentals']['cash_flow']                             = self.parse_cash_flow(data)
         data['fundamentals']['earnings_per_share']                    = self.parse_earnings_per_share(data)
         data['fundamentals']['dividends_paid']                        = self.parse_dividends_paid(data)
         data['fundamentals']['sec_urls']                              = self.get_sec_urls(sub, verbose=False, num_indents=num_indents)
@@ -552,7 +597,13 @@ class SubmissionParser:
 
         all_files_url = ALL_FILES_BASE_URL.format(cik=sub['cik'], adsh=sub['adsh'].replace('-', ''))
         filing_details_url = all_files_url + sub['adsh'] + '-index.html'
-        response = requests.get(filing_details_url, headers={'User-Agent' : USER_AGENT})
+        while True:
+            try:
+                response = requests.get(filing_details_url, headers={'User-Agent' : USER_AGENT})
+                break
+            except Exception as e:
+                log.print(str(e), num_indents=num_indents)
+                time.sleep(60)
         document_format_files_df, data_files_df = tuple(pd.read_html(response.text))
 
         # get filing's XML url
@@ -612,12 +663,38 @@ class SubmissionParser:
         except:
             ticker = None
         return ticker
+    def parse_name(
+        self,
+        data,
+        sub):
+        try:
+            name = ticker_df[
+                ticker_df['cik'] == \
+                sub['cik']]['ticker'].iloc[0]
+        except:
+            name = None
+        return data['info']['name'] \
+            if data['info']['name'] != None \
+            else (name if name != None else sub['name'])
     def parse_yf_ex_dividend_date(
         self,
         yf_info):
         ex_dividend_date = self.parse_yf_key(yf_info, 'exDividendDate')
         if ex_dividend_date != None:
             return datetime.utcfromtimestamp(ex_dividend_date).strftime('%Y-%m-%d')
+    def parse_yf_info(
+        self,
+        yf_company,
+        num_indents=0,
+        new_line_start=False):
+        while True:
+            try:
+                dct = yf_company.info
+                break
+            except Exception as e:
+                log.print(str(e), num_indents=num_indents)
+                time.sleep(60)
+        return dct
     def parse_yf_dividend_per_share_history(
         self,
         yf_company,
@@ -627,8 +704,8 @@ class SubmissionParser:
             try:
                 df = yf_company.dividends
                 break
-            except ConnectionResetError as e:
-                log.print('ConnectionResetError', num_indents=num_indents)
+            except Exception as e:
+                log.print(str(e), num_indents=num_indents)
                 time.sleep(60)
         return self.parse_yf_pandas(df)
     def parse_yf_stock_split_history(
@@ -640,8 +717,8 @@ class SubmissionParser:
             try:
                 df = yf_company.splits
                 break
-            except ConnectionResetError as e:
-                log.print('ConnectionResetError', num_indents=num_indents)
+            except Exception as e:
+                log.print(str(e), num_indents=num_indents)
                 time.sleep(60)
         return self.parse_yf_pandas(df, num_decimals=5)
     def parse_yf_daily_price_data(
@@ -653,8 +730,8 @@ class SubmissionParser:
             try:
                 df = yf_company.history(period='max')
                 break
-            except ConnectionResetError as e:
-                log.print('ConnectionResetError', num_indents=num_indents)
+            except Exception as e:
+                log.print(str(e), num_indents=num_indents)
                 time.sleep(60)
         return self.parse_yf_pandas(
             df, num_decimals=2,
@@ -735,6 +812,19 @@ class SubmissionParser:
         self,
         date_str):
         q, y = year_and_quarter_from_date_string(date_str)
+        qtr = '%sq%s' % (y, q)
+        with open(METADATA_FILEPATH, 'r') as f:
+            metadata_dct = json.load(f)
+        if qtr not in metadata_dct['quarters_parsed']['quarters']:
+            quarters_parsed = metadata_dct['quarters_parsed']['quarters']
+            quarters_parsed.append(qtr)
+            quarters_parsed.sort()
+            count = metadata_dct['quarters_parsed']['count']
+            count += 1
+            metadata_dct['quarters_parsed']['quarters'] = quarters_parsed
+            metadata_dct['quarters_parsed']['count'] = count
+        with open(METADATA_FILEPATH, 'w') as f:
+            json.dump(metadata_dct, f, indent=4, sort_keys=True)
         return str(q), str(y)
     def parse_total_liabilities(
         self,
@@ -764,42 +854,44 @@ class SubmissionParser:
             if total_liabilities_and_equity != None and total_equity != None:
                 total_liabilities = total_liabilities_and_equity - total_equity
         return str(total_liabilities) if total_liabilities != None else None
-    def parse_total_revenue(
-        self,
-        data):
+    def parse_shares_outstanding(
+        self):
 
-        if self.form_type == '10-Q':
-            return self.parse_value_with_ddate('total_revenue', num_qtrs=1)
-        elif self.form_type == '10-K':
-            return self.calculate_10K_value_for_just_this_quarter(
-                'total_revenue', data, 'fundamentals.csv')
-    def parse_total_expenses(
-        self,
-        data):
-
-        if self.form_type == '10-Q':
-            return self.parse_value_with_ddate('total_expenses', num_qtrs=1)
-        elif self.form_type == '10-K':
-            return self.calculate_10K_value_for_just_this_quarter(
-                'total_expenses', data, 'fundamentals.csv')
+        shares_outstanding = self.parse_value_with_ddate(
+            'shares_outstanding', num_qtrs=self.num_qtrs, uom='shares', verbose=False)
+        if shares_outstanding == None:
+            shares_outstanding = self.parse_value_with_ddate(
+                'shares_outstanding', num_qtrs=0, uom='shares', verbose=False)
+        return shares_outstanding
     def parse_net_income(
         self,
         data):
 
         if self.form_type == '10-Q':
-            return self.parse_value_with_ddate('net_income', num_qtrs=1)
+            return self.parse_value_with_ddate(
+                'net_income', num_qtrs=1, verbose=False)
         elif self.form_type == '10-K':
             return self.calculate_10K_value_for_just_this_quarter(
                 'net_income', data, 'fundamentals.csv')
+    def parse_cash_flow(
+        self,
+        data):
+
+        if self.form_type == '10-Q':
+            return self.parse_value_with_ddate('cash_flow', num_qtrs=1)
+        elif self.form_type == '10-K':
+            return self.calculate_10K_value_for_just_this_quarter(
+                'cash_flow', data, 'fundamentals.csv')
     def parse_earnings_per_share(
         self,
         data):
 
         if self.form_type == '10-Q':
-            return self.parse_value_with_ddate('earnings_per_share', num_qtrs=1)
+            return self.parse_value_with_ddate(
+                'earnings_per_share', num_qtrs=1, round_down=False, verbose=False)
         elif self.form_type == '10-K':
             return self.calculate_10K_value_for_just_this_quarter(
-                'earnings_per_share', data, 'fundamentals.csv')
+                'earnings_per_share', data, 'fundamentals.csv', round_down=False)
     def parse_dividends_paid(
         self,
         data):
@@ -817,10 +909,13 @@ class SubmissionParser:
         value_key,
         data,
         table_name,
+        round_down=True,
+        ret='str',
         num_indents=0,
         new_line_start=False):
 
-        value = self.parse_value_with_ddate(value_key, num_qtrs=4, ret='int')
+        value = self.parse_value_with_ddate(
+            value_key, num_qtrs=4, round_down=round_down, ret=ret)
 
         # value_previous_quarters = list of 3 values from previous quarters
         # or None if any of the 3 values can't be found in the database
@@ -876,15 +971,33 @@ class SubmissionParser:
         self,
         value_key,
         num_qtrs=None,
+        uom='USD',
         round_down=True,
-        ret='str'):
+        ret='str',
+        verbose=False,
+        num_indents=0):
     
         df = self.sub_nums[self.sub_nums['tag'].isin(DATA_TAGS[value_key])]
+        if verbose: log.print('\n1\n%s' % df.to_string(max_rows=100), num_indents=num_indents)
+
+        df = df[df['uom'] == uom]
+        if verbose: log.print('\n2\n%s' % df.to_string(max_rows=100), num_indents=num_indents)
+
         df = df[df['coreg'].isna()]
+        if verbose: log.print('\n3\n%s' % df.to_string(max_rows=100), num_indents=num_indents)
+
         df = df[df['ddate'] == self.sub_qtr_enddate]
+        if verbose: log.print('\n4\n%s' % df.to_string(max_rows=100), num_indents=num_indents)
+
         df = df.dropna(subset=['value'])
+        if verbose: log.print('\n5\n%s' % df.to_string(max_rows=100), num_indents=num_indents)
+
         if num_qtrs != None:
+            df['qtrs'] = df['qtrs'].astype(str) # redundant but just to be safe ... cast too string
+            num_qtrs = str(num_qtrs)
             df = df[df['qtrs'] == num_qtrs]
+        if verbose: log.print('\n6\n%s' % df.to_string(max_rows=100), num_indents=num_indents)
+
         if df.shape[0] == 0:
             return None
         elif df.shape[0] == 1:
@@ -932,26 +1045,26 @@ class SubmissionParser:
             os.mkdir(cik_path)
 
         # save data
-        log.print(('saved data to:' if verbose else 'saving data ...'),
+        log.print(('saved data to:' if verbose else 'saving data ... '),
             num_indents=num_indents,
             new_line_start=new_line_start,
             end=('\n' if verbose else ''))
         new_values_found = {}
         new_values_found = self.save_info(
             new_values_found, cik_path, data,
-            replace=replace, verbose=True, num_indents=num_indents+1)
+            replace=replace, verbose=verbose, num_indents=num_indents+1)
         new_values_found = self.save_fundamentals(
             new_values_found, cik_path, data,
-            replace=replace, verbose=True, num_indents=num_indents+1)
+            replace=replace, verbose=verbose, num_indents=num_indents+1)
         new_values_found = self.save_df(
             new_values_found, cik_path, 'dividend_per_share_history', data,
-            replace=replace, verbose=True, num_indents=num_indents+1)
+            replace=replace, verbose=verbose, num_indents=num_indents+1)
         new_values_found = self.save_df(
             new_values_found, cik_path, 'stock_split_history', data,
-            replace=replace, verbose=True, num_indents=num_indents+1)
+            replace=replace, verbose=verbose, num_indents=num_indents+1)
         new_values_found = self.save_df(
             new_values_found, cik_path, 'daily_price_data', data,
-            replace=replace, verbose=True, num_indents=num_indents+1)
+            replace=replace, verbose=verbose, num_indents=num_indents+1)
 
         if not verbose:
             log.print('done')
@@ -987,8 +1100,9 @@ class SubmissionParser:
             return d
 
         filepath = os.path.join(cik_path, 'info.json')
-        repo_filepath = filepath[filepath.index('value-investing-app'):]
-        log.print(repo_filepath, num_indents=num_indents)
+        if verbose:
+            repo_filepath = filepath[filepath.index('value-investing-app'):]
+            log.print(repo_filepath, num_indents=num_indents)
         empty_info_template = empty_info(data['info'])
         if not os.path.exists(filepath):
             with open(filepath, 'w') as f:
@@ -1038,10 +1152,11 @@ class SubmissionParser:
 
         # get old fundamental data
         filepath = os.path.join(cik_path, 'fundamentals.csv')
+        if verbose:
+            repo_filepath = filepath[filepath.index('value-investing-app'):]
+            log.print(repo_filepath, num_indents=num_indents)
         columns = DATA_COLUMNS['fundamentals']
         index_col = 'sub_qtr_enddate'
-        repo_filepath = filepath[filepath.index('value-investing-app'):]
-        log.print(repo_filepath, num_indents=num_indents)
         old_df = pd.read_csv(
                 filepath,
                 index_col=index_col,
@@ -1141,16 +1256,19 @@ class SubmissionParser:
 
         # get old dataframe
         filepath = os.path.join(cik_path, filename+'.csv')
+        if verbose:
+            repo_filepath = filepath[filepath.index('value-investing-app'):]
+            log.print(repo_filepath, num_indents=num_indents)
         columns = DATA_COLUMNS[filename]
         index_col = 'Date'
-        repo_filepath = filepath[filepath.index('value-investing-app'):]
-        log.print(repo_filepath, num_indents=num_indents)
+        if not os.path.exists(filepath):
+            empty_df = pd.DataFrame(columns=columns)
+            empty_df.index.name = index_col
+            empty_df.to_csv(filepath)
         old_df = pd.read_csv(
                 filepath,
                 index_col=index_col,
-                dtype=object) \
-            if os.path.exists(filepath) \
-            else pd.DataFrame(columns=columns)
+                dtype=object)
         old_df.index = old_df.index.astype(object)
         old_df.index.name = index_col
         old_df.where(pd.notnull(old_df), other=None, inplace=True) # replace Nan values with None
@@ -1163,10 +1281,11 @@ class SubmissionParser:
         # do nothing if no data was found
         if (not isinstance(data[filename], pd.DataFrame)) and \
             data[filename] == None:
-            log.print('no updates to %s.csv' % filename,
-                num_indents=num_indents+1,
-                new_line_start=True)
-            new_values_found.update({c : 0 for c in columns})
+            if verbose:
+                log.print('no updates to %s.csv' % filename,
+                    num_indents=num_indents+1,
+                    new_line_start=True)
+            new_values_found[filename] = 0
             return new_values_found
         else:
             if verbose:
@@ -1203,16 +1322,32 @@ class SubmissionParser:
         self,
         data,
         new_values_found,
+        verbose=False,
         num_indents=0,
         new_line_start=False):
 
-        log.print('updating data quality report:',
+        log.print('updating data quality report%s' % (':' if verbose else ' ... '),
             num_indents=num_indents,
-            new_line_start=new_line_start)
-        self.update_price_data_stock_vs_day_report(data, new_values_found, verbose=True, num_indents=num_indents+1)
-        new_submission_searched = self.update_stock_vs_quarter_report(data, new_values_found, verbose=True, num_indents=num_indents+1)
-        self.update_metric_vs_quarter_report(data, new_values_found, new_submission_searched, verbose=True, num_indents=num_indents+1)
-        self.update_stock_vs_metric_report(data, new_values_found, new_submission_searched, verbose=True, num_indents=num_indents+1)
+            new_line_start=new_line_start,
+            end=('\n' if verbose else ''))
+
+        self.update_price_data_stock_vs_day_report(
+            data, new_values_found,
+            verbose=verbose, num_indents=num_indents+1)
+
+        new_submission = self.update_stock_vs_quarter_report(
+            data, new_values_found,
+            verbose=verbose, num_indents=num_indents+1)
+
+        self.update_metric_vs_quarter_report(
+            data, new_values_found, new_submission,
+            verbose=verbose, num_indents=num_indents+1)
+
+        self.update_stock_vs_metric_report(
+            data, new_values_found, new_submission,
+            verbose=verbose, num_indents=num_indents+1)
+
+        log.print('done', num_indents=(num_indents if verbose else 0))
     def update_price_data_stock_vs_day_report(
         self,
         data,
@@ -1221,13 +1356,11 @@ class SubmissionParser:
         num_indents=0,
         new_line_start=False):
 
-        log.print(
-            ('updating price_data_stock_vs_day data:' if verbose else \
-                'updating price_data_stock_vs_day data ... '),
-            num_indents=num_indents,
-            end=('\n' if verbose else ''))
+        if verbose:
+            log.print('updating price_data_stock_vs_day data:',
+                num_indents=num_indents)
 
-        filepath = os.path.join(QUALITY_REPORT_PATH, 'price_data_stock_vs_day', 'price_data_coverage.csv')
+        filepath = QUALITY_REPORT_PATHS['price_data_stock_vs_day']['variable']
         columns = ['start_date', 'end_date']
         if not os.path.exists(filepath):
             with open(filepath, 'w') as f:
@@ -1312,8 +1445,8 @@ class SubmissionParser:
         }
         with open(METADATA_FILEPATH, 'w') as f:
             json.dump(metadata_dct, f, indent=4, sort_keys=True)
-        if not verbose:
-            log.print('done')
+        if verbose:
+            log.print('done', num_indents=num_indents)
     def update_stock_vs_quarter_report(
         self,
         data,
@@ -1322,11 +1455,9 @@ class SubmissionParser:
         num_indents=0,
         new_line_start=False):
 
-        log.print(
-            ('updating stock_vs_quarter data:' if verbose else \
-                'updating stock_vs_quarter data ... '),
-            num_indents=num_indents,
-            end=('\n' if verbose else ''))
+        if verbose:
+            log.print('updating stock_vs_quarter data:',
+                num_indents=num_indents)
 
         constant_new_values_found, variable_new_values_found = \
             self.split_constant_and_variable_metrics(new_values_found)
@@ -1335,7 +1466,7 @@ class SubmissionParser:
         # cells: if a cell is np.nan, then there was no submission for that stock during that quarter
         # else if a cell is 0, then 0 of the metrics were found for that stock during that quarter
         # the total number of metrics searched for is stored in METADATA_FILEPATH
-        filepath = QUALITY_REPORT_PATHS.at['variable', 'stock_vs_quarter']
+        filepath = QUALITY_REPORT_PATHS['stock_vs_quarter']['variable']
         if not os.path.exists(filepath):
             with open(filepath, 'w') as f:
                 f.write('cik\n')
@@ -1353,11 +1484,11 @@ class SubmissionParser:
             log.print('repo filepath: %s' % repo_filepath, num_indents=num_indents+2)
             log.print('variable_new_values_found', num_indents=num_indents+2)
             log.print_dct(variable_new_values_found, num_indents=num_indents+3)
-        if cik in stock_CIKs:
+        new_cik = cik not in stock_CIKs
+        if not new_cik:
             if verbose:
                 log.print('stock with CIK=%s already exists in stock_vs_quarter/variable_metrics.csv' % cik,
                     num_indents=num_indents+2)
-            new_cik_found = False
         else:
             # apparently the df.insert() function can only insert columns, now rows:
             # https://stackoverflow.com/questions/24284342/insert-a-row-to-pandas-dataframe
@@ -1366,7 +1497,6 @@ class SubmissionParser:
                 df[df.index < cik],
                 pd.DataFrame({qtr : np.nan for qtr in quarters}, index=[cik]),
                 df[df.index > cik]])
-            new_cik_found = True
             if verbose:
                 log.print('stock with CIK=%s didn\'t exist in stock_vs_quarter/variable_metrics.csv, inserted an empty row at index=%d' % (
                     cik, df[df.index < cik].shape[0]),
@@ -1374,13 +1504,14 @@ class SubmissionParser:
 
         # if quarter not in file, create an empty column for it in the right spot (quarters sorted numerically)
         # and add any in between quarters that might be missing
-        df, new_quarters_found = self.insert_missing_quarters(
+        df = self.insert_missing_quarters(
             df, q, quarters, 'stock_vs_quarter/variable_metrics.csv',
             verbose=verbose, num_indents=num_indents+2)
 
         # add the new values for the variable metrics
         v0 = df.at[cik, q]
-        v0 = 0 if pd.isnull(v0) else int(v0)
+        new_submission = pd.isnull(v0)
+        v0 = 0 if new_submission else int(v0)
         v = v0 + sum(variable_new_values_found.values())
         if verbose:
             log.print('old value at (CIK, quarter)=(%s, %s) equals %s' %(cik, q, v0),
@@ -1397,7 +1528,7 @@ class SubmissionParser:
                 num_indents=num_indents+2)
 
         # add the new values for the constant metrics
-        filepath = QUALITY_REPORT_PATHS.at['constant', 'stock_vs_quarter']
+        filepath = QUALITY_REPORT_PATHS['stock_vs_quarter']['constant']
         if not os.path.exists(filepath):
             with open(filepath, 'w') as f:
                 json.dump({}, f, indent=4)
@@ -1430,6 +1561,7 @@ class SubmissionParser:
             'constant' : len(constant_new_values_found.keys())
         }
         metadata_dct['number_of_metrics'] = metrics_metadata
+        metadata_dct['total_number_of_stocks'] += (1 if new_cik else 0)
         with open(METADATA_FILEPATH, 'w') as f:
             json.dump(metadata_dct, f, indent=4, sort_keys=True)
         if verbose:
@@ -1438,23 +1570,21 @@ class SubmissionParser:
             repo_metadata_filepath = METADATA_FILEPATH[METADATA_FILEPATH.index('value-investing-app'):]
             log.print('in file: %s' % repo_metadata_filepath, num_indents=num_indents+2)
 
-        if not verbose:
-            log.print('done')
-        return new_cik_found and new_quarters_found
+        if verbose:
+            log.print('done', num_indents=num_indents)
+        return new_submission
     def update_metric_vs_quarter_report(
         self,
         data,
         new_values_found,
-        new_submission_searched,
+        new_submission,
         verbose=False,
         num_indents=0,
         new_line_start=False):
 
-        log.print(
-            ('updating metric_vs_quarter data:' if verbose else \
-                'updating metric_vs_quarter data ... '),
-            num_indents=num_indents,
-            end=('\n' if verbose else ''))
+        if verbose:
+            log.print('updating metric_vs_quarter data:',
+                num_indents=num_indents)
 
         constant_new_values_found, variable_new_values_found = \
             self.split_constant_and_variable_metrics(new_values_found)
@@ -1462,10 +1592,10 @@ class SubmissionParser:
         # for each metric for each quarter we only tried to find it for a variable number of stocks
         # so to save this data we are going to create 2 columns for each quarter:
         # the 1st will be the number of stocks we found this metric for this quarter
-        #     with format: <year>q<quarter>-total_found, ex: "2021q3-total_found"
+        #     with format: <year>q<quarter>-found, ex: "2021q3-found"
         # the 2nd will be the number of stocks we searched for this metric on for this quarter
-        #     with format: <year>q<quarter>-total_searched, ex: "2021q3-total_searched"
-        filepath = QUALITY_REPORT_PATHS.at['variable', 'metric_vs_quarter']
+        #     with format: <year>q<quarter>-searched, ex: "2021q3-searched"
+        filepath = QUALITY_REPORT_PATHS['metric_vs_quarter']['variable']
         all_metrics = list(variable_new_values_found.keys())
         all_metrics.sort()
         if not os.path.exists(filepath):
@@ -1486,43 +1616,44 @@ class SubmissionParser:
 
         # if quarter not in file, create an empty column for it in the right spot (quarters sorted numerically)
         # and add any in between quarters that might be missing
-        df, _ = self.insert_missing_quarters(
-            df, q, quarters, 'metric_vs_quarter/variable_metrics.csv', qtr_found_searched=True,
-            verbose=verbose, num_indents=num_indents+1)
+        df = self.insert_missing_quarters(
+            df, q, quarters, 'metric_vs_quarter/variable_metrics.csv',
+            qtr_found_searched=True, verbose=verbose, num_indents=num_indents+2)
 
         # update the new variable values for each metric
         if verbose:
-            log.print('new_submission_searched = %s, so +%d for each \"total_searched\"' % (
-                    new_submission_searched,
-                    (1 if new_submission_searched else 0)),
+            log.print('new_submission = %s, so +%d for each \"searched\"' % (
+                    new_submission,
+                    (1 if new_submission else 0)),
                 num_indents=num_indents+2)
-            log.print('updates for quarter %s: (total_found, total_searched)' % q,
+            log.print('updates for quarter %s: (found, searched)' % q,
                 num_indents=num_indents+2)
         longest_key_len = max(map(lambda k : len(k), all_metrics))
         for m in all_metrics:
-            tf_before, ts_before = df.at[m, q+'-total_found'], df.at[m, q+'-total_searched']
-            df.at[m, q+'-total_found'] += variable_new_values_found[m]
-            df.at[m, q+'-total_searched'] += 1 if new_submission_searched else 0
-            tf_after, ts_after = df.at[m, q+'-total_found'], df.at[m, q+'-total_searched']
+            tf_before, ts_before = df.at[m, q+'-found'], df.at[m, q+'-searched']
+            df.at[m, q+'-found'] += variable_new_values_found[m]
+            df.at[m, q+'-searched'] += (1 if new_submission else 0)
+            tf_after, ts_after = df.at[m, q+'-found'], df.at[m, q+'-searched']
             if verbose:
-                log.print('%s %s updated from (%d, %d) to (%d, %d)' % (
-                    m, ' '*(longest_key_len - len(m)), tf_before, ts_before, tf_after, ts_after),
-                    num_indents=num_indents+3)
+                if tf_before == tf_after and ts_before == ts_after:
+                    log.print('%s %s kept at (%d, %d)' % (
+                        m, ' '*(longest_key_len - len(m)), tf_before, ts_before),
+                        num_indents=num_indents+3)
+                else:
+                    log.print('%s %s updated from (%d, %d) to (%d, %d)' % (
+                        m, ' '*(longest_key_len - len(m)), tf_before, ts_before, tf_after, ts_after),
+                        num_indents=num_indents+3)
         df.index.name = 'metric'
         df = df.astype(int)
         df.to_csv(filepath)
 
 
         # update the new values for the constant metrics
-        filepath = QUALITY_REPORT_PATHS.at['constant', 'metric_vs_quarter']
+        filepath = QUALITY_REPORT_PATHS['metric_vs_quarter']['constant']
         all_metrics = list(constant_new_values_found.keys())
         all_metrics.sort()
-        empty_template = {
-            'total_found'    : 0,
-            'total_searched' : 0
-        }
         if not os.path.exists(filepath):
-            empty_dct = {m : empty_template for m in all_metrics}
+            empty_dct = {m : 0 for m in all_metrics}
             with open(filepath, 'w') as f:
                 json.dump(empty_dct, f, indent=4)
         with open(filepath, 'r') as f:
@@ -1531,62 +1662,59 @@ class SubmissionParser:
             log.print('constant metrics', num_indents=num_indents+1)
             repo_filepath = filepath[filepath.index('value-investing-app'):]
             log.print('repo filepath: %s' % repo_filepath, num_indents=num_indents+2)
-            log.print('new_submission_searched = %s, so +%d for each \"total_searched\"' % (
-                new_submission_searched, (1 if new_submission_searched else 0)),
-                num_indents=num_indents+2)
             log.print('constant_new_values_found', num_indents=num_indents+2)
             log.print_dct(constant_new_values_found, num_indents=num_indents+3)
-            log.print('updates: (total_searched, total_found)',
-                num_indents=num_indents+2)
+            log.print('updates:', num_indents=num_indents+2)
         longest_key_len = max(map(lambda k : len(k), all_metrics))
-        for m, v in constant_new_values_found.items():
-            v0 = dct.get(m, empty_template)
-            tf_before, ts_before = dct[m]['total_found'], dct[m]['total_searched']
-            dct[m] = {
-                'total_found'    : v0['total_found'] + constant_new_values_found[m],
-                'total_searched' : v0['total_searched'] + (1 if new_submission_searched else 0)
-            }
-            tf_after, ts_after = dct[m]['total_found'], dct[m]['total_searched']
+        for m in all_metrics:
+            v0 = dct[m]
+            dct[m] += constant_new_values_found[m]
             if verbose:
-                log.print('%s %s updated from (%d, %d) to (%d, %d)' % (
-                    m, ' '*(longest_key_len - len(m)), tf_before, ts_before, tf_after, ts_after),
-                    num_indents=num_indents+3)
-
+                if v0 == dct[m]:
+                    log.print('%s %s kept at %d' % (
+                        m, ' '*(longest_key_len - len(m)), v0),
+                        num_indents=num_indents+3)
+                else:
+                    log.print('%s %s updated from %d to %d' % (
+                        m, ' '*(longest_key_len - len(m)), v0, dct[m]),
+                        num_indents=num_indents+3)
         with open(filepath, 'w') as f:
             json.dump(dct, f, indent=4, sort_keys=True)
 
-        if not verbose:
-            log.print('done')
+        if verbose:
+            log.print('done', num_indents=num_indents)
     def update_stock_vs_metric_report(
         self,
         data,
         new_values_found,
-        new_submission_searched,
+        new_submission,
         verbose=False,
         num_indents=0,
         new_line_start=False):
 
-        log.print(
-            ('updating stock_vs_metric data:' if verbose else \
-                'updating stock_vs_metric data ... '),
-            num_indents=num_indents,
-            end=('\n' if verbose else ''))
+        if verbose:
+            log.print('updating stock_vs_metric data:',
+                num_indents=num_indents)
+
+        constant_new_values_found, variable_new_values_found = \
+            self.split_constant_and_variable_metrics(new_values_found)
 
         # for each metric for each stock we only tried to find it for a variable number of quarters
         # so to save this data we are going to create 2 columns for each metric:
-        # the 1st will be the number of quarters we found this metric for this stock
-        #     with format: <metric_name>-total_found, ex: "total_assets-total_found"
-        # the 2nd will be the number of stocks we searched for this metric on for this quarter
-        #     with format: <metric_name>-total_searched, ex: "total_assets-total_searched"
-        filepath = os.path.join(QUALITY_REPORT_PATH, 'stock_vs_metric', 'all_metrics.csv')
+        # the 1st will be the number of quarters we found this metric
+        #     with format: <metric_name>-found, ex: "total_assets-found"
+        # the 2nd will be the number of quarters we searched for this metric
+        #     with format: <metric_name>-searched, ex: "total_assets-searched"
+        filepath = QUALITY_REPORT_PATHS['stock_vs_metric']['variable']
         if verbose:
+            log.print('variable metrics', num_indents=num_indents+1)
             repo_filepath = filepath[filepath.index('value-investing-app'):]
-            log.print('repo filepath: %s' % repo_filepath, num_indents=num_indents+1)
-        all_metrics = list(new_values_found.keys())
+            log.print('repo filepath: %s' % repo_filepath, num_indents=num_indents+2)
+        all_metrics = list(variable_new_values_found.keys())
         all_metrics.sort()
         columns = []
         for m in all_metrics:
-            columns += [m+'-total_found', m+'-total_searched']
+            columns += [m+'-found', m+'-searched']
         if not os.path.exists(filepath):
             with open(filepath, 'w') as f:
                 f.write(','.join(['cik']+columns)+'\n')
@@ -1596,8 +1724,8 @@ class SubmissionParser:
         cik = str(data['info']['cik'])
         if cik in stock_CIKs:
             if verbose:
-                log.print('stock with CIK=%s already exists in stock_vs_metric/all_metrics.csv' % \
-                    cik, num_indents=num_indents+1)
+                log.print('stock with CIK=%s already exists in stock_vs_metric/variable_metrics.csv' % \
+                    cik, num_indents=num_indents+2)
         else:
             # apparently the df.insert() function can only insert columns, now rows:
             # https://stackoverflow.com/questions/24284342/insert-a-row-to-pandas-dataframe
@@ -1607,35 +1735,93 @@ class SubmissionParser:
                 pd.DataFrame({c : 0 for c in columns}, index=[cik]),
                 df[df.index > cik]])
             if verbose:
-                log.print('stock with CIK=%s didn\'t exist in stock_vs_metric/all_metrics.csv, inserted an empty row at index=%d' % (
-                    cik, df[df.index < cik].shape[0]), num_indents=num_indents+1)
+                log.print('stock with CIK=%s didn\'t exist in stock_vs_metric/variable_metrics.csv, inserted an empty row at index=%d' % (
+                    cik, df[df.index < cik].shape[0]), num_indents=num_indents+2)
 
-        # update new values for each metric
+        # update new values for each variable metric
         if verbose:
-            log.print('new_submission_searched = %s, so +%d for each \"total_searched\"' % (
-                    new_submission_searched,
-                    (1 if new_submission_searched else 0)),
-                num_indents=num_indents+1)
-            log.print('new_values_found', num_indents=num_indents+1)
-            log.print_dct(new_values_found, num_indents=num_indents+2)
-            log.print('updates for stock cik=%s: (total_found, total_searched)' % cik,
-                num_indents=num_indents+1)
+            log.print('new_submission = %s, so +%d for each \"searched\"' % (
+                new_submission, (1 if new_submission else 0)),
+                num_indents=num_indents+2)
+            log.print('variable_new_values_found', num_indents=num_indents+2)
+            log.print_dct(variable_new_values_found, num_indents=num_indents+3)
+            log.print('updates for stock cik=%s: (found, searched)' % cik,
+                num_indents=num_indents+2)
         longest_key_len = max(map(lambda m : len(m), all_metrics))
         for m in all_metrics:
-            tf_before, ts_before = df.at[cik, m+'-total_found'], df.at[cik, m+'-total_searched']
-            df.at[cik, m+'-total_found'] += new_values_found[m]
-            df.at[cik, m+'-total_searched'] += 1
-            tf_after, ts_after = df.at[cik, m+'-total_found'], df.at[cik, m+'-total_searched']
+            tf_before, ts_before = df.at[cik, m+'-found'], df.at[cik, m+'-searched']
+            df.at[cik, m+'-found']    += variable_new_values_found[m]
+            df.at[cik, m+'-searched'] += (1 if new_submission else 0)
+            tf_after, ts_after = df.at[cik, m+'-found'], df.at[cik, m+'-searched']
             if verbose:
-                log.print('%s %s updated from (%d, %d) to (%d, %d)' % (
-                    m, ' '*(longest_key_len - len(m)), tf_before, ts_before, tf_after, ts_after),
-                    num_indents=num_indents+2)
+                if tf_before == tf_after and ts_before == ts_after:
+                    log.print('%s %s kept at (%d, %d)' % (
+                        m, ' '*(longest_key_len - len(m)), tf_before, ts_before),
+                        num_indents=num_indents+3)
+                else:
+                    log.print('%s %s updated from (%d, %d) to (%d, %d)' % (
+                        m, ' '*(longest_key_len - len(m)), tf_before, ts_before, tf_after, ts_after),
+                        num_indents=num_indents+3)
         df.index.name = 'cik'
         df = df.astype(int)
         df.to_csv(filepath)
 
-        if not verbose:
-            log.print('done')
+        # add the new values for the constant metrics
+        filepath = QUALITY_REPORT_PATHS['stock_vs_metric']['constant']
+        if verbose:
+            log.print('constant metrics', num_indents=num_indents+1)
+            repo_filepath = filepath[filepath.index('value-investing-app'):]
+            log.print('repo filepath: %s' % repo_filepath, num_indents=num_indents+2)
+        constant_new_values_found = copy.deepcopy(constant_new_values_found)
+        del constant_new_values_found['cik']
+        all_metrics = list(constant_new_values_found.keys())
+        all_metrics.sort()
+        columns = all_metrics
+        if not os.path.exists(filepath):
+            with open(filepath, 'w') as f:
+                f.write(','.join(['cik']+columns)+'\n')
+        df = pd.read_csv(filepath, index_col='cik')
+        df.index = df.index.astype(str)
+        stock_CIKs = df.index.values
+        cik = str(data['info']['cik'])
+        if cik in stock_CIKs:
+            if verbose:
+                log.print('stock with CIK=%s already exists in stock_vs_metric/constant_metrics.csv' % \
+                    cik, num_indents=num_indents+2)
+        else:
+            # apparently the df.insert() function can only insert columns, now rows:
+            # https://stackoverflow.com/questions/24284342/insert-a-row-to-pandas-dataframe
+            # so i used concat instead()
+            df = pd.concat([
+                df[df.index < cik],
+                pd.DataFrame({c : 0 for c in columns}, index=[cik]),
+                df[df.index > cik]])
+            if verbose:
+                log.print('stock with CIK=%s didn\'t exist in stock_vs_metric/constant_metrics.csv, inserted an empty row at index=%d' % (
+                    cik, df[df.index < cik].shape[0]), num_indents=num_indents+2)
+        if verbose:
+            log.print('constant_new_values_found', num_indents=num_indents+2)
+            log.print_dct(constant_new_values_found, num_indents=num_indents+3)
+            log.print('updates for stock cik=%s' % cik, num_indents=num_indents+2)
+        longest_key_len = max(map(lambda m : len(m), all_metrics))
+        for m in all_metrics:
+            v0 = df.at[cik, m]
+            df.at[cik, m] += constant_new_values_found[m]
+            if verbose:
+                if v0 == df.at[cik, m]:
+                    log.print('%s %s kept at %d' % (
+                        m, ' '*(longest_key_len - len(m)), v0),
+                        num_indents=num_indents+3)
+                else:
+                    log.print('%s %s updated from %d to %d' % (
+                        m, ' '*(longest_key_len - len(m)), v0, df.at[cik, m]),
+                        num_indents=num_indents+3)
+        df.index.name = 'cik'
+        df = df.astype(int)
+        df.to_csv(filepath)
+
+        if verbose:
+            log.print('done', num_indents=num_indents)
     def insert_missing_quarters(
         self,
         df, q, quarters, filepath,
@@ -1646,16 +1832,14 @@ class SubmissionParser:
 
         # if quarter not in file, create an empty column for it in the right spot (quarters sorted numerically)
         # and add any in between quarters that might be missing
-        new_quarters_found = False
+        new_quarters = []
         if q not in quarters:
-            new_quarters_found = True
             min_q = min(quarters) if len(quarters) > 0 else q
             max_q = max(quarters) if len(quarters) > 0 else q
             if q < min_q: min_q = q
             if q > max_q: max_q = q
             min_y, min_q = tuple(min_q.split('q'))
             max_y, max_q = tuple(max_q.split('q'))
-            new_quarters = []
             for yr in range(int(min_y), int(max_y)+1):
                 if yr == int(min_y) and yr == int(max_y):
                     start_q, end_q = int(min_q), int(max_q)
@@ -1670,9 +1854,9 @@ class SubmissionParser:
                     if new_qtr not in quarters:
                         new_quarters.append(new_qtr)
             if qtr_found_searched:
-                new_quarters_total_found    = list(map(lambda qtr : qtr+'-total_found',    new_quarters))
-                new_quarters_total_searched = list(map(lambda qtr : qtr+'-total_searched', new_quarters))
-                new_quarters_to_add = new_quarters_total_found + new_quarters_total_searched
+                new_quarters_found    = list(map(lambda qtr : qtr+'-found',    new_quarters))
+                new_quarters_searched = list(map(lambda qtr : qtr+'-searched', new_quarters))
+                new_quarters_to_add   = new_quarters_found + new_quarters_searched
             else:
                 new_quarters_to_add = new_quarters
             empty_columns = pd.DataFrame({col : [0 if qtr_found_searched else np.nan]*df.shape[0] \
@@ -1684,7 +1868,7 @@ class SubmissionParser:
                     len(new_quarters), filepath), num_indents=num_indents)
                 for qtr in new_quarters:
                     log.print(qtr, num_indents=num_indents+1)
-        return df, new_quarters_found
+        return df
     def split_constant_and_variable_metrics(
         self,
         new_values_found):
@@ -1692,63 +1876,10 @@ class SubmissionParser:
         constant_new_values_found = {k : v for k, v in new_values_found.items() if k not in DATA_COLUMNS['fundamentals']}
         variable_new_values_found = {k : v for k, v in new_values_found.items() if k in DATA_COLUMNS['fundamentals']}
         return constant_new_values_found, variable_new_values_found
-    '''
-    def num_metrics_aquired(
-        self,
-        data):
-        
-        value, all_metrics = 0, []
-        metrics_aquired = {}
-        for k, v in data['info'].items():
-            if k == 'industry_classification':
-                for classicification_name, classification_data in v.items():
-                    for k2, v2 in classification_data.items():
-                        metrics_aquired[classicification_name+'_'+k2] = 1 if v2 != None else 0
-            else:
-                metrics_aquired[k] = 1 if v != None else 0
 
-        for k, v in data['fundamentals'].items():
-            if k == 'sec_urls':
-                for k2, v2 in v.items():
-                    metrics_aquired[k+'_'+k2] = 1 if v2 != None else 0
-            else:
-                metrics_aquired[k] = 1 if v != None else 0
-        df = data['daily_price_data']
-        if (not isinstance(df, pd.DataFrame)) and df == None:
-            metrics_aquired['daily_price_data'] = 0
-        else:
-            quarter_startdate, quarter_enddate = get_quarter_date_range(
-                data['fundamentals']['year'], data['fundamentals']['quarter'])
-            df = df.loc[quarter_startdate:quarter_enddate]
-            metrics_aquired['daily_price_data'] = 0 if df.empty else 1
-        metrics_aquired['stock_split_history'] = 0 if (not isinstance(data['stock_split_history'], pd.DataFrame)) and data['stock_split_history'] == None else 1
-        metrics_aquired['dividend_per_share_history'] = 0 if (not isinstance(data['dividend_per_share_history'], pd.DataFrame)) and data['dividend_per_share_history'] == None else 1
-        return metrics_aquired    
-    def num_quarters_aquired(
-        self, data):
-        pass
-    '''
+
 
 if __name__ == '__main__':
-
-    # parse arguments
-    parser = argparse.ArgumentParser(description=DESCRIPTION)
-    parser.add_argument('-v', '--verbose',       action='store_true',   help='verbose logging')
-    parser.add_argument('-c', '--clear',         action='store_true',   help='clear database before collecting new data')
-    parser.add_argument('-l', '--lake',          action='store_true',   help='save the raw data downloaded to a data lake')
-    parser.add_argument('-r', '--replace',       action='store_true',   help='replace database\'s old values with new values if new value != null')
-    parser.add_argument('-d', '--download',      action='store_true',   help='download new raw data from online, else search for data locally (local search used for testing)')
-    parser.add_argument('-q', '--quarter-list',  default=[], nargs='*', help='list of quarters to parse, if not specified all new quarters will be parsed, syntax example 2021q1')
-    parser.add_argument('-t', '--ticker-list',   default=[], nargs='*', help='list of tickers to parse, if not specified all tickers will be parsed')
-    args = parser.parse_args()
-    for q in args.quarter_list:
-        if not re.match(r'^[0-9]{4}q[1-4]$', q):
-            log.print('invalid quarter in -q/--quarter-list arg: %s' % q)
-            sys.exit()
-    for t in args.ticker_list:
-        if not re.match(r'^[a-zA-Z]+$', t):
-            log.print('invalid ticker in -t/--ticker-list arg: %s' % t)
-            sys.exit()
 
     # clear old database and init new files and directories
     if args.clear:
@@ -1765,29 +1896,63 @@ if __name__ == '__main__':
         new_line_start=True)
     if len(data_paths) > 0:
 
-        # get industry and country codes, and tickers
+        # get mappings for sector/industry, country code, and ticker
         sic_codes_df     = get_standard_industrial_codes(download=args.download, verbose=False)#verbose=args.verbose)
         country_codes_df = get_state_and_country_codes(download=args.download)
         ticker_df        = get_ticker_list_from_sec(download=args.download)
 
         # iterate over each submission of each quarter, parse and save the data
+        # parse all 10-Qs then all 10-Ks
         log.print('parsing data for %d new quarter(s)' % len(data_paths),
             num_indents=0, new_line_start=True)
         sub_parser = SubmissionParser()
-        for i, path in enumerate(data_paths):
-            year, quarter = tuple(path.split('/')[-1].split('q'))
-            if args.quarter_list != []:
-                if '%sq%s' % (year, quarter) not in args.quarter_list:
-                    continue
-            log.print('quarter %d of %d: %s Q%s' % (
-                i+1, len(data_paths), year, quarter),
-                num_indents=1, new_line_start=args.verbose, end='')
-            sub_parser.parse_submissions(
-                path,
-                ticker_list=args.ticker_list,
-                replace=args.replace,
-                verbose=args.verbose,
-                num_indents=2)
+        last_sub_parsed = get_last_sub_parsed(args.last_sub)
+        for form_type in VALID_FORM_TYPES:
+            if last_sub_parsed != None and \
+                last_sub_parsed['form_type'] != None and \
+                last_sub_parsed['form_type'] == '10-K' and \
+                form_type == '10-Q': continue
+            for i, path in enumerate(data_paths):
+                qtr = path.split('/')[-1]
+                if last_sub_parsed != None and \
+                    last_sub_parsed['qtr'] != None and \
+                    qtr < last_sub_parsed['qtr']: continue
+                if args.quarter_list != []:
+                    if qtr not in args.quarter_list:
+                        continue
+                quarter_parsing_start_time = datetime.now()
+                log.print('quarter %d of %d: %s' % (
+                    i+1, len(data_paths), qtr),
+                    num_indents=1, new_line_start=True, end='')
+                sub_parser.parse_submissions(
+                    qtr,
+                    path,
+                    form_type,
+                    last_cik_parsed=(last_sub_parsed['cik'] \
+                        if last_sub_parsed != None and \
+                        qtr == last_sub_parsed['qtr'] else None),
+                    ticker_list=args.ticker_list,
+                    replace=args.replace,
+                    pause=args.pause,
+                    verbose=args.verbose,
+                    num_indents=2)
+                quarter_parsing_end_time = datetime.now()
+                duration = (quarter_parsing_end_time - quarter_parsing_start_time).total_seconds()
+                log.print('done parsing quarter, duration: %s minutes %.2f seconds' % \
+                    (int(duration // 60), duration % 60), num_indents=1)
+
+    # reset last_sub_parsed if we got through all the submissions
+    # so that next time this script runs it won't accidentally
+    # skip a bunch of submissions
+    with open(METADATA_FILEPATH, 'r') as f:
+        metadata_dct = json.load(f)
+    metadata_dct['last_sub_parsed'] = {
+        'qtr'       : None,
+        'cik'       : None,
+        'form_type' : None
+    }
+    with open(METADATA_FILEPATH, 'w') as f:
+        json.dump(metadata_dct, f, indent=4, sort_keys=True)
 
     # delete the tmp directory where any raw data was downloaded
     # else keep it as a data lake (if it doesn't take up that much storage)
@@ -1796,3 +1961,5 @@ if __name__ == '__main__':
         if os.path.exists(TMP_FILINGS_PATH):
             shutil.rmtree(TMP_FILINGS_PATH)
         os.mkdir(TMP_FILINGS_PATH)
+
+

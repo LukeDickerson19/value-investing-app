@@ -1,0 +1,201 @@
+
+downloading latest state and country codes
+    source: https://www.sec.gov/edgar/searchedgar/edgarstatecodes.htm
+done.
+
+downloading new quarter filing submission URL paths
+    115 quarter(s) previously downloaded from 1993-QTR1 to 2021-QTR3
+    downloading list of SEC filing submissions for 4 quarter(s) from Q1 2021 to the present quarter, Q1 2022
+    done.
+    parsed filing submission lists for:
+        2021-QTR4
+        2022-QTR1
+done, downloaded 2 new quarters
+
+iterating over the submissions of each new quarter
+    quarter 1 of 2: 2021-QTR4
+        company filing submission 1 of 446
+            form type: 10-K
+            
+            downloading filing submission
+                filing_details_url: https://www.sec.gov/Archives/edgar/data/1000230/0001437749-21-028951-index.html
+                full_xml_url:       https://www.sec.gov/Archives/edgar/data/1000230/000143774921028951/occ20211031_10k_htm.xml
+                full_html_url:      https://www.sec.gov/ix?doc=/Archives/edgar/data/1000230/000143774921028951/occ20211031_10k.htm
+                full_txt_url:       https://www.sec.gov/Archives//edgar/data/1000230/0001437749-21-028951.txt
+            done, downloaded XML filing
+            
+            parsing XML file for fundamental data
+                parsing of quarter SUCCEEDED
+                parsing of ticker SUCCEEDED
+                parsing of company_name SUCCEEDED
+                parsing of cik SUCCEEDED
+                parsing of shares_outstanding SUCCEEDED
+                parsing of net_income SUCCEEDED
+                parsing of total_assets SUCCEEDED
+                parsing of total_liabilities SUCCEEDED
+                parsing of dividend_per_share FAILED
+                parsing of dividends_paid FAILED
+                parsing of country SUCCEEDED
+                {
+                    "ticker": "OCC",
+                    "company_name": "OPTICAL CABLE CORPORATION",
+                    "cik": 1000230,
+                    "quarter": 4,
+                    "year": 2021,
+                    "shares_outstanding": 7897477,
+                    "net_income": 6610516,
+                    "total_assets": 37916530,
+                    "total_liabilities": 15710577,
+                    "dividend_per_share": 0.0,
+                    "dividends_paid": 0,
+                    "country": "UNITED STATES"
+                }
+            done
+        company filing submission 2 of 446
+            form type: 10-K
+            
+            downloading filing submission
+                filing_details_url: https://www.sec.gov/Archives/edgar/data/1001115/0001564590-21-057727-index.html
+                full_xml_url:       https://www.sec.gov/Archives/edgar/data/1001115/000156459021057727/geos-10k_20210930_htm.xml
+                full_html_url:      https://www.sec.gov/ix?doc=/Archives/edgar/data/1001115/000156459021057727/geos-10k_20210930.htm
+                full_txt_url:       https://www.sec.gov/Archives//edgar/data/1001115/0001564590-21-057727.txt
+            done, downloaded XML filing
+            
+            parsing XML file for fundamental data
+                parsing of quarter SUCCEEDED
+                parsing of ticker SUCCEEDED
+                parsing of company_name SUCCEEDED
+                parsing of cik SUCCEEDED
+                parsing of shares_outstanding SUCCEEDED
+                parsing of net_income SUCCEEDED
+                parsing of total_assets SUCCEEDED
+                parsing of total_liabilities SUCCEEDED
+                parsing of dividend_per_share FAILED
+                parsing of dividends_paid FAILED
+                parsing of country SUCCEEDED
+                {
+                    "ticker": "GEOS",
+                    "company_name": "GEOSPACE TECHNOLOGIES CORP",
+                    "cik": 1001115,
+                    "quarter": 3,
+                    "year": 2021,
+                    "shares_outstanding": 12969542,
+                    "net_income": -14056000,
+                    "total_assets": 163929000,
+                    "total_liabilities": 21472000,
+                    "dividend_per_share": 0.0,
+                    "dividends_paid": 0,
+                    "country": "UNITED STATES"
+                }
+            done
+        company filing submission 3 of 446
+            form type: 10-K
+            
+            downloading filing submission
+                filing_details_url: https://www.sec.gov/Archives/edgar/data/1001614/0001628280-21-025024-index.html
+                full_xml_url:       https://www.sec.gov/Archives/edgar/data/1001614/000162828021025024/rep-20210930_htm.xml
+                full_html_url:      https://www.sec.gov/ix?doc=/Archives/edgar/data/1001614/000162828021025024/rep-20210930.htm
+                full_txt_url:       https://www.sec.gov/Archives//edgar/data/1001614/0001628280-21-025024.txt
+            done, downloaded XML filing
+            
+            parsing XML file for fundamental data
+                parsing of quarter SUCCEEDED
+                parsing of ticker SUCCEEDED
+                parsing of company_name SUCCEEDED
+                parsing of cik SUCCEEDED
+                parsing of shares_outstanding SUCCEEDED
+                parsing of net_income SUCCEEDED
+                parsing of total_assets SUCCEEDED
+                parsing of total_liabilities SUCCEEDED
+                parsing of dividend_per_share FAILED
+                parsing of dividends_paid FAILED
+                parsing of country SUCCEEDED
+                {
+                    "ticker": "REPX",
+                    "company_name": "Riley Exploration Permian, Inc.",
+                    "cik": 1001614,
+                    "quarter": 3,
+                    "year": 2021,
+                    "shares_outstanding": 19672050,
+                    "net_income": -65666000,
+                    "total_assets": 388231000,
+                    "total_liabilities": 166541000,
+                    "dividend_per_share": 0.0,
+                    "dividends_paid": 0,
+                    "country": "UNITED STATES"
+                }
+            done
+        company filing submission 4 of 446
+            form type: 10-K
+            
+            downloading filing submission
+                filing_details_url: https://www.sec.gov/Archives/edgar/data/1002517/0001002517-21-000052-index.html
+                full_xml_url:       https://www.sec.gov/Archives/edgar/data/1002517/000100251721000052/nuan-20210930_htm.xml
+                full_html_url:      https://www.sec.gov/ix?doc=/Archives/edgar/data/1002517/000100251721000052/nuan-20210930.htm
+                full_txt_url:       https://www.sec.gov/Archives//edgar/data/1002517/0001002517-21-000052.txt
+            done, downloaded XML filing
+            
+            parsing XML file for fundamental data
+                parsing of quarter SUCCEEDED
+                parsing of ticker SUCCEEDED
+                parsing of company_name SUCCEEDED
+                parsing of cik SUCCEEDED
+                parsing of shares_outstanding SUCCEEDED
+                parsing of net_income SUCCEEDED
+                parsing of total_assets SUCCEEDED
+                parsing of total_liabilities SUCCEEDED
+                parsing of dividend_per_share FAILED
+                parsing of dividends_paid FAILED
+                parsing of country SUCCEEDED
+                {
+                    "ticker": "NUAN",
+                    "company_name": "NUANCE COMMUNICATIONS, INC.",
+                    "cik": 1002517,
+                    "quarter": 3,
+                    "year": 2021,
+                    "shares_outstanding": 315651000,
+                    "net_income": -26726000,
+                    "total_assets": 3386653000,
+                    "total_liabilities": 1706681000,
+                    "dividend_per_share": 0.0,
+                    "dividends_paid": 0,
+                    "country": "UNITED STATES"
+                }
+            done
+        company filing submission 5 of 446
+            form type: 10-K
+            
+            downloading filing submission
+                filing_details_url: https://www.sec.gov/Archives/edgar/data/1002590/0001564590-21-059752-index.html
+                full_xml_url:       https://www.sec.gov/Archives/edgar/data/1002590/000156459021059752/sgu-10k_20210930_htm.xml
+                full_html_url:      https://www.sec.gov/ix?doc=/Archives/edgar/data/1002590/000156459021059752/sgu-10k_20210930.htm
+                full_txt_url:       https://www.sec.gov/Archives//edgar/data/1002590/0001564590-21-059752.txt
+            done, downloaded XML filing
+            
+            parsing XML file for fundamental data
+                parsing of quarter SUCCEEDED
+                parsing of ticker SUCCEEDED
+                parsing of company_name SUCCEEDED
+                parsing of cik SUCCEEDED
+                parsing of shares_outstanding FAILED
+                parsing of net_income SUCCEEDED
+                parsing of total_assets SUCCEEDED
+                parsing of total_liabilities FAILED
+                parsing of dividend_per_share FAILED
+                parsing of dividends_paid SUCCEEDED
+                parsing of country SUCCEEDED
+                {
+                    "ticker": "SGU",
+                    "company_name": "STAR GROUP, L.P.",
+                    "cik": 1002590,
+                    "quarter": 3,
+                    "year": 2021,
+                    "shares_outstanding": null,
+                    "net_income": 87737000,
+                    "total_assets": 853863000,
+                    "total_liabilities": null,
+                    "dividend_per_share": 0.0,
+                    "dividends_paid": 23448000,
+                    "country": "UNITED STATES"
+                }
+            done

@@ -1,0 +1,773 @@
+
+getting new quarter data
+    found 3 quarters locally
+done
+
+getting SIC codes:
+    found SIC codes locally at:
+        value-investing-app/database/sec/financial_statements_data_sets/data/test_data/warehouse/sic_codes.csv
+done
+
+getting latest state and country codes
+    found state and country codes locally at:
+        value-investing-app/database/sec/financial_statements_data_sets/data/test_data/warehouse/state_and_country_codes.csv
+done
+
+getting ticker list from SEC
+    found ticker list locally at:
+        value-investing-app/database/sec/financial_statements_data_sets/data/test_data/warehouse/ticker_list.csv
+done
+
+parsing data for 3 new quarter(s)
+    
+    quarter 3 of 3: 2011q3, iterating over 1 10-Q submission(s)
+        
+        submission 1 of 1 for 2011q3:
+            form type ... 10-Q
+            ticker ...... ENTG
+            cik ......... 1101302
+            
+            parsing yahoo finance data:
+            done
+            
+            parsing SEC Financial Statements Data Sets data:
+            done
+            
+            data:
+                
+                info
+                    {
+                        "industry_classification": {
+                            "gics": {
+                                "sector": "Technology",
+                                "industry": "Semiconductor Equipment & Materials"
+                            },
+                            "sic": {
+                                "sic": "3089",
+                                "division": "Manufacturing",
+                                "major_group": "Rubber And Miscellaneous Plastics Products",
+                                "industry_group": "Plastics Products, Not Elsewhere Classified"
+                            }
+                        },
+                        "asset_type": "EQUITY",
+                        "description": "Entegris, Inc. develops, manufactures, and supplies microcontamination control products, specialty c...",
+                        "name": "Entegris, Inc.",
+                        "website": "https://www.entegris.com",
+                        "ex_dividend_date": "2021-10-26",
+                        "cik": "1101302",
+                        "ticker": "ENTG",
+                        "country": "UNITED STATES"
+                    }
+                
+                fundamentals
+                    {
+                        "sub_qtr_enddate": "2011-06-30",
+                        "quarter": "2",
+                        "year": "2011",
+                        "shares_outstanding": "134535000",
+                        "total_assets": "672266000",
+                        "total_liabilities": "132751000",
+                        "net_income": "32522000",
+                        "earnings_per_share": "0.2400",
+                        "dividends_paid": 0,
+                        "sec_urls": {
+                            "all_files": "http://www.sec.gov/Archives/edgar/data/1101302/000119312511202092/",
+                            "filing_details": "http://www.sec.gov/Archives/edgar/data/1101302/000119312511202092/0001193125-11-202092-index.html",
+                            "XML": "http://www.sec.gov/Archives/edgar/data/1101302/000119312511202092/entg-20110702.xml",
+                            "HTML": "http://www.sec.gov/ix?doc=/Archives/edgar/data/1101302/000119312511202092/d10q.htm",
+                            "TXT": "http://www.sec.gov/Archives/edgar/data/1101302/000119312511202092/0001193125-11-202092.txt"
+                        }
+                    }
+                
+                dividend_per_share_history
+                                Dividends
+                    Date                 
+                    2017-10-31       0.07
+                    2018-01-30       0.07
+                    2018-05-01       0.07
+                    ...               ...
+                    2021-01-26       0.08
+                    2021-04-27       0.08
+                    2021-07-27       0.08
+                
+                stock_split_history
+                    Empty DataFrame
+                    Columns: [Stock Splits]
+                    Index: []
+                
+                daily_price_data
+                                 Close    Volume
+                    Date                        
+                    2000-07-11   10.90  12890300
+                    2000-07-12   11.88   2817200
+                    2000-07-13   13.83   2680400
+                    ...            ...       ...
+                    2022-02-04  128.56   1468300
+                    2022-02-07  127.44   1304000
+                    2022-02-08  130.00   1216600
+            
+            saved data to:
+                value-investing-app/database/sec/financial_statements_data_sets/data/test_data/warehouse/stocks/1101302/info.json
+                    
+                    old_values
+                        {
+                            "asset_type": "EQUITY",
+                            "cik": "1101302",
+                            "country": "UNITED STATES",
+                            "description": "Entegris, Inc. develops, manufactures, and supplies microcontamination control products, specialty chemicals, and advanced materials handling solutions in North America, Taiwan, China, South Korea, Japan, Europe, and Southeast Asia. It operates in three segments: Specialty Chemicals and Engineered Materials (SCEM); Microcontamination Control (MC); and Advanced Materials Handling (AMH). The SCEM segment offers high-performance and high-purity process chemistries, gases, and materials, as well as delivery systems to support semiconductor and other advanced manufacturing processes. The MC segment provides solutions to filter and purify critical liquid chemistries and gases used in semiconductor manufacturing processes and other high-technology industries. The AMH segment develops solutions to monitor, protect, transport, and deliver critical liquid chemistries, wafers, and other substrates for application in the semiconductor, life sciences, and other high-technology industries. The company's customers include logic and memory semiconductor device manufacturers, semiconductor equipment makers, gas and chemical manufacturing companies, and wafer grower companies; and flat panel display equipment makers, panel manufacturers, and manufacturers of hard disk drive components and devices, as well as their related ecosystems. It also serves manufacturers and suppliers in the solar industries, electrical discharge machining customers, glass and glass container manufacturers, aerospace manufacturers, and manufacturers of biomedical implantation devices. Entegris, Inc. was founded in 1966 and is headquartered in Billerica, Massachusetts.",
+                            "ex_dividend_date": "2022-02-01",
+                            "industry_classification": {
+                                "gics": {
+                                    "industry": "Semiconductor Equipment & Materials",
+                                    "sector": "Technology"
+                                },
+                                "sic": {
+                                    "division": "Manufacturing",
+                                    "industry_group": "Plastics Products, Not Elsewhere Classified",
+                                    "major_group": "Rubber And Miscellaneous Plastics Products",
+                                    "sic": "3089"
+                                }
+                            },
+                            "name": "Entegris, Inc.",
+                            "ticker": "ENTG",
+                            "website": "https://www.entegris.com"
+                        }
+                    
+                    new_values
+                        {
+                            "asset_type": "EQUITY",
+                            "cik": "1101302",
+                            "country": "UNITED STATES",
+                            "description": "Entegris, Inc. develops, manufactures, and supplies microcontamination control products, specialty chemicals, and advanced materials handling solutions for manufacturing processes in the semiconductor and other high-technology industries in North America, Taiwan, South Korea, Japan, China, Europe, and Southeast Asia. It operates through three segments: Specialty Chemicals and Engineered Materials (SCEM); Microcontamination Control (MC); and Advanced Materials Handling (AMH). The SCEM segment offers high-performance and high-purity process chemistries, gases, and materials, as well as delivery systems to support semiconductor and other advanced manufacturing processes. The MC segment provides solutions to filter and purify critical liquid chemistries and gases used in semiconductor manufacturing processes and other high-technology industries. The AMH segment develops solutions to monitor, protect, transport, and deliver critical liquid chemistries, wafers, and other substrates for application in the semiconductor and other high-technology industries. The company's customers include semiconductor device manufacturers, semiconductor equipment makers, gas and chemical manufacturing companies, and wafer grower companies; and flat panel display equipment makers, panel manufacturers, and manufacturers of hard disk drive components and devices and their related ecosystems. It also serves manufacturers and suppliers in the solar and life science industries, electrical discharge machining customers, glass and glass container manufacturers, aerospace manufacturers, and manufacturers of biomedical implantation devices. The company was founded in 1966 and is headquartered in Billerica, Massachusetts.",
+                            "ex_dividend_date": "2021-10-26",
+                            "industry_classification": {
+                                "gics": {
+                                    "industry": "Semiconductor Equipment & Materials",
+                                    "sector": "Technology"
+                                },
+                                "sic": {
+                                    "division": "Manufacturing",
+                                    "industry_group": "Plastics Products, Not Elsewhere Classified",
+                                    "major_group": "Rubber And Miscellaneous Plastics Products",
+                                    "sic": "3089"
+                                }
+                            },
+                            "name": "Entegris, Inc.",
+                            "ticker": "ENTG",
+                            "website": "https://www.entegris.com"
+                        }
+                    
+                    key_map
+                        {
+                            "asset_type": [
+                                "asset_type"
+                            ],
+                            "cik": [
+                                "cik"
+                            ],
+                            "country": [
+                                "country"
+                            ],
+                            "description": [
+                                "description"
+                            ],
+                            "ex_dividend_date": [
+                                "ex_dividend_date"
+                            ],
+                            "industry_classification_gics_industry": [
+                                "industry_classification",
+                                "gics",
+                                "industry"
+                            ],
+                            "industry_classification_gics_sector": [
+                                "industry_classification",
+                                "gics",
+                                "sector"
+                            ],
+                            "industry_classification_sic_division": [
+                                "industry_classification",
+                                "sic",
+                                "division"
+                            ],
+                            "industry_classification_sic_industry_group": [
+                                "industry_classification",
+                                "sic",
+                                "industry_group"
+                            ],
+                            "industry_classification_sic_major_group": [
+                                "industry_classification",
+                                "sic",
+                                "major_group"
+                            ],
+                            "industry_classification_sic_sic": [
+                                "industry_classification",
+                                "sic",
+                                "sic"
+                            ],
+                            "name": [
+                                "name"
+                            ],
+                            "ticker": [
+                                "ticker"
+                            ],
+                            "website": [
+                                "website"
+                            ]
+                        }
+                    
+                    empty_info_template
+                        {
+                            "asset_type": null,
+                            "cik": null,
+                            "country": null,
+                            "description": null,
+                            "ex_dividend_date": null,
+                            "industry_classification": {
+                                "gics": {
+                                    "industry": null,
+                                    "sector": null
+                                },
+                                "sic": {
+                                    "division": null,
+                                    "industry_group": null,
+                                    "major_group": null,
+                                    "sic": null
+                                }
+                            },
+                            "name": null,
+                            "ticker": null,
+                            "website": null
+                        }
+                    
+                    new_values_found BEFORE update
+                        {
+                            "asset_type": 0,
+                            "cik": 0,
+                            "country": 0,
+                            "description": 0,
+                            "ex_dividend_date": 0,
+                            "industry_classification_gics_industry": 0,
+                            "industry_classification_gics_sector": 0,
+                            "industry_classification_sic_division": 0,
+                            "industry_classification_sic_industry_group": 0,
+                            "industry_classification_sic_major_group": 0,
+                            "industry_classification_sic_sic": 0,
+                            "name": 0,
+                            "ticker": 0,
+                            "website": 0
+                        }
+                    
+                    new_values_found AFTER update
+                        {
+                            "asset_type": 0,
+                            "cik": 0,
+                            "country": 0,
+                            "description": 0,
+                            "ex_dividend_date": 0,
+                            "industry_classification_gics_industry": 0,
+                            "industry_classification_gics_sector": 0,
+                            "industry_classification_sic_division": 0,
+                            "industry_classification_sic_industry_group": 0,
+                            "industry_classification_sic_major_group": 0,
+                            "industry_classification_sic_sic": 0,
+                            "name": 0,
+                            "ticker": 0,
+                            "website": 0
+                        }
+                    
+                    values_saved
+                        {
+                            "asset_type": "EQUITY",
+                            "cik": "1101302",
+                            "country": "UNITED STATES",
+                            "description": "Entegris, Inc. develops, manufactures, and supplies microcontamination control products, specialty chemicals, and advanced materials handling solutions for manufacturing processes in the semiconductor and other high-technology industries in North America, Taiwan, South Korea, Japan, China, Europe, and Southeast Asia. It operates through three segments: Specialty Chemicals and Engineered Materials (SCEM); Microcontamination Control (MC); and Advanced Materials Handling (AMH). The SCEM segment offers high-performance and high-purity process chemistries, gases, and materials, as well as delivery systems to support semiconductor and other advanced manufacturing processes. The MC segment provides solutions to filter and purify critical liquid chemistries and gases used in semiconductor manufacturing processes and other high-technology industries. The AMH segment develops solutions to monitor, protect, transport, and deliver critical liquid chemistries, wafers, and other substrates for application in the semiconductor and other high-technology industries. The company's customers include semiconductor device manufacturers, semiconductor equipment makers, gas and chemical manufacturing companies, and wafer grower companies; and flat panel display equipment makers, panel manufacturers, and manufacturers of hard disk drive components and devices and their related ecosystems. It also serves manufacturers and suppliers in the solar and life science industries, electrical discharge machining customers, glass and glass container manufacturers, aerospace manufacturers, and manufacturers of biomedical implantation devices. The company was founded in 1966 and is headquartered in Billerica, Massachusetts.",
+                            "ex_dividend_date": "2021-10-26",
+                            "industry_classification": {
+                                "gics": {
+                                    "industry": "Semiconductor Equipment & Materials",
+                                    "sector": "Technology"
+                                },
+                                "sic": {
+                                    "division": "Manufacturing",
+                                    "industry_group": "Plastics Products, Not Elsewhere Classified",
+                                    "major_group": "Rubber And Miscellaneous Plastics Products",
+                                    "sic": "3089"
+                                }
+                            },
+                            "name": "Entegris, Inc.",
+                            "ticker": "ENTG",
+                            "website": "https://www.entegris.com"
+                        }
+                value-investing-app/database/sec/financial_statements_data_sets/data/test_data/warehouse/stocks/1101302/fundamentals.csv
+                    
+                    old_df
+                                        quarter  year shares_outstanding  ...         sec_urls_XML        sec_urls_HTML         sec_urls_TXT
+                        sub_qtr_enddate                                   ...                                                               
+                        2011-06-30            2  2011          134535000  ...  http://www.sec.g...  http://www.sec.g...  http://www.sec.g...
+                    
+                    new fundamentals dct
+                        {
+                            "sub_qtr_enddate": "2011-06-30",
+                            "quarter": "2",
+                            "year": "2011",
+                            "shares_outstanding": "134535000",
+                            "total_assets": "672266000",
+                            "total_liabilities": "132751000",
+                            "net_income": "32522000",
+                            "earnings_per_share": "0.2400",
+                            "dividends_paid": 0,
+                            "sec_urls": {
+                                "all_files": "http://www.sec.gov/Archives/edgar/data/1101302/000119312511202092/",
+                                "filing_details": "http://www.sec.gov/Archives/edgar/data/1101302/000119312511202092/0001193125-11-202092-index.html",
+                                "XML": "http://www.sec.gov/Archives/edgar/data/1101302/000119312511202092/entg-20110702.xml",
+                                "HTML": "http://www.sec.gov/ix?doc=/Archives/edgar/data/1101302/000119312511202092/d10q.htm",
+                                "TXT": "http://www.sec.gov/Archives/edgar/data/1101302/000119312511202092/0001193125-11-202092.txt"
+                            }
+                        }
+                    
+                    new fundamentals df
+                                        quarter  year shares_outstanding  ...         sec_urls_XML        sec_urls_HTML         sec_urls_TXT
+                        sub_qtr_enddate                                   ...                                                               
+                        2011-06-30            2  2011          134535000  ...  http://www.sec.g...  http://www.sec.g...  http://www.sec.g...
+                    
+                    sub_qtr_enddate = 2011-06-30
+                    sub_qtr_enddate in old_df
+                    
+                    new_values_found
+                        {
+                            "industry_classification_gics_sector": 0,
+                            "industry_classification_gics_industry": 0,
+                            "industry_classification_sic_sic": 0,
+                            "industry_classification_sic_division": 0,
+                            "industry_classification_sic_major_group": 0,
+                            "industry_classification_sic_industry_group": 0,
+                            "asset_type": 0,
+                            "description": 0,
+                            "name": 0,
+                            "website": 0,
+                            "ex_dividend_date": 0,
+                            "cik": 0,
+                            "ticker": 0,
+                            "country": 0,
+                            "quarter": 0,
+                            "year": 0,
+                            "shares_outstanding": 0,
+                            "total_assets": 0,
+                            "total_liabilities": 0,
+                            "net_income": 0,
+                            "earnings_per_share": 0,
+                            "dividends_paid": 0,
+                            "sec_urls_all_files": 0,
+                            "sec_urls_filing_details": 0,
+                            "sec_urls_XML": 0,
+                            "sec_urls_HTML": 0,
+                            "sec_urls_TXT": 0
+                        }
+                    
+                    values_saved
+                                        quarter  year shares_outstanding  ...         sec_urls_XML        sec_urls_HTML         sec_urls_TXT
+                        sub_qtr_enddate                                   ...                                                               
+                        2011-06-30            2  2011          134535000  ...  http://www.sec.g...  http://www.sec.g...  http://www.sec.g...
+                value-investing-app/database/sec/financial_statements_data_sets/data/test_data/warehouse/stocks/1101302/dividend_per_share_history.csv
+                    
+                    old_df
+                                   Dividends
+                        Date                
+                        2017-10-31      0.07
+                        2018-01-30      0.07
+                        2018-05-01      0.07
+                        ...              ...
+                        2021-07-27      0.08
+                        2021-10-26      0.08
+                        2022-02-01       0.1
+                    
+                    new dataframe
+                                    Dividends
+                        Date                 
+                        2017-10-31       0.07
+                        2018-01-30       0.07
+                        2018-05-01       0.07
+                        ...               ...
+                        2021-01-26       0.08
+                        2021-04-27       0.08
+                        2021-07-27       0.08
+                    
+                    new_values_found
+                        {
+                            "industry_classification_gics_sector": 0,
+                            "industry_classification_gics_industry": 0,
+                            "industry_classification_sic_sic": 0,
+                            "industry_classification_sic_division": 0,
+                            "industry_classification_sic_major_group": 0,
+                            "industry_classification_sic_industry_group": 0,
+                            "asset_type": 0,
+                            "description": 0,
+                            "name": 0,
+                            "website": 0,
+                            "ex_dividend_date": 0,
+                            "cik": 0,
+                            "ticker": 0,
+                            "country": 0,
+                            "quarter": 0,
+                            "year": 0,
+                            "shares_outstanding": 0,
+                            "total_assets": 0,
+                            "total_liabilities": 0,
+                            "net_income": 0,
+                            "earnings_per_share": 0,
+                            "dividends_paid": 0,
+                            "sec_urls_all_files": 0,
+                            "sec_urls_filing_details": 0,
+                            "sec_urls_XML": 0,
+                            "sec_urls_HTML": 0,
+                            "sec_urls_TXT": 0,
+                            "dividend_per_share_history": 0
+                        }
+                    
+                    values_saved
+                                   Dividends
+                        Date                
+                        2017-10-31      0.07
+                        2018-01-30      0.07
+                        2018-05-01      0.07
+                        ...              ...
+                        2021-07-27      0.08
+                        2021-10-26      0.08
+                        2022-02-01       0.1
+                value-investing-app/database/sec/financial_statements_data_sets/data/test_data/warehouse/stocks/1101302/stock_split_history.csv
+                    
+                    old_df
+                        Empty DataFrame
+                        Columns: [Stock Splits]
+                        Index: []
+                    
+                    new dataframe
+                        Empty DataFrame
+                        Columns: [Stock Splits]
+                        Index: []
+                    
+                    new_values_found
+                        {
+                            "industry_classification_gics_sector": 0,
+                            "industry_classification_gics_industry": 0,
+                            "industry_classification_sic_sic": 0,
+                            "industry_classification_sic_division": 0,
+                            "industry_classification_sic_major_group": 0,
+                            "industry_classification_sic_industry_group": 0,
+                            "asset_type": 0,
+                            "description": 0,
+                            "name": 0,
+                            "website": 0,
+                            "ex_dividend_date": 0,
+                            "cik": 0,
+                            "ticker": 0,
+                            "country": 0,
+                            "quarter": 0,
+                            "year": 0,
+                            "shares_outstanding": 0,
+                            "total_assets": 0,
+                            "total_liabilities": 0,
+                            "net_income": 0,
+                            "earnings_per_share": 0,
+                            "dividends_paid": 0,
+                            "sec_urls_all_files": 0,
+                            "sec_urls_filing_details": 0,
+                            "sec_urls_XML": 0,
+                            "sec_urls_HTML": 0,
+                            "sec_urls_TXT": 0,
+                            "dividend_per_share_history": 0,
+                            "stock_split_history": 0
+                        }
+                    
+                    values_saved
+                        Empty DataFrame
+                        Columns: [Stock Splits]
+                        Index: []
+                value-investing-app/database/sec/financial_statements_data_sets/data/test_data/warehouse/stocks/1101302/daily_price_data.csv
+                    
+                    old_df
+                                     Close    Volume
+                        Date                        
+                        2000-07-11   10.89  12890300
+                        2000-07-12   11.86   2817200
+                        2000-07-13   13.81   2680400
+                        ...            ...       ...
+                        2022-02-04  128.56   1468300
+                        2022-02-07  127.44   1304000
+                        2022-02-08   130.0   1216600
+                    
+                    new dataframe
+                                     Close    Volume
+                        Date                        
+                        2000-07-11   10.90  12890300
+                        2000-07-12   11.88   2817200
+                        2000-07-13   13.83   2680400
+                        ...            ...       ...
+                        2022-02-04  128.56   1468300
+                        2022-02-07  127.44   1304000
+                        2022-02-08  130.00   1216600
+                    
+                    new_values_found
+                        {
+                            "industry_classification_gics_sector": 0,
+                            "industry_classification_gics_industry": 0,
+                            "industry_classification_sic_sic": 0,
+                            "industry_classification_sic_division": 0,
+                            "industry_classification_sic_major_group": 0,
+                            "industry_classification_sic_industry_group": 0,
+                            "asset_type": 0,
+                            "description": 0,
+                            "name": 0,
+                            "website": 0,
+                            "ex_dividend_date": 0,
+                            "cik": 0,
+                            "ticker": 0,
+                            "country": 0,
+                            "quarter": 0,
+                            "year": 0,
+                            "shares_outstanding": 0,
+                            "total_assets": 0,
+                            "total_liabilities": 0,
+                            "net_income": 0,
+                            "earnings_per_share": 0,
+                            "dividends_paid": 0,
+                            "sec_urls_all_files": 0,
+                            "sec_urls_filing_details": 0,
+                            "sec_urls_XML": 0,
+                            "sec_urls_HTML": 0,
+                            "sec_urls_TXT": 0,
+                            "dividend_per_share_history": 0,
+                            "stock_split_history": 0,
+                            "daily_price_data": 0
+                        }
+                    
+                    values_saved
+                                     Close    Volume
+                        Date                        
+                        2000-07-11    10.9  12890300
+                        2000-07-12   11.88   2817200
+                        2000-07-13   13.83   2680400
+                        ...            ...       ...
+                        2022-02-04  128.56   1468300
+                        2022-02-07  127.44   1304000
+                        2022-02-08   130.0   1216600
+            
+            updating data quality report:
+                updating price_data_stock_vs_day data:
+                    repo filepath: value-investing-app/database/sec/financial_statements_data_sets/data/test_data/quality_report/price_data_stock_vs_day/price_data_coverage.csv
+                    stock with CIK=1101302 already exists in price_data_stock_vs_day/price_data_coverage.csv
+                        start_date = 2000-07-11
+                        end_date   = 2022-02-08
+                done
+                updating stock_vs_quarter data:
+                    variable metrics:
+                        repo filepath: value-investing-app/database/sec/financial_statements_data_sets/data/test_data/quality_report/stock_vs_quarter/variable_metrics.csv
+                        variable_new_values_found
+                            {
+                                "quarter": 0,
+                                "year": 0,
+                                "shares_outstanding": 0,
+                                "total_assets": 0,
+                                "total_liabilities": 0,
+                                "net_income": 0,
+                                "earnings_per_share": 0,
+                                "dividends_paid": 0,
+                                "sec_urls_all_files": 0,
+                                "sec_urls_filing_details": 0,
+                                "sec_urls_XML": 0,
+                                "sec_urls_HTML": 0,
+                                "sec_urls_TXT": 0
+                            }
+                        stock with CIK=1101302 already exists in stock_vs_quarter/variable_metrics.csv
+                        old value at (CIK, quarter)=(1101302, 2011q2) equals 13
+                        sum of variable_new_values_found equals 0
+                        new value at (CIK, quarter)=(1101302, 2011q2) equals 13
+                    constant metrics
+                        repo filepath: value-investing-app/database/sec/financial_statements_data_sets/data/test_data/quality_report/stock_vs_quarter/constant_metrics.json
+                        constant_new_values_found
+                            {
+                                "industry_classification_gics_sector": 0,
+                                "industry_classification_gics_industry": 0,
+                                "industry_classification_sic_sic": 0,
+                                "industry_classification_sic_division": 0,
+                                "industry_classification_sic_major_group": 0,
+                                "industry_classification_sic_industry_group": 0,
+                                "asset_type": 0,
+                                "description": 0,
+                                "name": 0,
+                                "website": 0,
+                                "ex_dividend_date": 0,
+                                "cik": 0,
+                                "ticker": 0,
+                                "country": 0,
+                                "dividend_per_share_history": 0,
+                                "stock_split_history": 0,
+                                "daily_price_data": 0
+                            }
+                        cik=1101302 in old dct equals 16
+                        sum of constant_new_values_found equals 0
+                        new value at cik=1101302 equals 16
+                    set 'number_of_metrics' to:
+                        {
+                            "total": 30,
+                            "variable": 13,
+                            "constant": 17
+                        }
+                        in file: value-investing-app/database/sec/financial_statements_data_sets/data/test_data/warehouse/metadata.json
+                done
+                updating metric_vs_quarter data:
+                    variable metrics
+                        repo filepath: value-investing-app/database/sec/financial_statements_data_sets/data/test_data/quality_report/metric_vs_quarter/variable_metrics.csv
+                        variable_new_values_found
+                            {
+                                "quarter": 0,
+                                "year": 0,
+                                "shares_outstanding": 0,
+                                "total_assets": 0,
+                                "total_liabilities": 0,
+                                "net_income": 0,
+                                "earnings_per_share": 0,
+                                "dividends_paid": 0,
+                                "sec_urls_all_files": 0,
+                                "sec_urls_filing_details": 0,
+                                "sec_urls_XML": 0,
+                                "sec_urls_HTML": 0,
+                                "sec_urls_TXT": 0
+                            }
+                        new_submission = False, so +0 for each "searched"
+                        updates for quarter 2011q2: (found, searched)
+                            dividends_paid           kept at (1, 1)
+                            earnings_per_share       kept at (1, 1)
+                            net_income               kept at (1, 1)
+                            quarter                  kept at (1, 1)
+                            sec_urls_HTML            kept at (1, 1)
+                            sec_urls_TXT             kept at (1, 1)
+                            sec_urls_XML             kept at (1, 1)
+                            sec_urls_all_files       kept at (1, 1)
+                            sec_urls_filing_details  kept at (1, 1)
+                            shares_outstanding       kept at (1, 1)
+                            total_assets             kept at (1, 1)
+                            total_liabilities        kept at (1, 1)
+                            year                     kept at (1, 1)
+                    constant metrics
+                        repo filepath: value-investing-app/database/sec/financial_statements_data_sets/data/test_data/quality_report/metric_vs_quarter/constant_metrics.json
+                        constant_new_values_found
+                            {
+                                "industry_classification_gics_sector": 0,
+                                "industry_classification_gics_industry": 0,
+                                "industry_classification_sic_sic": 0,
+                                "industry_classification_sic_division": 0,
+                                "industry_classification_sic_major_group": 0,
+                                "industry_classification_sic_industry_group": 0,
+                                "asset_type": 0,
+                                "description": 0,
+                                "name": 0,
+                                "website": 0,
+                                "ex_dividend_date": 0,
+                                "cik": 0,
+                                "ticker": 0,
+                                "country": 0,
+                                "dividend_per_share_history": 0,
+                                "stock_split_history": 0,
+                                "daily_price_data": 0
+                            }
+                        updates:
+                            asset_type                                  kept at 1
+                            cik                                         kept at 1
+                            country                                     kept at 1
+                            daily_price_data                            kept at 1
+                            description                                 kept at 1
+                            dividend_per_share_history                  kept at 1
+                            ex_dividend_date                            kept at 1
+                            industry_classification_gics_industry       kept at 1
+                            industry_classification_gics_sector         kept at 1
+                            industry_classification_sic_division        kept at 1
+                            industry_classification_sic_industry_group  kept at 1
+                            industry_classification_sic_major_group     kept at 1
+                            industry_classification_sic_sic             kept at 1
+                            name                                        kept at 1
+                            stock_split_history                         kept at 0
+                            ticker                                      kept at 1
+                            website                                     kept at 1
+                done
+                updating stock_vs_metric data:
+                    variable metrics
+                        repo filepath: value-investing-app/database/sec/financial_statements_data_sets/data/test_data/quality_report/stock_vs_metric/variable_metrics.csv
+                        stock with CIK=1101302 already exists in stock_vs_metric/variable_metrics.csv
+                        new_submission = False, so +0 for each "searched"
+                        variable_new_values_found
+                            {
+                                "quarter": 0,
+                                "year": 0,
+                                "shares_outstanding": 0,
+                                "total_assets": 0,
+                                "total_liabilities": 0,
+                                "net_income": 0,
+                                "earnings_per_share": 0,
+                                "dividends_paid": 0,
+                                "sec_urls_all_files": 0,
+                                "sec_urls_filing_details": 0,
+                                "sec_urls_XML": 0,
+                                "sec_urls_HTML": 0,
+                                "sec_urls_TXT": 0
+                            }
+                        updates for stock cik=1101302: (found, searched)
+                            dividends_paid           kept at (1, 1)
+                            earnings_per_share       kept at (1, 1)
+                            net_income               kept at (1, 1)
+                            quarter                  kept at (1, 1)
+                            sec_urls_HTML            kept at (1, 1)
+                            sec_urls_TXT             kept at (1, 1)
+                            sec_urls_XML             kept at (1, 1)
+                            sec_urls_all_files       kept at (1, 1)
+                            sec_urls_filing_details  kept at (1, 1)
+                            shares_outstanding       kept at (1, 1)
+                            total_assets             kept at (1, 1)
+                            total_liabilities        kept at (1, 1)
+                            year                     kept at (1, 1)
+                    constant metrics
+                        repo filepath: value-investing-app/database/sec/financial_statements_data_sets/data/test_data/quality_report/stock_vs_metric/constant_metrics.csv
+                        stock with CIK=1101302 already exists in stock_vs_metric/constant_metrics.csv
+                        constant_new_values_found
+                            {
+                                "industry_classification_gics_sector": 0,
+                                "industry_classification_gics_industry": 0,
+                                "industry_classification_sic_sic": 0,
+                                "industry_classification_sic_division": 0,
+                                "industry_classification_sic_major_group": 0,
+                                "industry_classification_sic_industry_group": 0,
+                                "asset_type": 0,
+                                "description": 0,
+                                "name": 0,
+                                "website": 0,
+                                "ex_dividend_date": 0,
+                                "ticker": 0,
+                                "country": 0,
+                                "dividend_per_share_history": 0,
+                                "stock_split_history": 0,
+                                "daily_price_data": 0
+                            }
+                        updates for stock cik=1101302
+                            asset_type                                  kept at 1
+                            country                                     kept at 1
+                            daily_price_data                            kept at 1
+                            description                                 kept at 1
+                            dividend_per_share_history                  kept at 1
+                            ex_dividend_date                            kept at 1
+                            industry_classification_gics_industry       kept at 1
+                            industry_classification_gics_sector         kept at 1
+                            industry_classification_sic_division        kept at 1
+                            industry_classification_sic_industry_group  kept at 1
+                            industry_classification_sic_major_group     kept at 1
+                            industry_classification_sic_sic             kept at 1
+                            name                                        kept at 1
+                            stock_split_history                         kept at 0
+                            ticker                                      kept at 1
+                            website                                     kept at 1
+                done
+            done
+        done parsing submission, duration: 0 minutes 14.85 seconds
+    done parsing quarter, duration: 0 minutes 31.57 seconds
+    
+    quarter 3 of 3: 2011q3, iterating over 0 10-K submission(s)
+    done parsing quarter, duration: 0 minutes 3.85 seconds
