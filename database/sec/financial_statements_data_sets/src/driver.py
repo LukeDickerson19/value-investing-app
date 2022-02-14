@@ -476,7 +476,7 @@ class SubmissionParser:
             submission_parsing_end_time = datetime.now()
             duration = (submission_parsing_end_time - submission_parsing_start_time).total_seconds()
             set_last_sub_parsed(path.split('/')[-1], sub['cik'], self.form_type)
-            log.print('done parsing submission, duration: %s minutes %.2f seconds' % \
+            log.print('done parsing submission, duration: %s minutes, %.2f seconds' % \
                 (int(duration // 60), duration % 60), num_indents=num_indents)
 
             if pause:
@@ -1938,7 +1938,7 @@ if __name__ == '__main__':
                     num_indents=2)
                 quarter_parsing_end_time = datetime.now()
                 duration = (quarter_parsing_end_time - quarter_parsing_start_time).total_seconds()
-                log.print('done parsing quarter, duration: %s minutes %.2f seconds' % \
+                log.print('done parsing quarter, duration: %s minutes, %.2f seconds' % \
                     (int(duration // 60), duration % 60), num_indents=1)
 
     # reset last_sub_parsed if we got through all the submissions

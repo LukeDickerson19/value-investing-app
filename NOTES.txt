@@ -17,6 +17,15 @@ To Do:
 					https://algotrading101.com/learn/ib_insync-interactive-brokers-api-guide/#why-shouldn't-i-use-ib-insync
 					https://www.interactivebrokers.com/en/trading/ib-api.php
 
+					using IB Gateway instead of TWS to avoid daily automatic logout issue of TWS
+					https://www.reddit.com/r/algotrading/comments/mkthpv/ib_apis_pricing_and_some_questions/
+					https://stackify.dev/479228-interactive-brokers-api-trader-workstation-tws-vs-ib-gateway
+
+					IB Gateway:
+						download software and user guide here
+							https://www.interactivebrokers.com/en/index.php?f=5041
+
+
 				maybe i could just make that a separate script and run it on daily intervals with a separate cronjob from this script
 
 				this script would require a list of tickers to get the data for
@@ -48,6 +57,31 @@ To Do:
 				    THIS MIGHT NOT WORK!!!
 
 				      you need to verify that the SEC doesn't just update the list of companies that have submitted a filin when they submit it by downloading the new list each time and seeing if theres any new companies on it
+
+		make the log show
+			submission x of y (x/y %)"
+			where
+				y is the total number of submissions to parse until the end
+				x is an index of y
+
+				still show quarter and x2 of y2 for just the quarter
+					but in the ...
+
+		verify ISIGN has data:
+			got this error when collecting data:
+				|   |   submission 4 of 1674 for 2012q2:
+				|   |   |   form type ... 10-Q
+				|   |   |   ticker ...... ISIGN
+				|   |   |   cik ......... 727634
+				|   |   |   parsing yahoo finance data ... - ISIGN: No data found, symbol may be delisted
+				- ISIGN: No data found, symbol may be delisted
+				- ISIGN: No data found, symbol may be delisted
+				done
+				|   |   |   parsing SEC Financial Statements Data Sets data ... done
+				|   |   |   saving data ... done
+				|   |   |   updating data quality report ... done
+				|   |   done parsing submission, duration: 0 minutes, 5.87 seconds
+				|   |   
 
 		data quality reports
 			copy stock pup and simfin code into this repo
