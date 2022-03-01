@@ -4,59 +4,54 @@ To Do:
 
 	now:
 
-		set up IBKR API so i can:
-			invest programmatically, both real and paper trading
-			gather price data on daily intervals and 
-				this should be done with whatever exchange API i eventually connect to
-				that will still have to be done on daily intervals though, and needs to be setup regardless
+		fix the 10K data collection
 
-				interactive brokers
-					https://www.reddit.com/r/algotrading/comments/mkthpv/ib_apis_pricing_and_some_questions/
-					https://interactivebrokers.github.io/tws-api/initial_setup.html#enable_api
-					https://www.interactivebrokers.com/en/index.php?f=4969
-					https://algotrading101.com/learn/ib_insync-interactive-brokers-api-guide/#why-shouldn't-i-use-ib-insync
-					https://www.interactivebrokers.com/en/trading/ib-api.php
+		create a stratagy that ranks the stocks
+			and just manually invest in them for now
+			using ibkr lite
 
-					using IB Gateway instead of TWS to avoid daily automatic logout issue of TWS
-					https://www.reddit.com/r/algotrading/comments/mkthpv/ib_apis_pricing_and_some_questions/
-					https://stackify.dev/479228-interactive-brokers-api-trader-workstation-tws-vs-ib-gateway
+			to do:
+				find a better way to calculate price volitility
+					r-squared
+					https://www.statology.org/quadratic-regression-python/
 
-					IB Gateway:
-						download software and user guide here
-							https://www.interactivebrokers.com/en/index.php?f=5041
+					investopedia
+					https://www.investopedia.com/terms/v/volatility.asp
 
+				make the dividend and price data line up with one chart above the other and they have the same axis labels
 
-				maybe i could just make that a separate script and run it on daily intervals with a separate cronjob from this script
+					make the x axis the union of the 2 time spans
 
-				this script would require a list of tickers to get the data for
-					these tickers could either be ALL tickers or just the ones we got a submission for last quarter
-						i think i'll try ALL because i don't want to miss any. this also has the added bonus that a list doesn't have to be stored to track the currently trading tickers
-						this script is going to
-						for each CIK:
-							ticker = ...
-							date_of_last_known_price = pd.read_csv(os.path.join())
-							try to get data from last known price until now
-								from exchange (interactive brokers)
-								https://algotrading101.com/learn/interactive-brokers-python-api-native-guide/
-								delayed price data is free
-								"By default, users will receive free delayed market data for available exchanges."
-								- https://www.interactivebrokers.com/en/index.php?f=14193
-								"Delayed market data is on a time lag that is usually 10-20 minutes behind real-time"
-								- https://ibkr.info/article/2966
+					make dividend a bar chart
+						still with a linear line of best fit though
 
-			    compare the total number of tickers the exchange has to the number of tickers that submitted a filing this most recent quarter
-			    I want the exchange to provide trading stocks and via an API and with zero trading fee.
+				look at the average price where each time step is a sum of all the previous time steps
+				look at the average avariace on a trailing window
+				as the avg variance  at t / line of best fit at t grows, the trailing window to calculate the line of best fit decreases, and vice versa
 
-				create cronjob:
-				    on daily intervals:
-				      check to see if the SEC has released a new quarters company filings
-				        you can either:
-				          store all the filings (parsed for the relevant info)
-				          or store a variable in a file of the most recent quarter data has been gathered for
+		setup td ameritrade api
 
-				    THIS MIGHT NOT WORK!!!
+			if you create functions with logging
+				make it have its own separate logfile and add a line to the logfile for the following events:
+					bought x shares of y stock at p price per share for a total of z dollars
+					sold   x shares of y stock at p price per share for a total of z dollars
+					etc.
 
-				      you need to verify that the SEC doesn't just update the list of companies that have submitted a filin when they submit it by downloading the new list each time and seeing if theres any new companies on it
+			make the basic setup check the account's current portfolio state before starting
+
+			https://www.reddit.com/r/tdameritrade/comments/l9278r/how_to_enable_real_time_quotes/
+
+			consumer key: RVMQESPSGLDXNZKFLD2W7LC3ZJZYCY15
+			Callback URI: http://localhost
+
+			Alpaca or TD Ameritrade?
+			https://www.reddit.com/r/algotrading/comments/ltxuh2/alpaca_or_td_ameritrade/
+
+			Alpaca - stable enough for live trading?
+			https://www.reddit.com/r/algotrading/comments/jhdbew/alpaca_stable_enough_for_live_trading/
+
+			Should I use Alpaca or IBKR for API trading?
+			https://www.reddit.com/r/algotrading/comments/o9tb21/should_i_use_alpaca_or_ibkr_for_api_trading/
 
 		make the log show
 			submission x of y (x/y %)"
@@ -66,6 +61,12 @@ To Do:
 
 				still show quarter and x2 of y2 for just the quarter
 					but in the ...
+
+		create a function that calculates the number of stocks
+			in each country and stores it in a csv with columns:
+				country, number of stocks
+
+			too see if its all american stocks or other stocks too
 
 		verify ISIGN has data:
 			got this error when collecting data:
@@ -90,6 +91,9 @@ To Do:
 
 		step through the submissions and see what errors occur
 			then maybe throw a try/catch in parse_value_with_ddate() and collect the data on your raspi, after updating these notes
+
+			submission 94 of 1909 for 2013q4: at 9:56 am pst feb 21
+
 
 			ConnectionResetError: [Errno 104] Connection reset by peer
 
@@ -620,6 +624,7 @@ Design
 
 Possible Strategy Ideas:
 
+
 	Value Investing Strategy:
 
 		for each stock s:
@@ -693,6 +698,7 @@ Possible Strategy Ideas:
 					4 price to earnings ratio (on a 3rd axis)
 
 					color code the axes and the chart data to make it obvious which axis is for which lines on the plot
+
 
 	According to this interview with lyn alden (at 0:00:00) foreign stocks usually have a better dividend yield than US stocks.
 

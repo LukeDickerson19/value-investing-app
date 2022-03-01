@@ -10,6 +10,8 @@ CHART_NAMES = [
 	'Price Data Stock vs Day'
 ]
 
+
+
 def select_chart(
 	num_indents=0):
 
@@ -33,7 +35,6 @@ def select_chart(
 	log.print('Selected option %s: %s' % (user_input, CHART_NAMES[int(user_input) - 1]),
 		num_indents=num_indents)
 	return int(user_input)
-
 def plot_stock_vs_quarter(
 	verbose=False,
 	num_indents=0,

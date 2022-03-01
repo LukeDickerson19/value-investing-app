@@ -436,6 +436,10 @@ class SubmissionParser:
             log.print('form type ... %s' % self.form_type, num_indents=num_indents+1)
             log.print('ticker ...... %s' % self.ticker,    num_indents=num_indents+1)
             log.print('cik ......... %s' % sub['cik'],     num_indents=num_indents+1)
+            if pause:
+                input()
+            else:
+                time.sleep(5)
 
             data = {
                 'info'         : {
@@ -479,10 +483,6 @@ class SubmissionParser:
             log.print('done parsing submission, duration: %s minutes, %.2f seconds' % \
                 (int(duration // 60), duration % 60), num_indents=num_indents)
 
-            if pause:
-                input()
-            else:
-                time.sleep(5)
     def read_quarter_data(
         self,
         path,
@@ -513,7 +513,7 @@ class SubmissionParser:
             new_line_start=new_line_start,
             end=('\n' if verbose else ''))
         yf_company = yf.Ticker(self.ticker) if self.ticker != None else None
-        yf_info = self.parse_yf_info(yf_company) if yf_company != None else None
+        yf_info = self.parse_yf_info(yf_company, num_indents=num_indents+1) if yf_company != None else None
         if yf_info != None:
             data['info']['asset_type']                      = self.parse_yf_key(yf_info, 'quoteType')
             data['info']['description']                     = self.parse_yf_key(yf_info, 'longBusinessSummary')
@@ -604,48 +604,63 @@ class SubmissionParser:
             except Exception as e:
                 log.print(str(e), num_indents=num_indents)
                 time.sleep(60)
-        document_format_files_df, data_files_df = tuple(pd.read_html(response.text))
 
-        # get filing's XML url
+        found_tables = False
         try:
-            data_files_df = pd.read_html(response.text)[1]
-            xml_path = data_files_df[data_files_df['Description'].isin([
-                'XBRL INSTANCE FILE',
-                'XBRL INSTANCE DOCUMENT',
-                'EXTRACTED XBRL INSTANCE DOCUMENT'])]['Document'].iloc[0]
-            xml_url = all_files_url + xml_path
-        except:
-            xml_url = 'FAILED'
+            document_format_files_df, data_files_df = tuple(pd.read_html(response.text))
+            found_tables = True
+        except ValueError as e:
+            sec_urls = {
+                'all_files'      : all_files_url,
+                'filing_details' : filing_details_url,
+                'XML'            : None,
+                'HTML'           : None,
+                'TXT'            : None
+            }
 
-        # get filing's HTML url
-        try:
-            document_format_files_df = pd.read_html(response.text)[0]
-            html_path = document_format_files_df[document_format_files_df['Type'
-                ].isin(VALID_FORM_TYPES)]['Document'].iloc[0].split(' ')[0]
-            tagged_base_url = '/'.join([
-                '/'.join(all_files_url.split('/')[:3]),
-                'ix?doc=',
-                '/'.join(all_files_url.split('/')[3:])])
-            html_url = tagged_base_url + html_path
-        except:
-            html_url = 'FAILED'
+        if found_tables:
 
-        # get filing's TXT url
-        try:
-            document_format_files_df = pd.read_html(response.text)[0]
-            txt_path = document_format_files_df[document_format_files_df['Description'
-                ] == 'Complete submission text file']['Document'].iloc[0]
-            txt_url = all_files_url + txt_path
-        except:
-            txt_url = 'FAILED'
+            # get filing's XML url
+            try:
+                data_files_df = pd.read_html(response.text)[1]
+                xml_path = data_files_df[data_files_df['Description'].isin([
+                    'XBRL INSTANCE FILE',
+                    'XBRL INSTANCE DOCUMENT',
+                    'EXTRACTED XBRL INSTANCE DOCUMENT'])]['Document'].iloc[0]
+                xml_url = all_files_url + xml_path
+            except:
+                xml_url = None
 
-        sec_urls = {
-            'all_files'      : all_files_url,
-            'filing_details' : filing_details_url,
-            'XML'            : xml_url,
-            'HTML'           : html_url,
-            'TXT'            : txt_url
-        }
+            # get filing's HTML url
+            try:
+                document_format_files_df = pd.read_html(response.text)[0]
+                html_path = document_format_files_df[document_format_files_df['Type'
+                    ].isin(VALID_FORM_TYPES)]['Document'].iloc[0].split(' ')[0]
+                tagged_base_url = '/'.join([
+                    '/'.join(all_files_url.split('/')[:3]),
+                    'ix?doc=',
+                    '/'.join(all_files_url.split('/')[3:])])
+                html_url = tagged_base_url + html_path
+            except:
+                html_url = None
+
+            # get filing's TXT url
+            try:
+                document_format_files_df = pd.read_html(response.text)[0]
+                txt_path = document_format_files_df[document_format_files_df['Description'
+                    ] == 'Complete submission text file']['Document'].iloc[0]
+                txt_url = all_files_url + txt_path
+            except:
+                txt_url = None
+
+            sec_urls = {
+                'all_files'      : all_files_url,
+                'filing_details' : filing_details_url,
+                'XML'            : xml_url,
+                'HTML'           : html_url,
+                'TXT'            : txt_url
+            }
+
         if verbose:
             max_dots = max(map(lambda name : len(name), sec_urls.keys()))
             log.print('SEC URLs:',
@@ -688,12 +703,14 @@ class SubmissionParser:
         num_indents=0,
         new_line_start=False):
         while True:
+            log.print('parse_yf_info 1', num_indents=num_indents)
             try:
                 dct = yf_company.info
                 break
             except Exception as e:
                 log.print(str(e), num_indents=num_indents)
                 time.sleep(60)
+            log.print('parse_yf_info 2', num_indents=num_indents)
         return dct
     def parse_yf_dividend_per_share_history(
         self,
@@ -701,12 +718,14 @@ class SubmissionParser:
         num_indents=0,
         new_line_start=False):
         while True:
+            log.print('parse_yf_dividend_per_share_history 1', num_indents=num_indents)
             try:
                 df = yf_company.dividends
                 break
             except Exception as e:
                 log.print(str(e), num_indents=num_indents)
                 time.sleep(60)
+            log.print('parse_yf_dividend_per_share_history 2', num_indents=num_indents)
         return self.parse_yf_pandas(df)
     def parse_yf_stock_split_history(
         self,
@@ -714,12 +733,14 @@ class SubmissionParser:
         num_indents=0,
         new_line_start=False):
         while True:
+            log.print('parse_yf_stock_split_history 1', num_indents=num_indents)
             try:
                 df = yf_company.splits
                 break
             except Exception as e:
                 log.print(str(e), num_indents=num_indents)
                 time.sleep(60)
+            log.print('parse_yf_stock_split_history 2', num_indents=num_indents)
         return self.parse_yf_pandas(df, num_decimals=5)
     def parse_yf_daily_price_data(
         self,
@@ -727,12 +748,14 @@ class SubmissionParser:
         num_indents=0,
         new_line_start=False):
         while True:
+            log.print('parse_yf_daily_price_data 1', num_indents=num_indents)
             try:
                 df = yf_company.history(period='max')
                 break
             except Exception as e:
                 log.print(str(e), num_indents=num_indents)
                 time.sleep(60)
+            log.print('parse_yf_daily_price_data 2', num_indents=num_indents)
         return self.parse_yf_pandas(
             df, num_decimals=2,
             columns=['Close', 'Volume'])
