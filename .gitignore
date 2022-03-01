@@ -1,6 +1,7 @@
 
 
 database/sec/financial_statements_data_sets/data/*
+database/sec/financial_statements_data_sets/logs/*
 
 # ignore all pycache folder across the repo
 # https://stackoverflow.com/questions/56309100/how-to-ignore-the-same-name-directory-pycache-in-a-project
