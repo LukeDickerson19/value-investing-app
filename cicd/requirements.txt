@@ -1,5 +1,0 @@
-numpy
-pandas
-python-edgar
-bs4
-ib_insync

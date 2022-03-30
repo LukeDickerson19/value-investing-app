@@ -4,6 +4,196 @@ To Do:
 
 	now:
 
+		Implement a version of the dividend capture strategy
+			https://www.investopedia.com/articles/stocks/11/dividend-capture-strategy.asp
+
+			invest in dividend stocks with as much leverage as you can get
+				2x for interactive brokers
+				https://www.quora.com/What-is-the-overnight-margin-requirement-for-SPY-for-Interactive-Brokers-Is-it-50-requirement-or-25-requirement
+
+			then buy a put option thats on the money
+
+			only do this if:
+
+				the declared dividend per share times the number of shares of you're leveraged long position is greater than the cost of the put option plus the margin fees
+
+				the profit of the put option from if the stock goes down is equal to or outpaces the loss of the leveraged long position
+
+					side note: it would be amazing if the put (or multiple puts) outpaced the leveraged stock so that I would make EXTRA money if the stock went down
+
+				verify that your broker won't margin call you if the price goes down because your option's value is making up the difference
+
+					note: even if the broker does margin call you, you can still do the strategy you just have to exit both positions (possibly before the "Date of Record", and miss the dividend payment) at neither a profit nor a loss.
+
+			wtf is this?
+			https://www.quora.com/Is-it-common-practice-for-Interactive-Brokers-to-significantly-increase-overnight-margin-requirement-to-trade-against-and-screw-over-customers
+
+			this is interesting
+			https://www.reddit.com/r/qyldgang/comments/sxqnh6/is_there_a_strategy_for_chasing_various/
+
+			https://www.dividend.com/dividend-stocks-and-options/covered-put-dividend-capture-strategy/
+
+			https://www.daytrading.com/dividend-capture-strategy-options
+				had an idea reading this that you could also sell an out-of-the-money call option
+				its premium won't be as big as the put's but it will help decrease the put's cost
+				which will be useful for making the dividend profitable
+
+				this would require holding the stock until the expiration of both options, otherwise it could go down, you exit the put and the long shares, and then it goes up and you have to buy at the current price and sell them at the lower strike price
+
+			https://www.theoptionsguide.com/dividend-capture-using-covered-calls.aspx
+
+			Short Video - Covered Calls and Buy Writes in IBKR’s Trader Workstation
+			https://www.youtube.com/watch?v=UfJFusZg16E
+
+		so it seems that version wont work because the premium of the put option will often be greater than the dividend. 
+
+			I might be able to do a different version of the dividend capture stragety.
+
+				I need to create a 2nd account with IBKR. put half my money in the 1st account and half in the 2nd. 1 account will short the stock with 2x leverage and the other account with long the stock with 2x leverage. Since it's half the money and 2x leverage the long component will have 100% of the portfolio value long, and thus receiving the dividend. Since there is 0 price volitility the algo can jump between dividend stocks quickly (every 2 days, instead of every 2 weeks). There will be margin fees that the dividend will have to be larger than in order to profit, so that could still be a deal breaker until tested, but i have high hopes.
+
+				notes:
+					margin rates are 2.5% for ibkr lite (ibkr free version) and 
+					Requests to have an account upgraded from a 'Cash' type to 'Margin' type can be initiated by logging in to Client Portal and selecting the Settings and Account Settings sections and clicking the gear icon next to the words "Account Type" in the Configuration section.
+					https://www.google.com/search?q=ibkr+lite+margin+permission&sxsrf=APq-WBtnsqc1wgxcRDv2I1PT0w9WlzS-mw:1647551068212&source=lnms&sa=X&ved=2ahUKEwjk5K2Bhs72AhVJJ0QIHbsaDpYQ_AUoAHoECAEQAg&biw=1366&bih=618&dpr=1
+
+					it appears you can only go long on margin if you dont have the money to do it without margin
+
+					also the margin short position i took required that i sell a specific number of shares 
+
+					also the stock exchanges ibkr is connected to are only "open from Monday through Friday 9:30 a.m. to 4:00 p.m. Eastern time." according to:
+					https://www.google.com/search?q=stock+market+open+hours&oq=stock+market+open+hours&aqs=chrome..69i57j0i512l3j0i457i512j0i512l3j0i390l2.6448j0j7&sourceid=chrome&ie=UTF-8
+					so i need to make my trades between 6:30am and 1:00pm PST
+
+					im curious if margin fees are charged on weekend days too
+
+					What brokerage has the best margin rates?
+					https://www.reddit.com/r/wallstreetbets/comments/qac3bw/what_brokerage_has_the_best_margin_rates/
+
+					typical margin calculation
+						"The interest accrued each day is computed by multiplying the settled margin debit balance by the annual interest rate and dividing the result by 360."
+					https://support.tastyworks.com/support/solutions/articles/43000435345-how-do-i-calculate-margin-interest-
+
+					https://www.interactivebrokers.com/en/trading/margin-rates.php
+						"IBKR accrues interest on a daily basis and posts actual interest monthly on the third business day of the following month."
+
+					the margin fees posted here
+						https://www.interactivebrokers.co.uk/en/index.php?f=1595
+					are yearly according to the screenshot at
+						~/rooms/money/interactive_brokers/margin_interest_is_an_annual_percentage.png
+
+					create a linked account
+
+						make 2 linked accounts and put $100 in each of them
+
+						Create a New Linked Account
+						https://guides.interactivebrokers.com/am3/am/settings/createnewlinkedaccount.htm
+
+						ok so the link above is outdated and the clinet portal is different
+							the way to link an account as of March 22, 2022 is to:
+								log in to your current account
+								click the person icon in the top right
+								click settings
+								click "Open an Additional Account"
+								and then choose "Individual Account"
+								"Accounts marked "Add Link": Will create a new account that is automatically linked to your existing account. You will have two linked accounts."
+								the Individual Account is marked "Link New" which is close enough.
+
+					Transfer funds from your First Account to your 2 linked accounts
+
+						you can transfer funds between linked accounts!
+							this will be faster than using my bank as a middle step
+							this link doens't say how fast the transfer is and how much it costs though
+								NOTE: upon discovering how to tranfer money, the tranfer page says:
+									"Requests submitted during regular trading hours will transfer immediately. Requests submitted outside of regular trading hours will be processed the next business day."
+						https://guides.interactivebrokers.com/am/am/funding/transferringfundsinternally.htm
+
+						this page is also outdated, to transfer funds between linked accounts as of March 22, 2022:
+							log into your account that you want to transfer money FROM
+							go to "Transfer & Pay" then "Transfer Funds"
+							then click "Transfer Funds Between Accounts"
+							then select the account to transfer TO
+							then set the currency and the ammount to transfer
+
+						https://www.reddit.com/r/interactivebrokers/comments/kogjpr/how_to_transfer_funds_accross_internal_ib_accounts/
+
+						https://www.interactivebrokers.com/en/?f=%2Fen%2Fgeneral%2Feducation%2Fhdi_Deposit_Withdraw_Transfer.php
+
+						https://guides.interactivebrokers.com/cp/cp.htm#am/funding/transferringfundsinternally.htm
+
+					to avoid liquidity issues when the portfolio value gets too big, what if for each trade you placed a limit order for the short side, and then you bought that same order with the long side, and then place the sell order when exitting the long side, then buy it back with the short side.
+
+					so i need to have at minimum $2k in each long and short account in order to buy short on margin. for some reason the available cash to tranfer is only some of the money in my IBKR Main Account even though all the capital in that account in cash. So I was able to transfer $2500 into my Short Account and $500 into my long account. I bought 20 shares of BCH (Banko de Chile) on 2022-03-23 in my Long Account and shorted 20 shares in my Short Account. This stock's ex-dividend date is 2022-03-24, and it's pay date is 2022-04-07. Margin fees will be charged on April 3rd. Will the dividend profits outweigh the margin fee's and slight losses from trading? investing.com says their dividend is $0.85 per share. IB says its $1.33 per share though. Even if its $0.85 that should beat the losses. *fingers crossed*
+
+						so I called IBKR Support Center and they said:
+							(paraphrased) "funds deposited via ACH cannot be internally tranfered until 44 business days after the deposite."
+
+							for me more funds will be on March 28th
+								see deposite history for more dates
+
+							https://www.reddit.com/r/interactivebrokers/comments/o9pml5/transfer_funds_internal_transfer_44_day/
+
+		so this isn't going to work because:
+		"If an investor is short a stock on the record date, they are not entitled to the dividend. In fact, the investor is instead responsible for paying the dividend owed to the lender of the shorted stock that they borrowed."
+			- https://www.investopedia.com/ask/answers/042215/if-investor-short-dividendpaying-stock-record-date-are-they-entitled-dividend.asp
+
+		so my next options are:
+
+			to try to do the dividend capture strategy just going long without margin (or with 2x margin)
+			and holding for a longer period of time
+				maybe i could incorporate selling covered calls with this too
+				since the calls will have about a 2 week duration
+				i was originally thinking calls out of the money, but this guy is doing in the money
+				https://www.theoptionsguide.com/dividend-capture-using-covered-calls.aspx
+
+				this also looks very interesting
+				https://www.theoptionsguide.com/dividend-arbitrage.aspx
+
+			try to find correlated asset(s) without a dividend
+
+			try to use options to simulate going short without actually going short (aka "synthetic short")
+				buy an ATM put and sell an ATM call
+				https://www.optionsplaybook.com/option-strategies/synthetic-short-stock/
+
+				so i did this with ticker AHH on March 28
+					bought 100 shares
+					sold 1 call
+					bought 1 put
+					its ex-date is March 29
+					its payout-date is April 7
+					and its next dividend is $0.17 per share
+					source: https://www.dividendinvestor.com/dividend-history-detail/ahh/
+
+					according to the P/L chart on IBKR the net value of the premiums and other fees was -$5
+					so if the dividend is $17 for 100 shares then i should make $12
+					right before this trade my account had $13249.60
+					right after  this trade my account has $13227.87
+					a difference of $21.73
+						WTF! it should have been $5
+						Daily P/L is -$24?
+
+					so i found that the way to get a list of all profits and losses is to go to:
+						IBKR Client > Reports > Statements >Realized Summary
+						set the "Period" to "Custom Date Range"
+						and set the start date to before you created the account (beginning of 2022)
+						and after you Run the report, click on the
+							"Realized & Unrealized Report Summary"
+
+					/home/luke/rooms/money/interactive_brokers/Jts/tws/Jts/kkfok.../executions.txt
+
+			try to time the shorts and enter before ex-dividend-date,
+			and exist before record-date (to avoid negative dividend)
+
+				maybe you could do this with 4x leverage (or 2x for when you don't day trade)
+				one multiple stocks
+
+				so from my research stocks rise the day before the ex-date and fall the day after the record-date
+
+				so maybe instead of shorting after the ex-date and trying to avoid paying the dividend myself, i could just go long 2 days before the ex-date instead of 1, and exit at the end of the day before the ex-date, and profit on average? i feel like this strategy would be better if i had stock price data for many stocks and I did a study to see the average and std_dev price percent change multiple days before, on, and after the ex-date and the record-date. If it showed predictable increases/decreases where ppl claim, then i could do this strategy.
+
+				on ibkr you get 3 day trades every 5 days
+				you could also probably just sell the next morning
+				https://www.reddit.com/r/interactivebrokers/comments/p8csaa/understand_pdt_rule/
+
 		fix the 10K data collection
 
 		create a stratagy that ranks the stocks
@@ -109,6 +299,73 @@ To Do:
 						i ended up using a "except Exception" for all of exception types
 						because listing the ConnectionResetError and the ConnectionError
 						in a tuple wasn't working for some unknown reason
+
+							this isn't working, it's still hanging at this point occationally
+							i think it's hanging on the line:
+								dct = yf_company.info
+
+								i need to find a way to stop running this code if its been over 1 minute or something, and maybe try it 3 times a minute each and if it fails then give up... or terminate the program. maybe use multi threading?
+
+								here's the log where it stopped (i terminated it with Ctrl+C)
+									it never printed "parse_yf_info 2"
+
+									|   |   submission 469 of 1320 for 2015q2:
+									|   |   |   form type ... 10-Q
+									|   |   |   ticker ...... SSP
+									|   |   |   cik ......... 832428
+									|   |   |   
+									|   |   |   parsing yahoo finance data:
+									|   |   |   |   parse_yf_info 1
+									^CTraceback (most recent call last):
+									  File "/home/luke/rooms/money/stocks/value-investing-app/database/sec/financial_statements_data_sets/src/driver.py", line 1950, in <module>
+									    sub_parser.parse_submissions(
+									  File "/home/luke/rooms/money/stocks/value-investing-app/database/sec/financial_statements_data_sets/src/driver.py", line 450, in parse_submissions
+									    data = self.get_data_from_yahoo_finance(
+									  File "/home/luke/rooms/money/stocks/value-investing-app/database/sec/financial_statements_data_sets/src/driver.py", line 516, in get_data_from_yahoo_finance
+									    yf_info = self.parse_yf_info(yf_company, num_indents=num_indents+1) if yf_company != None else None
+									  File "/home/luke/rooms/money/stocks/value-investing-app/database/sec/financial_statements_data_sets/src/driver.py", line 708, in parse_yf_info
+									    dct = yf_company.info
+									  File "/home/luke/.local/lib/python3.10/site-packages/yfinance/ticker.py", line 147, in info
+									    return self.get_info()
+									  File "/home/luke/.local/lib/python3.10/site-packages/yfinance/base.py", line 637, in get_info
+									    self._get_fundamentals(proxy=proxy)
+									  File "/home/luke/.local/lib/python3.10/site-packages/yfinance/base.py", line 352, in _get_fundamentals
+									    data = utils.get_json(ticker_url, proxy, self.session)
+									  File "/home/luke/.local/lib/python3.10/site-packages/yfinance/utils.py", line 99, in get_json
+									    html = session.get(url=url, proxies=proxy, headers=user_agent_headers).text
+									  File "/usr/lib/python3.10/site-packages/requests/api.py", line 75, in get
+									    return request('get', url, params=params, **kwargs)
+									  File "/usr/lib/python3.10/site-packages/requests/api.py", line 61, in request
+									    return session.request(method=method, url=url, **kwargs)
+									  File "/usr/lib/python3.10/site-packages/requests/sessions.py", line 542, in request
+									    resp = self.send(prep, **send_kwargs)
+									  File "/usr/lib/python3.10/site-packages/requests/sessions.py", line 697, in send
+									    r.content
+									  File "/usr/lib/python3.10/site-packages/requests/models.py", line 836, in content
+									    self._content = b''.join(self.iter_content(CONTENT_CHUNK_SIZE)) or b''
+									  File "/usr/lib/python3.10/site-packages/requests/models.py", line 758, in generate
+									    for chunk in self.raw.stream(chunk_size, decode_content=True):
+									  File "/usr/lib/python3.10/site-packages/urllib3/response.py", line 575, in stream
+									    for line in self.read_chunked(amt, decode_content=decode_content):
+									  File "/usr/lib/python3.10/site-packages/urllib3/response.py", line 770, in read_chunked
+									    chunk = self._handle_chunk(amt)
+									  File "/usr/lib/python3.10/site-packages/urllib3/response.py", line 714, in _handle_chunk
+									    value = self._fp._safe_read(amt)
+									  File "/usr/lib/python3.10/http/client.py", line 630, in _safe_read
+									    data = self.fp.read(amt)
+									  File "/usr/lib/python3.10/socket.py", line 705, in readinto
+									    return self._sock.recv_into(b)
+									  File "/usr/lib/python3.10/ssl.py", line 1273, in recv_into
+									    return self.read(nbytes, buffer)
+									  File "/usr/lib/python3.10/ssl.py", line 1129, in read
+									    return self._sslobj.read(len, buffer)
+									KeyboardInterrupt
+
+									[luke@luke src]$ 
+									[luke@luke src]$ 
+									[luke@luke src]$ 
+									[luke@luke src]$ 
+
 
 					2) grab data in bulk
 						self.num_tickers_to_query_yahoo_finance = 100 # or some big number
@@ -1463,6 +1720,7 @@ Exchanges:
 		sells your order flow?: Yes
 			"Interactive Brokers makes money off its order flow"
 				- https://www.stockbrokers.com/review/interactivebrokers
+			https://www.reddit.com/r/interactivebrokers/comments/kw34ob/i_really_need_some_help_picking_ibkr_lite_vs_pro/
 		has margin trading: yes
 		margin fee:
 			https://www.stockbrokers.com/review/interactivebrokers/fees-features
@@ -1514,6 +1772,114 @@ Exchanges:
 	other sources:
 		https://www.stockbrokers.com/guides/free-stock-trading
 		https://www.reddit.com/r/algotrading/comments/g5u88q/what_is_the_best_free_stock_trading_api/
+
+
+Sources:
+
+	iso codes, these are different codes than what the 10-Q uses
+	https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes
+
+	SEC data
+
+		SEC Form 10-Q Definition
+		https://www.investopedia.com/terms/1/10q.asp
+
+		EDGAR
+
+			EDGAR Company Filings | CIK Lookup
+			https://www.sec.gov/edgar/searchedgar/cik.htm
+				example:
+					AAPL: CIK=320193
+					https://www.sec.gov/edgar/browse/?CIK=320193
+
+			EDGAR Company Search
+				Search by: Name, Ticker, or CIK
+			https://www.sec.gov/edgar/searchedgar/companysearch.html
+
+			Accessing EDGAR Data
+			https://www.sec.gov/os/accessing-edgar-data
+
+			EDGAR API Docs
+			https://www.sec.gov/edgar/sec-api-documentation
+
+			SEC Developer Resources
+			https://www.sec.gov/developer
+
+			Example of what my code downloads
+				https://www.sec.gov/Archives/edgar/data/1326801/0001326801-19-000069-index.html
+				https://www.sec.gov/Archives/edgar/data/1326801/000132680119000069/fb-09302019x10q.htm#s86440F9012665AA1B578CBCDC37CB566
+
+			public companies must submit a report in 40 days
+				"
+				a. 40 days after the end of the fscal quarter for large accelerated flers and accelerated flers (as defned in 17 CFR § 240.12b2) ;and
+				b. 45 days after the end of the fscal quarter for all other registrants.
+				"
+					- https://sec.report/Form/10-Q				
+
+		libraries:
+
+			https://medium.com/@jan_5421/sec-edgar-api-2-b2cfb82c1d9e
+
+			pysec
+				pulls the forms from the SEC website and parses them for 50 fundamental variables
+			https://github.com/lukerosiak/pysec
+
+			django-sec
+				does the same thing as pysec but more fleshed out
+			https://github.com/chrisspen/django-sec
+
+			ScraXBRL
+				SEC Edgar Scraper and XBRL Parser/Renderer
+			https://github.com/tooksoi/ScraXBRL
+
+			Accessing EDGAR Data
+			https://www.sec.gov/edgar/searchedgar/accessing-edgar-data.htm
+
+			Parsing SEC Documents
+			https://github.com/areed1192/sigma_coding_youtube/blob/master/python/python-finance/sec-web-scraping/Web%20Scraping%20SEC%20-%20Parsing%20SEC%20Documents%20-%20New%20Filings.ipynb
+
+			financial_fundamentals 
+			https://github.com/andrewkittredge/financial_fundamentals
+
+	dividend aristocrats list
+
+		The S&P 500 Dividend Aristocrat index was launched by Standard and Poors in May 2005
+		A stock must be a member of the S&P 500
+		A stock must have increased their dividend payment for at least the past 25 consecutive years.
+
+		click here to see the stocks on the list:
+	https://en.wikipedia.org/wiki/S%26P_500_Dividend_Aristocrats
+
+	This is the Fastest Possible Way to Live Off Dividends
+		Covered Call
+			description
+				sell out of the money covered calls and make a profit on the premiums
+			example tickers:
+				qyld, 11.78%, volitile and steady decline over time
+					it still has a good dividend and if you did rebalancing then when this falls
+					you would buy more and as it grows you would sell parts of it
+		BDC (Business Development Companies)
+			description:
+				a BDC invests in small to medium sized businesses and when these businesses make a profit they are required to give back a negociated percent of their profits to the BDC and the BDC is required by law to give 90% of the money to its shareholders, most of them pay quarterly dividends.
+			example tickers:
+				arcc, 8.38% dividend, price is volitile but not shrinking over time and is generally flat
+				newt stock, 7.03% dividend, price is volitile but not shrinking over time and is generally flat
+	https://www.youtube.com/watch?v=6GgZo5OjDpE
+
+	best site for viewing dividend history
+	https://seekingalpha.com/
+
+	python lib to parse XML:
+		ended up using beautiful soup because it was way easier than the library called XML
+			https://www.geeksforgeeks.org/parsing-tables-and-xml-with-beautifulsoup/
+			http://www2.hawaii.edu/~takebaya/cent110/xml_parse/xml_parse.html
+			https://www.crummy.com/software/BeautifulSoup/bs4/doc/
+		this is the xml library though
+			https://www.reddit.com/r/learnpython/comments/6zagt6/is_there_a_python_xml_parser_that_doesnt_suck_ass/
+			https://docs.python.org/3/library/xml.etree.elementtree.html
+
+	https://www.youtube.com/watch?v=Wi9PPoS9cxI
+	https://www.youtube.com/watch?v=KDVH9eDF5QA
 
 
 Preston Pysh's Value Investing Notes:
@@ -1915,111 +2281,25 @@ Preston Pysh's Value Investing Notes:
 		why does a stocks price equalize in the long term to its company's true value in society?
 
 
-Sources:
+Manual Company Research:
 
-	iso codes, these are different codes than what the 10-Q uses
-	https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes
+	Companies:
 
-	SEC data
+		Yes:
 
-		SEC Form 10-Q Definition
-		https://www.investopedia.com/terms/1/10q.asp
+		No:
 
-		EDGAR
+		Maybe:
 
-			EDGAR Company Filings | CIK Lookup
-			https://www.sec.gov/edgar/searchedgar/cik.htm
-				example:
-					AAPL: CIK=320193
-					https://www.sec.gov/edgar/browse/?CIK=320193
+			IEP
+				MLP - master limited partnership
+					K1 tax form ... very complicated ... deal breaker?
+				14.6 %
+				steady-ish price growth
+				unsteady dividend growth
 
-			EDGAR Company Search
-				Search by: Name, Ticker, or CIK
-			https://www.sec.gov/edgar/searchedgar/companysearch.html
+	Sources:
 
-			Accessing EDGAR Data
-			https://www.sec.gov/os/accessing-edgar-data
-
-			EDGAR API Docs
-			https://www.sec.gov/edgar/sec-api-documentation
-
-			SEC Developer Resources
-			https://www.sec.gov/developer
-
-			Example of what my code downloads
-				https://www.sec.gov/Archives/edgar/data/1326801/0001326801-19-000069-index.html
-				https://www.sec.gov/Archives/edgar/data/1326801/000132680119000069/fb-09302019x10q.htm#s86440F9012665AA1B578CBCDC37CB566
-
-			public companies must submit a report in 40 days
-				"
-				a. 40 days after the end of the fscal quarter for large accelerated flers and accelerated flers (as defned in 17 CFR § 240.12b2) ;and
-				b. 45 days after the end of the fscal quarter for all other registrants.
-				"
-					- https://sec.report/Form/10-Q				
-
-		libraries:
-
-			https://medium.com/@jan_5421/sec-edgar-api-2-b2cfb82c1d9e
-
-			pysec
-				pulls the forms from the SEC website and parses them for 50 fundamental variables
-			https://github.com/lukerosiak/pysec
-
-			django-sec
-				does the same thing as pysec but more fleshed out
-			https://github.com/chrisspen/django-sec
-
-			ScraXBRL
-				SEC Edgar Scraper and XBRL Parser/Renderer
-			https://github.com/tooksoi/ScraXBRL
-
-			Accessing EDGAR Data
-			https://www.sec.gov/edgar/searchedgar/accessing-edgar-data.htm
-
-			Parsing SEC Documents
-			https://github.com/areed1192/sigma_coding_youtube/blob/master/python/python-finance/sec-web-scraping/Web%20Scraping%20SEC%20-%20Parsing%20SEC%20Documents%20-%20New%20Filings.ipynb
-
-			financial_fundamentals 
-			https://github.com/andrewkittredge/financial_fundamentals
-
-	dividend aristocrats list
-
-		The S&P 500 Dividend Aristocrat index was launched by Standard and Poors in May 2005
-		A stock must be a member of the S&P 500
-		A stock must have increased their dividend payment for at least the past 25 consecutive years.
-
-		click here to see the stocks on the list:
-	https://en.wikipedia.org/wiki/S%26P_500_Dividend_Aristocrats
-
-	This is the Fastest Possible Way to Live Off Dividends
-		Covered Call
-			description
-				sell out of the money covered calls and make a profit on the premiums
-			example tickers:
-				qyld, 11.78%, volitile and steady decline over time
-					it still has a good dividend and if you did rebalancing then when this falls
-					you would buy more and as it grows you would sell parts of it
-		BDC (Business Development Companies)
-			description:
-				a BDC invests in small to medium sized businesses and when these businesses make a profit they are required to give back a negociated percent of their profits to the BDC and the BDC is required by law to give 90% of the money to its shareholders, most of them pay quarterly dividends.
-			example tickers:
-				arcc, 8.38% dividend, price is volitile but not shrinking over time and is generally flat
-				newt stock, 7.03% dividend, price is volitile but not shrinking over time and is generally flat
-	https://www.youtube.com/watch?v=6GgZo5OjDpE
-
-	best site for viewing dividend history
-	https://seekingalpha.com/
-
-	python lib to parse XML:
-		ended up using beautiful soup because it was way easier than the library called XML
-			https://www.geeksforgeeks.org/parsing-tables-and-xml-with-beautifulsoup/
-			http://www2.hawaii.edu/~takebaya/cent110/xml_parse/xml_parse.html
-			https://www.crummy.com/software/BeautifulSoup/bs4/doc/
-		this is the xml library though
-			https://www.reddit.com/r/learnpython/comments/6zagt6/is_there_a_python_xml_parser_that_doesnt_suck_ass/
-			https://docs.python.org/3/library/xml.etree.elementtree.html
-
-	https://www.youtube.com/watch?v=Wi9PPoS9cxI
-	https://www.youtube.com/watch?v=KDVH9eDF5QA
-
-
+		SEC Company Search
+			Company or fund name, ticker symbol, central index key (CIK), file number, state, country, or standard industrial classification (SIC)
+		https://www.sec.gov/edgar/searchedgar/companysearch.html
