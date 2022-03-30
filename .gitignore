@@ -1,6 +1,7 @@
 
 
-database/sec/financial_statements_data_sets/data/*
+database/sec/financial_statements_data_sets/data/real_data
+database/sec/financial_statements_data_sets/data/test_data
 database/sec/financial_statements_data_sets/logs/*
 
 # ignore all pycache folder across the repo

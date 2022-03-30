@@ -10,8 +10,8 @@ parser.add_argument('-l', '--lake',          action='store_true',   help='save t
 parser.add_argument('-r', '--replace',       action='store_true',   help='replace database\'s old values with new values if new value != null')
 parser.add_argument('-d', '--download',      action='store_true',   help='download new raw data from online, else search for data locally (local search used mostly for testing)')
 parser.add_argument('-s', '--last-sub',      action='store_true',   help='continue at the last submission the program parsed') # -s because -l is already taken
-parser.add_argument('-t', '--test',          action='store_true',   help='put data in data/test_data intead of data/real_data')
-parser.add_argument('-p', '--pause',         action='store_true',   help='pause between submissions (requires user to press enter to parse next submission')
+parser.add_argument('-t', '--test',          action='store_true',   help='put data in data/test_data instead of data/real_data')
+parser.add_argument('-p', '--pause',         action='store_true',   help='pause between submissions (requires user to press enter to parse next submission)')
 parser.add_argument('-q', '--quarter-list',  default=[], nargs='*', help='list of quarters to parse, if not specified all new quarters will be parsed, example: \"-q 2021q1 2021q2 2021q3 2021q4\"')
 parser.add_argument('-x', '--ticker-list',   default=[], nargs='*', help='list of tickers to parse, if not specified all tickers will be parsed, example: \"-t HRB BARK TRNS\"')
 args = parser.parse_args()
@@ -56,12 +56,13 @@ from mpl_toolkits.axes_grid1 import make_axes_locatable
 # import common utils
 REPO_PATH           = str(pathlib.Path(__file__).resolve().parent.parent.parent.parent.parent)
 DATA_SOURCE_PATH    = str(pathlib.Path(__file__).resolve().parent.parent)
-UTILS_REPO_PATH     = os.path.join(str(pathlib.Path(REPO_PATH).resolve().parent.parent.parent),
-						'tech', 'software', 'projects', 'python-common-utils')
-LOG_UTIL_PATH       = os.path.join(UTILS_REPO_PATH, 'utils', 'logging', 'src')
+# UTILS_REPO_PATH     = os.path.join(str(pathlib.Path(REPO_PATH).resolve().parent.parent.parent),
+# 						'tech', 'software', 'projects', 'python-common-utils')
+# LOG_UTIL_PATH       = os.path.join(UTILS_REPO_PATH, 'utils', 'logging', 'src')
+LOG_UTIL_PATH       = os.path.join(REPO_PATH, 'common_utils')
 # print('REPO_PATH       ', REPO_PATH)
 # print('DATA_SOURCE_PATH', DATA_SOURCE_PATH)
-# print('UTILS_REPO_PATH ', UTILS_REPO_PATH)
+# # print('UTILS_REPO_PATH ', UTILS_REPO_PATH)
 # print('LOG_UTIL_PATH   ', LOG_UTIL_PATH)
 # sys.exit()
 sys.path.append(LOG_UTIL_PATH); import logging_utils
@@ -86,6 +87,29 @@ SIC_CODES_FILEPATH     = os.path.join(DATA_WAREHOUSE_PATH, 'sic_codes.csv')
 COUNTRY_CODES_FILEPATH = os.path.join(DATA_WAREHOUSE_PATH, 'state_and_country_codes.csv')
 TICKER_CODES_FILEPATH  = os.path.join(DATA_WAREHOUSE_PATH, 'ticker_list.csv')
 METADATA_FILEPATH      = os.path.join(DATA_WAREHOUSE_PATH, 'metadata.json')
+METADATA_TEMPLATE      = {
+    "quarters_downloaded"    : [],
+    "quarters_parsed"        : {
+        "quarters" : [],
+        "count"    : 0,
+    },
+    "last_sub_parsed"        : {
+        "qtr"       : None,
+        "cik"       : None,
+        "form_type" : None
+    },
+    "total_number_of_stocks" : 0,
+    "number_of_metrics" : {
+        "total"    : 0,
+        "variable" : 0,
+        "constant" : 0
+    },
+    "price_data" : {
+        "min_date" : np.nan,
+        "max_date" : np.nan,
+        "num_stocks_with_price_data" : 0
+    }
+}
 QUALITY_REPORT_PATH    = os.path.join(DATA_PATH, 'quality_report')
 QUALITY_REPORT_PATHS   = {
 	'stock_vs_quarter' : {

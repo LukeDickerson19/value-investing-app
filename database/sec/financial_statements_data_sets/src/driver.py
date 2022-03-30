@@ -19,31 +19,8 @@ def clear_and_reset_database(
     os.mkdir(QUALITY_REPORT_PATH)
     for paths in QUALITY_REPORT_PATHS.values():
         os.mkdir(paths['chart'])
-    metadata_template = {
-        "quarters_downloaded"    : [],
-        "quarters_parsed"        : {
-            "quarters" : [],
-            "count"    : 0,
-        },
-        "last_sub_parsed"        : {
-            "qtr"       : None,
-            "cik"       : None,
-            "form_type" : None
-        },
-        "total_number_of_stocks" : 0,
-        "number_of_metrics" : {
-            "total"    : 0,
-            "variable" : 0,
-            "constant" : 0
-        },
-        "price_data" : {
-            "min_date" : np.nan,
-            "max_date" : np.nan,
-            "num_stocks_with_price_data" : 0
-        }
-    }
     with open(METADATA_FILEPATH, 'w') as f:
-        json.dump(metadata_template, f, indent=4, sort_keys=True)
+        json.dump(METADATA_TEMPLATE, f, indent=4, sort_keys=True)
     log.print('done', num_indents=num_indents)
 def get_standard_industrial_codes(
     download=False,

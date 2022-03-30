@@ -564,11 +564,11 @@ To Do:
 
 Design
 
-	BACKEND:
+	BACKEND
 
-		DATABASE:
+		DATABASE
 
-			psuedo code:
+			psuedo code
 				on daily intervals:
 					for each stock that is currently listed
 						query interactive brokers for the price data
@@ -578,7 +578,7 @@ Design
 					run the rebalance stratagy
 						this strategy will not be rebalancing daily but it will be calculating the best portfolio to have for when it does rebalance (which will be in line with the ex-dividend dates and such)
 
-			data:
+			data
 				location: value-investing-app/database/sec/financial_statements_data_sets/data
 				the "data" folder has 3 subfolders: "lake", "quality_report", "warehouse"
 					subfolder descriptions
@@ -634,7 +634,7 @@ Design
 								stock_split_history.csv - this data is aquired from yahoo finance
 									Date         - date of stock split
 									Stock Splits - stock split ratio
-							the data "warehouse" also has tables:
+							the data "warehouse" also has the tables listed below (used mostly by the collection script):
 								metadata.json - various metadata: "number_of_metrics", "quarters_downloaded", "total_number_of_stocks", etc
 								sic_codes.csv - map of all SIC codes to their classification names
 								state_and_country_codes.csv - map of all state and country codes to their names
@@ -1541,8 +1541,6 @@ Exchanges:
 		provides options trading
 		provides stock investing
 
-	best so far is Alpaca
-
 	Fidelity Investments
 		deposit fee: $0.00
 		withdrawal fee: $0.00
@@ -2280,26 +2278,3 @@ Preston Pysh's Value Investing Notes:
 	QUESTIONS:
 		why does a stocks price equalize in the long term to its company's true value in society?
 
-
-Manual Company Research:
-
-	Companies:
-
-		Yes:
-
-		No:
-
-		Maybe:
-
-			IEP
-				MLP - master limited partnership
-					K1 tax form ... very complicated ... deal breaker?
-				14.6 %
-				steady-ish price growth
-				unsteady dividend growth
-
-	Sources:
-
-		SEC Company Search
-			Company or fund name, ticker symbol, central index key (CIK), file number, state, country, or standard industrial classification (SIC)
-		https://www.sec.gov/edgar/searchedgar/companysearch.html
