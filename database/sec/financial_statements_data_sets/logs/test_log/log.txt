@@ -13,21 +13,21 @@ getting latest state and country codes
         value-investing-app/database/sec/financial_statements_data_sets/data/test_data/warehouse/state_and_country_codes.csv
 done
 
-getting ticker list from SEC
+local database
     found ticker list locally at:
         value-investing-app/database/sec/financial_statements_data_sets/data/test_data/warehouse/ticker_list.csv
 done
 
 parsing data for 3 new quarter(s)
     
-    quarter 3 of 3: 2011q3, iterating over 1 10-Q submission(s)
+    quarter 1 of 3: 2011q1, iterating over 301 10-Q submission(s)
         
-        submission 1 of 1 for 2011q3:
+        submission 1 of 301 for 2011q1:
             form type ... 10-Q
-            ticker ...... ENTG
-            cik ......... 1101302
+            ticker ...... None
+            cik ......... 1001039
             
-            parsing yahoo finance data:
+            yahoo_finance unavailable because no ticker was found on the SEC for cik: 1001039
             done
             
             parsing SEC Financial Statements Data Sets data:
@@ -39,122 +39,674 @@ parsing data for 3 new quarter(s)
                     {
                         "industry_classification": {
                             "gics": {
-                                "sector": "Technology",
-                                "industry": "Semiconductor Equipment & Materials"
+                                "sector": null,
+                                "industry": null
                             },
                             "sic": {
-                                "sic": "3089",
-                                "division": "Manufacturing",
-                                "major_group": "Rubber And Miscellaneous Plastics Products",
-                                "industry_group": "Plastics Products, Not Elsewhere Classified"
+                                "sic": "7990",
+                                "division": "Services",
+                                "major_group": "Amusement And Recreation Services",
+                                "industry_group": "SERVICES-MISCELLANEOUS AMUSEMENT & RECREATION"
                             }
                         },
-                        "asset_type": "EQUITY",
-                        "description": "Entegris, Inc. develops, manufactures, and supplies microcontamination control products, specialty c...",
-                        "name": "Entegris, Inc.",
-                        "website": "https://www.entegris.com",
-                        "ex_dividend_date": "2021-10-26",
-                        "cik": "1101302",
-                        "ticker": "ENTG",
+                        "asset_type": null,
+                        "description": null,
+                        "name": "TWDC Enterprises 18 Corp.",
+                        "website": null,
+                        "ex_dividend_date": null,
+                        "cik": "1001039",
+                        "ticker": null,
                         "country": "UNITED STATES"
                     }
                 
                 fundamentals
                     {
-                        "sub_qtr_enddate": "2011-06-30",
-                        "quarter": "2",
-                        "year": "2011",
-                        "shares_outstanding": "134535000",
-                        "total_assets": "672266000",
-                        "total_liabilities": "132751000",
-                        "net_income": "32522000",
-                        "earnings_per_share": "0.2400",
+                        "sub_qtr_enddate": "2010-12-31",
+                        "quarter": "4",
+                        "year": "2010",
+                        "shares_outstanding": "1891000000",
+                        "total_assets": "70950000000",
+                        "total_liabilities": "33153000000",
+                        "net_income": "1302000000",
+                        "earnings_per_share": "0.6900",
                         "dividends_paid": 0,
                         "sec_urls": {
-                            "all_files": "http://www.sec.gov/Archives/edgar/data/1101302/000119312511202092/",
-                            "filing_details": "http://www.sec.gov/Archives/edgar/data/1101302/000119312511202092/0001193125-11-202092-index.html",
-                            "XML": "http://www.sec.gov/Archives/edgar/data/1101302/000119312511202092/entg-20110702.xml",
-                            "HTML": "http://www.sec.gov/ix?doc=/Archives/edgar/data/1101302/000119312511202092/d10q.htm",
-                            "TXT": "http://www.sec.gov/Archives/edgar/data/1101302/000119312511202092/0001193125-11-202092.txt"
+                            "all_files": "http://www.sec.gov/Archives/edgar/data/1001039/000119312511027450/",
+                            "filing_details": "http://www.sec.gov/Archives/edgar/data/1001039/000119312511027450/0001193125-11-027450-index.html",
+                            "XML": "http://www.sec.gov/Archives/edgar/data/1001039/000119312511027450/dis-20110101.xml",
+                            "HTML": "http://www.sec.gov/ix?doc=/Archives/edgar/data/1001039/000119312511027450/d10q.htm",
+                            "TXT": "http://www.sec.gov/Archives/edgar/data/1001039/000119312511027450/0001193125-11-027450.txt"
                         }
                     }
                 
+                daily_price_data
+                    None
+                
                 dividend_per_share_history
-                                Dividends
-                    Date                 
-                    2017-10-31       0.07
-                    2018-01-30       0.07
-                    2018-05-01       0.07
-                    ...               ...
-                    2021-01-26       0.08
-                    2021-04-27       0.08
-                    2021-07-27       0.08
+                    None
                 
                 stock_split_history
-                    Empty DataFrame
-                    Columns: [Stock Splits]
-                    Index: []
-                
-                daily_price_data
-                                 Close    Volume
-                    Date                        
-                    2000-07-11   10.90  12890300
-                    2000-07-12   11.88   2817200
-                    2000-07-13   13.83   2680400
-                    ...            ...       ...
-                    2022-02-04  128.56   1468300
-                    2022-02-07  127.44   1304000
-                    2022-02-08  130.00   1216600
+                    None
             
             saved data to:
-                value-investing-app/database/sec/financial_statements_data_sets/data/test_data/warehouse/stocks/1101302/info.json
+                value-investing-app/database/sec/financial_statements_data_sets/data/test_data/warehouse/stocks/1001039/info.json
                     
                     old_values
                         {
-                            "asset_type": "EQUITY",
-                            "cik": "1101302",
+                            "asset_type": null,
+                            "cik": "1001039",
                             "country": "UNITED STATES",
-                            "description": "Entegris, Inc. develops, manufactures, and supplies microcontamination control products, specialty chemicals, and advanced materials handling solutions in North America, Taiwan, China, South Korea, Japan, Europe, and Southeast Asia. It operates in three segments: Specialty Chemicals and Engineered Materials (SCEM); Microcontamination Control (MC); and Advanced Materials Handling (AMH). The SCEM segment offers high-performance and high-purity process chemistries, gases, and materials, as well as delivery systems to support semiconductor and other advanced manufacturing processes. The MC segment provides solutions to filter and purify critical liquid chemistries and gases used in semiconductor manufacturing processes and other high-technology industries. The AMH segment develops solutions to monitor, protect, transport, and deliver critical liquid chemistries, wafers, and other substrates for application in the semiconductor, life sciences, and other high-technology industries. The company's customers include logic and memory semiconductor device manufacturers, semiconductor equipment makers, gas and chemical manufacturing companies, and wafer grower companies; and flat panel display equipment makers, panel manufacturers, and manufacturers of hard disk drive components and devices, as well as their related ecosystems. It also serves manufacturers and suppliers in the solar industries, electrical discharge machining customers, glass and glass container manufacturers, aerospace manufacturers, and manufacturers of biomedical implantation devices. Entegris, Inc. was founded in 1966 and is headquartered in Billerica, Massachusetts.",
-                            "ex_dividend_date": "2022-02-01",
+                            "description": null,
+                            "ex_dividend_date": null,
                             "industry_classification": {
                                 "gics": {
-                                    "industry": "Semiconductor Equipment & Materials",
-                                    "sector": "Technology"
+                                    "industry": null,
+                                    "sector": null
                                 },
                                 "sic": {
-                                    "division": "Manufacturing",
-                                    "industry_group": "Plastics Products, Not Elsewhere Classified",
-                                    "major_group": "Rubber And Miscellaneous Plastics Products",
-                                    "sic": "3089"
+                                    "division": "Services",
+                                    "industry_group": "SERVICES-MISCELLANEOUS AMUSEMENT & RECREATION",
+                                    "major_group": "Amusement And Recreation Services",
+                                    "sic": "7990"
                                 }
                             },
-                            "name": "Entegris, Inc.",
-                            "ticker": "ENTG",
-                            "website": "https://www.entegris.com"
+                            "name": "TWDC Enterprises 18 Corp.",
+                            "ticker": null,
+                            "website": null
                         }
                     
                     new_values
                         {
-                            "asset_type": "EQUITY",
-                            "cik": "1101302",
+                            "asset_type": null,
+                            "cik": "1001039",
                             "country": "UNITED STATES",
-                            "description": "Entegris, Inc. develops, manufactures, and supplies microcontamination control products, specialty chemicals, and advanced materials handling solutions for manufacturing processes in the semiconductor and other high-technology industries in North America, Taiwan, South Korea, Japan, China, Europe, and Southeast Asia. It operates through three segments: Specialty Chemicals and Engineered Materials (SCEM); Microcontamination Control (MC); and Advanced Materials Handling (AMH). The SCEM segment offers high-performance and high-purity process chemistries, gases, and materials, as well as delivery systems to support semiconductor and other advanced manufacturing processes. The MC segment provides solutions to filter and purify critical liquid chemistries and gases used in semiconductor manufacturing processes and other high-technology industries. The AMH segment develops solutions to monitor, protect, transport, and deliver critical liquid chemistries, wafers, and other substrates for application in the semiconductor and other high-technology industries. The company's customers include semiconductor device manufacturers, semiconductor equipment makers, gas and chemical manufacturing companies, and wafer grower companies; and flat panel display equipment makers, panel manufacturers, and manufacturers of hard disk drive components and devices and their related ecosystems. It also serves manufacturers and suppliers in the solar and life science industries, electrical discharge machining customers, glass and glass container manufacturers, aerospace manufacturers, and manufacturers of biomedical implantation devices. The company was founded in 1966 and is headquartered in Billerica, Massachusetts.",
-                            "ex_dividend_date": "2021-10-26",
+                            "description": null,
+                            "ex_dividend_date": null,
                             "industry_classification": {
                                 "gics": {
-                                    "industry": "Semiconductor Equipment & Materials",
-                                    "sector": "Technology"
+                                    "industry": null,
+                                    "sector": null
+                                },
+                                "sic": {
+                                    "division": "Services",
+                                    "industry_group": "SERVICES-MISCELLANEOUS AMUSEMENT & RECREATION",
+                                    "major_group": "Amusement And Recreation Services",
+                                    "sic": "7990"
+                                }
+                            },
+                            "name": "TWDC Enterprises 18 Corp.",
+                            "ticker": null,
+                            "website": null
+                        }
+                    
+                    key_map
+                        {
+                            "asset_type": [
+                                "asset_type"
+                            ],
+                            "cik": [
+                                "cik"
+                            ],
+                            "country": [
+                                "country"
+                            ],
+                            "description": [
+                                "description"
+                            ],
+                            "ex_dividend_date": [
+                                "ex_dividend_date"
+                            ],
+                            "industry_classification_gics_industry": [
+                                "industry_classification",
+                                "gics",
+                                "industry"
+                            ],
+                            "industry_classification_gics_sector": [
+                                "industry_classification",
+                                "gics",
+                                "sector"
+                            ],
+                            "industry_classification_sic_division": [
+                                "industry_classification",
+                                "sic",
+                                "division"
+                            ],
+                            "industry_classification_sic_industry_group": [
+                                "industry_classification",
+                                "sic",
+                                "industry_group"
+                            ],
+                            "industry_classification_sic_major_group": [
+                                "industry_classification",
+                                "sic",
+                                "major_group"
+                            ],
+                            "industry_classification_sic_sic": [
+                                "industry_classification",
+                                "sic",
+                                "sic"
+                            ],
+                            "name": [
+                                "name"
+                            ],
+                            "ticker": [
+                                "ticker"
+                            ],
+                            "website": [
+                                "website"
+                            ]
+                        }
+                    
+                    empty_info_template
+                        {
+                            "asset_type": null,
+                            "cik": null,
+                            "country": null,
+                            "description": null,
+                            "ex_dividend_date": null,
+                            "industry_classification": {
+                                "gics": {
+                                    "industry": null,
+                                    "sector": null
+                                },
+                                "sic": {
+                                    "division": null,
+                                    "industry_group": null,
+                                    "major_group": null,
+                                    "sic": null
+                                }
+                            },
+                            "name": null,
+                            "ticker": null,
+                            "website": null
+                        }
+                    
+                    new_values_found BEFORE update
+                        {
+                            "asset_type": 0,
+                            "cik": 0,
+                            "country": 0,
+                            "description": 0,
+                            "ex_dividend_date": 0,
+                            "industry_classification_gics_industry": 0,
+                            "industry_classification_gics_sector": 0,
+                            "industry_classification_sic_division": 0,
+                            "industry_classification_sic_industry_group": 0,
+                            "industry_classification_sic_major_group": 0,
+                            "industry_classification_sic_sic": 0,
+                            "name": 0,
+                            "ticker": 0,
+                            "website": 0
+                        }
+                    
+                    new_values_found AFTER update
+                        {
+                            "asset_type": 0,
+                            "cik": 0,
+                            "country": 0,
+                            "description": 0,
+                            "ex_dividend_date": 0,
+                            "industry_classification_gics_industry": 0,
+                            "industry_classification_gics_sector": 0,
+                            "industry_classification_sic_division": 0,
+                            "industry_classification_sic_industry_group": 0,
+                            "industry_classification_sic_major_group": 0,
+                            "industry_classification_sic_sic": 0,
+                            "name": 0,
+                            "ticker": 0,
+                            "website": 0
+                        }
+                    
+                    values_saved
+                        {
+                            "asset_type": null,
+                            "cik": "1001039",
+                            "country": "UNITED STATES",
+                            "description": null,
+                            "ex_dividend_date": null,
+                            "industry_classification": {
+                                "gics": {
+                                    "industry": null,
+                                    "sector": null
+                                },
+                                "sic": {
+                                    "division": "Services",
+                                    "industry_group": "SERVICES-MISCELLANEOUS AMUSEMENT & RECREATION",
+                                    "major_group": "Amusement And Recreation Services",
+                                    "sic": "7990"
+                                }
+                            },
+                            "name": "TWDC Enterprises 18 Corp.",
+                            "ticker": null,
+                            "website": null
+                        }
+                value-investing-app/database/sec/financial_statements_data_sets/data/test_data/warehouse/stocks/1001039/fundamentals.csv
+                    
+                    old_df
+                                        quarter  year shares_outstanding  ...         sec_urls_XML        sec_urls_HTML         sec_urls_TXT
+                        sub_qtr_enddate                                   ...                                                               
+                        2010-12-31            4  2010         1891000000  ...  http://www.sec.g...  http://www.sec.g...  http://www.sec.g...
+                    
+                    new fundamentals dct
+                        {
+                            "sub_qtr_enddate": "2010-12-31",
+                            "quarter": "4",
+                            "year": "2010",
+                            "shares_outstanding": "1891000000",
+                            "total_assets": "70950000000",
+                            "total_liabilities": "33153000000",
+                            "net_income": "1302000000",
+                            "earnings_per_share": "0.6900",
+                            "dividends_paid": 0,
+                            "sec_urls": {
+                                "all_files": "http://www.sec.gov/Archives/edgar/data/1001039/000119312511027450/",
+                                "filing_details": "http://www.sec.gov/Archives/edgar/data/1001039/000119312511027450/0001193125-11-027450-index.html",
+                                "XML": "http://www.sec.gov/Archives/edgar/data/1001039/000119312511027450/dis-20110101.xml",
+                                "HTML": "http://www.sec.gov/ix?doc=/Archives/edgar/data/1001039/000119312511027450/d10q.htm",
+                                "TXT": "http://www.sec.gov/Archives/edgar/data/1001039/000119312511027450/0001193125-11-027450.txt"
+                            }
+                        }
+                    
+                    new fundamentals df
+                                        quarter  year shares_outstanding  ...         sec_urls_XML        sec_urls_HTML         sec_urls_TXT
+                        sub_qtr_enddate                                   ...                                                               
+                        2010-12-31            4  2010         1891000000  ...  http://www.sec.g...  http://www.sec.g...  http://www.sec.g...
+                    
+                    sub_qtr_enddate = 2010-12-31
+                    sub_qtr_enddate in old_df
+                    
+                    new_values_found
+                        {
+                            "industry_classification_gics_sector": 0,
+                            "industry_classification_gics_industry": 0,
+                            "industry_classification_sic_sic": 0,
+                            "industry_classification_sic_division": 0,
+                            "industry_classification_sic_major_group": 0,
+                            "industry_classification_sic_industry_group": 0,
+                            "asset_type": 0,
+                            "description": 0,
+                            "name": 0,
+                            "website": 0,
+                            "ex_dividend_date": 0,
+                            "cik": 0,
+                            "ticker": 0,
+                            "country": 0,
+                            "quarter": 0,
+                            "year": 0,
+                            "shares_outstanding": 0,
+                            "total_assets": 0,
+                            "total_liabilities": 0,
+                            "net_income": 0,
+                            "earnings_per_share": 0,
+                            "dividends_paid": 0,
+                            "sec_urls_all_files": 0,
+                            "sec_urls_filing_details": 0,
+                            "sec_urls_XML": 0,
+                            "sec_urls_HTML": 0,
+                            "sec_urls_TXT": 0
+                        }
+                    
+                    values_saved
+                                        quarter  year shares_outstanding  ...         sec_urls_XML        sec_urls_HTML         sec_urls_TXT
+                        sub_qtr_enddate                                   ...                                                               
+                        2010-12-31            4  2010         1891000000  ...  http://www.sec.g...  http://www.sec.g...  http://www.sec.g...
+                value-investing-app/database/sec/financial_statements_data_sets/data/test_data/warehouse/stocks/1001039/dividend_per_share_history.csv
+                    
+                    old_df
+                        Empty DataFrame
+                        Columns: [Dividends]
+                        Index: []
+                    
+                    no updates to dividend_per_share_history.csv
+                value-investing-app/database/sec/financial_statements_data_sets/data/test_data/warehouse/stocks/1001039/stock_split_history.csv
+                    
+                    old_df
+                        Empty DataFrame
+                        Columns: [Stock Splits]
+                        Index: []
+                    
+                    no updates to stock_split_history.csv
+                value-investing-app/database/sec/financial_statements_data_sets/data/test_data/warehouse/stocks/1001039/daily_price_data.csv
+                    
+                    old_df
+                        Empty DataFrame
+                        Columns: [Close, Volume]
+                        Index: []
+                    
+                    no updates to daily_price_data.csv
+            
+            updating data quality report:
+                updating price_data_stock_vs_day data:
+                    repo filepath: value-investing-app/database/sec/financial_statements_data_sets/data/test_data/quality_report/price_data_stock_vs_day/price_data_coverage.csv
+                    stock with CIK=1001039 already exists in price_data_stock_vs_day/price_data_coverage.csv
+                        start_date = nan
+                        end_date   = nan
+                    updated num_stocks_with_price_data from 33 to 34
+                done
+                updating stock_vs_quarter data:
+                    variable metrics:
+                        repo filepath: value-investing-app/database/sec/financial_statements_data_sets/data/test_data/quality_report/stock_vs_quarter/variable_metrics.csv
+                        variable_new_values_found
+                            {
+                                "quarter": 0,
+                                "year": 0,
+                                "shares_outstanding": 0,
+                                "total_assets": 0,
+                                "total_liabilities": 0,
+                                "net_income": 0,
+                                "earnings_per_share": 0,
+                                "dividends_paid": 0,
+                                "sec_urls_all_files": 0,
+                                "sec_urls_filing_details": 0,
+                                "sec_urls_XML": 0,
+                                "sec_urls_HTML": 0,
+                                "sec_urls_TXT": 0
+                            }
+                        stock with CIK=1001039 already exists in stock_vs_quarter/variable_metrics.csv
+                        old value at (CIK, quarter)=(1001039, 2010q4) equals 13
+                        sum of variable_new_values_found equals 0
+                        new value at (CIK, quarter)=(1001039, 2010q4) equals 13
+                    constant metrics
+                        repo filepath: value-investing-app/database/sec/financial_statements_data_sets/data/test_data/quality_report/stock_vs_quarter/constant_metrics.json
+                        constant_new_values_found
+                            {
+                                "industry_classification_gics_sector": 0,
+                                "industry_classification_gics_industry": 0,
+                                "industry_classification_sic_sic": 0,
+                                "industry_classification_sic_division": 0,
+                                "industry_classification_sic_major_group": 0,
+                                "industry_classification_sic_industry_group": 0,
+                                "asset_type": 0,
+                                "description": 0,
+                                "name": 0,
+                                "website": 0,
+                                "ex_dividend_date": 0,
+                                "cik": 0,
+                                "ticker": 0,
+                                "country": 0,
+                                "dividend_per_share_history": 0,
+                                "stock_split_history": 0,
+                                "daily_price_data": 0
+                            }
+                        cik=1001039 in old dct equals 7
+                        sum of constant_new_values_found equals 0
+                        new value at cik=1001039 equals 7
+                    set 'number_of_metrics' to:
+                        {
+                            "total": 30,
+                            "variable": 13,
+                            "constant": 17
+                        }
+                        in file: value-investing-app/database/sec/financial_statements_data_sets/data/test_data/warehouse/metadata.json
+                done
+                updating metric_vs_quarter data:
+                    variable metrics
+                        repo filepath: value-investing-app/database/sec/financial_statements_data_sets/data/test_data/quality_report/metric_vs_quarter/variable_metrics.csv
+                        variable_new_values_found
+                            {
+                                "quarter": 0,
+                                "year": 0,
+                                "shares_outstanding": 0,
+                                "total_assets": 0,
+                                "total_liabilities": 0,
+                                "net_income": 0,
+                                "earnings_per_share": 0,
+                                "dividends_paid": 0,
+                                "sec_urls_all_files": 0,
+                                "sec_urls_filing_details": 0,
+                                "sec_urls_XML": 0,
+                                "sec_urls_HTML": 0,
+                                "sec_urls_TXT": 0
+                            }
+                        new_submission = False, so +0 for each "searched"
+                        updates for quarter 2010q4: (found, searched)
+                            dividends_paid           kept at (10, 10)
+                            earnings_per_share       kept at (9, 10)
+                            net_income               kept at (10, 10)
+                            quarter                  kept at (10, 10)
+                            sec_urls_HTML            kept at (10, 10)
+                            sec_urls_TXT             kept at (10, 10)
+                            sec_urls_XML             kept at (7, 10)
+                            sec_urls_all_files       kept at (10, 10)
+                            sec_urls_filing_details  kept at (10, 10)
+                            shares_outstanding       kept at (9, 10)
+                            total_assets             kept at (10, 10)
+                            total_liabilities        kept at (10, 10)
+                            year                     kept at (10, 10)
+                    constant metrics
+                        repo filepath: value-investing-app/database/sec/financial_statements_data_sets/data/test_data/quality_report/metric_vs_quarter/constant_metrics.json
+                        constant_new_values_found
+                            {
+                                "industry_classification_gics_sector": 0,
+                                "industry_classification_gics_industry": 0,
+                                "industry_classification_sic_sic": 0,
+                                "industry_classification_sic_division": 0,
+                                "industry_classification_sic_major_group": 0,
+                                "industry_classification_sic_industry_group": 0,
+                                "asset_type": 0,
+                                "description": 0,
+                                "name": 0,
+                                "website": 0,
+                                "ex_dividend_date": 0,
+                                "cik": 0,
+                                "ticker": 0,
+                                "country": 0,
+                                "dividend_per_share_history": 0,
+                                "stock_split_history": 0,
+                                "daily_price_data": 0
+                            }
+                        updates:
+                            asset_type                                  kept at 9
+                            cik                                         kept at 13
+                            country                                     kept at 12
+                            daily_price_data                            kept at 9
+                            description                                 kept at 9
+                            dividend_per_share_history                  kept at 8
+                            ex_dividend_date                            kept at 8
+                            industry_classification_gics_industry       kept at 9
+                            industry_classification_gics_sector         kept at 9
+                            industry_classification_sic_division        kept at 13
+                            industry_classification_sic_industry_group  kept at 13
+                            industry_classification_sic_major_group     kept at 13
+                            industry_classification_sic_sic             kept at 13
+                            name                                        kept at 13
+                            stock_split_history                         kept at 7
+                            ticker                                      kept at 9
+                            website                                     kept at 9
+                done
+                updating stock_vs_metric data:
+                    variable metrics
+                        repo filepath: value-investing-app/database/sec/financial_statements_data_sets/data/test_data/quality_report/stock_vs_metric/variable_metrics.csv
+                        stock with CIK=1001039 already exists in stock_vs_metric/variable_metrics.csv
+                        new_submission = False, so +0 for each "searched"
+                        variable_new_values_found
+                            {
+                                "quarter": 0,
+                                "year": 0,
+                                "shares_outstanding": 0,
+                                "total_assets": 0,
+                                "total_liabilities": 0,
+                                "net_income": 0,
+                                "earnings_per_share": 0,
+                                "dividends_paid": 0,
+                                "sec_urls_all_files": 0,
+                                "sec_urls_filing_details": 0,
+                                "sec_urls_XML": 0,
+                                "sec_urls_HTML": 0,
+                                "sec_urls_TXT": 0
+                            }
+                        updates for stock cik=1001039: (found, searched)
+                            dividends_paid           kept at (1, 1)
+                            earnings_per_share       kept at (1, 1)
+                            net_income               kept at (1, 1)
+                            quarter                  kept at (1, 1)
+                            sec_urls_HTML            kept at (1, 1)
+                            sec_urls_TXT             kept at (1, 1)
+                            sec_urls_XML             kept at (1, 1)
+                            sec_urls_all_files       kept at (1, 1)
+                            sec_urls_filing_details  kept at (1, 1)
+                            shares_outstanding       kept at (1, 1)
+                            total_assets             kept at (1, 1)
+                            total_liabilities        kept at (1, 1)
+                            year                     kept at (1, 1)
+                    constant metrics
+                        repo filepath: value-investing-app/database/sec/financial_statements_data_sets/data/test_data/quality_report/stock_vs_metric/constant_metrics.csv
+                        stock with CIK=1001039 already exists in stock_vs_metric/constant_metrics.csv
+                        constant_new_values_found
+                            {
+                                "industry_classification_gics_sector": 0,
+                                "industry_classification_gics_industry": 0,
+                                "industry_classification_sic_sic": 0,
+                                "industry_classification_sic_division": 0,
+                                "industry_classification_sic_major_group": 0,
+                                "industry_classification_sic_industry_group": 0,
+                                "asset_type": 0,
+                                "description": 0,
+                                "name": 0,
+                                "website": 0,
+                                "ex_dividend_date": 0,
+                                "ticker": 0,
+                                "country": 0,
+                                "dividend_per_share_history": 0,
+                                "stock_split_history": 0,
+                                "daily_price_data": 0
+                            }
+                        updates for stock cik=1001039
+                            asset_type                                  kept at 0
+                            country                                     kept at 1
+                            daily_price_data                            kept at 0
+                            description                                 kept at 0
+                            dividend_per_share_history                  kept at 0
+                            ex_dividend_date                            kept at 0
+                            industry_classification_gics_industry       kept at 0
+                            industry_classification_gics_sector         kept at 0
+                            industry_classification_sic_division        kept at 1
+                            industry_classification_sic_industry_group  kept at 1
+                            industry_classification_sic_major_group     kept at 1
+                            industry_classification_sic_sic             kept at 1
+                            name                                        kept at 1
+                            stock_split_history                         kept at 0
+                            ticker                                      kept at 0
+                            website                                     kept at 0
+                done
+            done
+        done parsing submission, duration: 0 minutes, 5.36 seconds
+        
+        submission 2 of 301 for 2011q1:
+            form type ... 10-Q
+            ticker ...... EL
+            cik ......... 1001250
+            
+            yahoo_finance data already aquired
+            done
+            
+            parsing SEC Financial Statements Data Sets data:
+            done
+            
+            data:
+                
+                info
+                    {
+                        "industry_classification": {
+                            "gics": {
+                                "sector": null,
+                                "industry": null
+                            },
+                            "sic": {
+                                "sic": "2844",
+                                "division": "Manufacturing",
+                                "major_group": "Chemicals And Allied Products",
+                                "industry_group": "Perfumes, Cosmetics, and Other Toilet Preparations"
+                            }
+                        },
+                        "asset_type": null,
+                        "description": null,
+                        "name": "ESTEE LAUDER COMPANIES INC",
+                        "website": null,
+                        "ex_dividend_date": null,
+                        "cik": "1001250",
+                        "ticker": "EL",
+                        "country": "UNITED STATES"
+                    }
+                
+                fundamentals
+                    {
+                        "sub_qtr_enddate": "2010-12-31",
+                        "quarter": "4",
+                        "year": "2010",
+                        "shares_outstanding": "196700000",
+                        "total_assets": "5981800000",
+                        "total_liabilities": "3594800000",
+                        "net_income": "343900000",
+                        "earnings_per_share": "1.7500",
+                        "dividends_paid": 0,
+                        "sec_urls": {
+                            "all_files": "http://www.sec.gov/Archives/edgar/data/1001250/000110465911005139/",
+                            "filing_details": "http://www.sec.gov/Archives/edgar/data/1001250/000110465911005139/0001104659-11-005139-index.html",
+                            "XML": null,
+                            "HTML": "http://www.sec.gov/ix?doc=/Archives/edgar/data/1001250/000110465911005139/a10-22874_110q.htm",
+                            "TXT": "http://www.sec.gov/Archives/edgar/data/1001250/000110465911005139/0001104659-11-005139.txt"
+                        }
+                    }
+                
+                daily_price_data
+                    None
+                
+                dividend_per_share_history
+                    None
+                
+                stock_split_history
+                    None
+            
+            saved data to:
+                value-investing-app/database/sec/financial_statements_data_sets/data/test_data/warehouse/stocks/1001250/info.json
+                    
+                    old_values
+                        {
+                            "asset_type": "EQUITY",
+                            "cik": "1001250",
+                            "country": "UNITED STATES",
+                            "description": "The Est\u00e9e Lauder Companies Inc. manufactures, markets, and sells skin care, makeup, fragrance, and hair care products worldwide. The company offers a range of skin care products, including moisturizers, serums, cleansers, toners, body care, exfoliators, acne care and oil correctors, facial masks, cleansing devices, and sun care products; and makeup products, such as lipsticks, lip glosses, mascaras, foundations, eyeshadows, nail polishes, and powders, as well as compacts, brushes, and other makeup tools. It also provides fragrance products in various forms comprising eau de parfum sprays and colognes, as well as lotions, powders, creams, candles, and soaps; and hair care products that include shampoos, conditioners, styling products, treatment, finishing sprays, and hair color products, as well as sells ancillary products and services. The company offers its products under Est\u00e9e Lauder, Aramis, Clinique, Lab Series, Origins, M\u00b7A\u00b7C, Bobbi Brown, La Mer, Aveda, Jo Malone London, Bumble and bumble, Darphin, Smashbox, Le Labo, Editions de Parfums Fr\u00e9d\u00e9ric Malle, GLAMGLOW, By Kilian, BECCA, Too Faced, Dr. Jart+, DECIEM, and The Ordinary brands. It also holds license arrangements for Tommy Hilfiger, Donna Karan New York, DKNY, Michael Kors, and Ermenegildo Zegna brands. The company sells its products through department stores, specialty-multi retailers, upscale perfumeries and pharmacies, and salons and spas; freestanding stores; its own and authorized retailer websites; third-party online malls; stores in airports; and in-flight and duty-free shops. The company was founded in 1946 and is headquartered in New York, New York.",
+                            "ex_dividend_date": "2022-05-27",
+                            "industry_classification": {
+                                "gics": {
+                                    "industry": "Household & Personal Products",
+                                    "sector": "Consumer Defensive"
                                 },
                                 "sic": {
                                     "division": "Manufacturing",
-                                    "industry_group": "Plastics Products, Not Elsewhere Classified",
-                                    "major_group": "Rubber And Miscellaneous Plastics Products",
-                                    "sic": "3089"
+                                    "industry_group": "Perfumes, Cosmetics, and Other Toilet Preparations",
+                                    "major_group": "Chemicals And Allied Products",
+                                    "sic": "2844"
                                 }
                             },
-                            "name": "Entegris, Inc.",
-                            "ticker": "ENTG",
-                            "website": "https://www.entegris.com"
+                            "name": "ESTEE LAUDER COMPANIES INC",
+                            "ticker": "EL",
+                            "website": "https://www.elcompanies.com"
+                        }
+                    
+                    new_values
+                        {
+                            "asset_type": null,
+                            "cik": "1001250",
+                            "country": "UNITED STATES",
+                            "description": null,
+                            "ex_dividend_date": null,
+                            "industry_classification": {
+                                "gics": {
+                                    "industry": null,
+                                    "sector": null
+                                },
+                                "sic": {
+                                    "division": "Manufacturing",
+                                    "industry_group": "Perfumes, Cosmetics, and Other Toilet Preparations",
+                                    "major_group": "Chemicals And Allied Products",
+                                    "sic": "2844"
+                                }
+                            },
+                            "name": "ESTEE LAUDER COMPANIES INC",
+                            "ticker": "EL",
+                            "website": null
                         }
                     
                     key_map
@@ -278,59 +830,641 @@ parsing data for 3 new quarter(s)
                     values_saved
                         {
                             "asset_type": "EQUITY",
-                            "cik": "1101302",
+                            "cik": "1001250",
                             "country": "UNITED STATES",
-                            "description": "Entegris, Inc. develops, manufactures, and supplies microcontamination control products, specialty chemicals, and advanced materials handling solutions for manufacturing processes in the semiconductor and other high-technology industries in North America, Taiwan, South Korea, Japan, China, Europe, and Southeast Asia. It operates through three segments: Specialty Chemicals and Engineered Materials (SCEM); Microcontamination Control (MC); and Advanced Materials Handling (AMH). The SCEM segment offers high-performance and high-purity process chemistries, gases, and materials, as well as delivery systems to support semiconductor and other advanced manufacturing processes. The MC segment provides solutions to filter and purify critical liquid chemistries and gases used in semiconductor manufacturing processes and other high-technology industries. The AMH segment develops solutions to monitor, protect, transport, and deliver critical liquid chemistries, wafers, and other substrates for application in the semiconductor and other high-technology industries. The company's customers include semiconductor device manufacturers, semiconductor equipment makers, gas and chemical manufacturing companies, and wafer grower companies; and flat panel display equipment makers, panel manufacturers, and manufacturers of hard disk drive components and devices and their related ecosystems. It also serves manufacturers and suppliers in the solar and life science industries, electrical discharge machining customers, glass and glass container manufacturers, aerospace manufacturers, and manufacturers of biomedical implantation devices. The company was founded in 1966 and is headquartered in Billerica, Massachusetts.",
-                            "ex_dividend_date": "2021-10-26",
+                            "description": "The Est\u00e9e Lauder Companies Inc. manufactures, markets, and sells skin care, makeup, fragrance, and hair care products worldwide. The company offers a range of skin care products, including moisturizers, serums, cleansers, toners, body care, exfoliators, acne care and oil correctors, facial masks, cleansing devices, and sun care products; and makeup products, such as lipsticks, lip glosses, mascaras, foundations, eyeshadows, nail polishes, and powders, as well as compacts, brushes, and other makeup tools. It also provides fragrance products in various forms comprising eau de parfum sprays and colognes, as well as lotions, powders, creams, candles, and soaps; and hair care products that include shampoos, conditioners, styling products, treatment, finishing sprays, and hair color products, as well as sells ancillary products and services. The company offers its products under Est\u00e9e Lauder, Aramis, Clinique, Lab Series, Origins, M\u00b7A\u00b7C, Bobbi Brown, La Mer, Aveda, Jo Malone London, Bumble and bumble, Darphin, Smashbox, Le Labo, Editions de Parfums Fr\u00e9d\u00e9ric Malle, GLAMGLOW, By Kilian, BECCA, Too Faced, Dr. Jart+, DECIEM, and The Ordinary brands. It also holds license arrangements for Tommy Hilfiger, Donna Karan New York, DKNY, Michael Kors, and Ermenegildo Zegna brands. The company sells its products through department stores, specialty-multi retailers, upscale perfumeries and pharmacies, and salons and spas; freestanding stores; its own and authorized retailer websites; third-party online malls; stores in airports; and in-flight and duty-free shops. The company was founded in 1946 and is headquartered in New York, New York.",
+                            "ex_dividend_date": "2022-05-27",
                             "industry_classification": {
                                 "gics": {
-                                    "industry": "Semiconductor Equipment & Materials",
+                                    "industry": "Household & Personal Products",
+                                    "sector": "Consumer Defensive"
+                                },
+                                "sic": {
+                                    "division": "Manufacturing",
+                                    "industry_group": "Perfumes, Cosmetics, and Other Toilet Preparations",
+                                    "major_group": "Chemicals And Allied Products",
+                                    "sic": "2844"
+                                }
+                            },
+                            "name": "ESTEE LAUDER COMPANIES INC",
+                            "ticker": "EL",
+                            "website": "https://www.elcompanies.com"
+                        }
+                value-investing-app/database/sec/financial_statements_data_sets/data/test_data/warehouse/stocks/1001250/fundamentals.csv
+                    
+                    old_df
+                                        quarter  year shares_outstanding  ... sec_urls_XML        sec_urls_HTML         sec_urls_TXT
+                        sub_qtr_enddate                                   ...                                                       
+                        2010-12-31            4  2010          196700000  ...         None  http://www.sec.g...  http://www.sec.g...
+                    
+                    new fundamentals dct
+                        {
+                            "sub_qtr_enddate": "2010-12-31",
+                            "quarter": "4",
+                            "year": "2010",
+                            "shares_outstanding": "196700000",
+                            "total_assets": "5981800000",
+                            "total_liabilities": "3594800000",
+                            "net_income": "343900000",
+                            "earnings_per_share": "1.7500",
+                            "dividends_paid": 0,
+                            "sec_urls": {
+                                "all_files": "http://www.sec.gov/Archives/edgar/data/1001250/000110465911005139/",
+                                "filing_details": "http://www.sec.gov/Archives/edgar/data/1001250/000110465911005139/0001104659-11-005139-index.html",
+                                "XML": null,
+                                "HTML": "http://www.sec.gov/ix?doc=/Archives/edgar/data/1001250/000110465911005139/a10-22874_110q.htm",
+                                "TXT": "http://www.sec.gov/Archives/edgar/data/1001250/000110465911005139/0001104659-11-005139.txt"
+                            }
+                        }
+                    
+                    new fundamentals df
+                                        quarter  year shares_outstanding  ... sec_urls_XML        sec_urls_HTML         sec_urls_TXT
+                        sub_qtr_enddate                                   ...                                                       
+                        2010-12-31            4  2010          196700000  ...         None  http://www.sec.g...  http://www.sec.g...
+                    
+                    sub_qtr_enddate = 2010-12-31
+                    sub_qtr_enddate in old_df
+                    
+                    new_values_found
+                        {
+                            "industry_classification_gics_sector": 0,
+                            "industry_classification_gics_industry": 0,
+                            "industry_classification_sic_sic": 0,
+                            "industry_classification_sic_division": 0,
+                            "industry_classification_sic_major_group": 0,
+                            "industry_classification_sic_industry_group": 0,
+                            "asset_type": 0,
+                            "description": 0,
+                            "name": 0,
+                            "website": 0,
+                            "ex_dividend_date": 0,
+                            "cik": 0,
+                            "ticker": 0,
+                            "country": 0,
+                            "quarter": 0,
+                            "year": 0,
+                            "shares_outstanding": 0,
+                            "total_assets": 0,
+                            "total_liabilities": 0,
+                            "net_income": 0,
+                            "earnings_per_share": 0,
+                            "dividends_paid": 0,
+                            "sec_urls_all_files": 0,
+                            "sec_urls_filing_details": 0,
+                            "sec_urls_XML": 0,
+                            "sec_urls_HTML": 0,
+                            "sec_urls_TXT": 0
+                        }
+                    
+                    values_saved
+                                        quarter  year shares_outstanding  ... sec_urls_XML        sec_urls_HTML         sec_urls_TXT
+                        sub_qtr_enddate                                   ...                                                       
+                        2010-12-31            4  2010          196700000  ...         None  http://www.sec.g...  http://www.sec.g...
+                value-investing-app/database/sec/financial_statements_data_sets/data/test_data/warehouse/stocks/1001250/dividend_per_share_history.csv
+                    
+                    old_df
+                                   Dividends
+                        Date                
+                        1996-03-13   0.02125
+                        1996-06-12   0.02125
+                        1996-09-11   0.02125
+                        ...              ...
+                        2021-08-30      0.53
+                        2021-11-29       0.6
+                        2022-02-25       0.6
+                    
+                    no updates to dividend_per_share_history.csv
+                value-investing-app/database/sec/financial_statements_data_sets/data/test_data/warehouse/stocks/1001250/stock_split_history.csv
+                    
+                    old_df
+                                   Stock Splits
+                        Date                   
+                        1999-06-03          2.0
+                        2012-01-23          2.0
+                    
+                    no updates to stock_split_history.csv
+                value-investing-app/database/sec/financial_statements_data_sets/data/test_data/warehouse/stocks/1001250/daily_price_data.csv
+                    
+                    old_df
+                                     Close    Volume
+                        Date                        
+                        1995-11-17    6.64  35659200
+                        1995-11-20     6.4   8434000
+                        1995-11-21    6.28   6440000
+                        ...            ...       ...
+                        2022-05-11  229.49   1724400
+                        2022-05-12   231.0   2166100
+                        2022-05-13  240.39   1792900
+                    
+                    no updates to daily_price_data.csv
+            
+            updating data quality report:
+                updating price_data_stock_vs_day data:
+                    repo filepath: value-investing-app/database/sec/financial_statements_data_sets/data/test_data/quality_report/price_data_stock_vs_day/price_data_coverage.csv
+                    stock with CIK=1001250 already exists in price_data_stock_vs_day/price_data_coverage.csv
+                        start_date = nan
+                        end_date   = nan
+                done
+                updating stock_vs_quarter data:
+                    variable metrics:
+                        repo filepath: value-investing-app/database/sec/financial_statements_data_sets/data/test_data/quality_report/stock_vs_quarter/variable_metrics.csv
+                        variable_new_values_found
+                            {
+                                "quarter": 0,
+                                "year": 0,
+                                "shares_outstanding": 0,
+                                "total_assets": 0,
+                                "total_liabilities": 0,
+                                "net_income": 0,
+                                "earnings_per_share": 0,
+                                "dividends_paid": 0,
+                                "sec_urls_all_files": 0,
+                                "sec_urls_filing_details": 0,
+                                "sec_urls_XML": 0,
+                                "sec_urls_HTML": 0,
+                                "sec_urls_TXT": 0
+                            }
+                        stock with CIK=1001250 already exists in stock_vs_quarter/variable_metrics.csv
+                        old value at (CIK, quarter)=(1001250, 2010q4) equals 12
+                        sum of variable_new_values_found equals 0
+                        new value at (CIK, quarter)=(1001250, 2010q4) equals 12
+                    constant metrics
+                        repo filepath: value-investing-app/database/sec/financial_statements_data_sets/data/test_data/quality_report/stock_vs_quarter/constant_metrics.json
+                        constant_new_values_found
+                            {
+                                "industry_classification_gics_sector": 0,
+                                "industry_classification_gics_industry": 0,
+                                "industry_classification_sic_sic": 0,
+                                "industry_classification_sic_division": 0,
+                                "industry_classification_sic_major_group": 0,
+                                "industry_classification_sic_industry_group": 0,
+                                "asset_type": 0,
+                                "description": 0,
+                                "name": 0,
+                                "website": 0,
+                                "ex_dividend_date": 0,
+                                "cik": 0,
+                                "ticker": 0,
+                                "country": 0,
+                                "dividend_per_share_history": 0,
+                                "stock_split_history": 0,
+                                "daily_price_data": 0
+                            }
+                        cik=1001250 in old dct equals 17
+                        sum of constant_new_values_found equals 0
+                        new value at cik=1001250 equals 17
+                    set 'number_of_metrics' to:
+                        {
+                            "total": 30,
+                            "variable": 13,
+                            "constant": 17
+                        }
+                        in file: value-investing-app/database/sec/financial_statements_data_sets/data/test_data/warehouse/metadata.json
+                done
+                updating metric_vs_quarter data:
+                    variable metrics
+                        repo filepath: value-investing-app/database/sec/financial_statements_data_sets/data/test_data/quality_report/metric_vs_quarter/variable_metrics.csv
+                        variable_new_values_found
+                            {
+                                "quarter": 0,
+                                "year": 0,
+                                "shares_outstanding": 0,
+                                "total_assets": 0,
+                                "total_liabilities": 0,
+                                "net_income": 0,
+                                "earnings_per_share": 0,
+                                "dividends_paid": 0,
+                                "sec_urls_all_files": 0,
+                                "sec_urls_filing_details": 0,
+                                "sec_urls_XML": 0,
+                                "sec_urls_HTML": 0,
+                                "sec_urls_TXT": 0
+                            }
+                        new_submission = False, so +0 for each "searched"
+                        updates for quarter 2010q4: (found, searched)
+                            dividends_paid           kept at (10, 10)
+                            earnings_per_share       kept at (9, 10)
+                            net_income               kept at (10, 10)
+                            quarter                  kept at (10, 10)
+                            sec_urls_HTML            kept at (10, 10)
+                            sec_urls_TXT             kept at (10, 10)
+                            sec_urls_XML             kept at (7, 10)
+                            sec_urls_all_files       kept at (10, 10)
+                            sec_urls_filing_details  kept at (10, 10)
+                            shares_outstanding       kept at (9, 10)
+                            total_assets             kept at (10, 10)
+                            total_liabilities        kept at (10, 10)
+                            year                     kept at (10, 10)
+                    constant metrics
+                        repo filepath: value-investing-app/database/sec/financial_statements_data_sets/data/test_data/quality_report/metric_vs_quarter/constant_metrics.json
+                        constant_new_values_found
+                            {
+                                "industry_classification_gics_sector": 0,
+                                "industry_classification_gics_industry": 0,
+                                "industry_classification_sic_sic": 0,
+                                "industry_classification_sic_division": 0,
+                                "industry_classification_sic_major_group": 0,
+                                "industry_classification_sic_industry_group": 0,
+                                "asset_type": 0,
+                                "description": 0,
+                                "name": 0,
+                                "website": 0,
+                                "ex_dividend_date": 0,
+                                "cik": 0,
+                                "ticker": 0,
+                                "country": 0,
+                                "dividend_per_share_history": 0,
+                                "stock_split_history": 0,
+                                "daily_price_data": 0
+                            }
+                        updates:
+                            asset_type                                  kept at 9
+                            cik                                         kept at 13
+                            country                                     kept at 12
+                            daily_price_data                            kept at 9
+                            description                                 kept at 9
+                            dividend_per_share_history                  kept at 8
+                            ex_dividend_date                            kept at 8
+                            industry_classification_gics_industry       kept at 9
+                            industry_classification_gics_sector         kept at 9
+                            industry_classification_sic_division        kept at 13
+                            industry_classification_sic_industry_group  kept at 13
+                            industry_classification_sic_major_group     kept at 13
+                            industry_classification_sic_sic             kept at 13
+                            name                                        kept at 13
+                            stock_split_history                         kept at 7
+                            ticker                                      kept at 9
+                            website                                     kept at 9
+                done
+                updating stock_vs_metric data:
+                    variable metrics
+                        repo filepath: value-investing-app/database/sec/financial_statements_data_sets/data/test_data/quality_report/stock_vs_metric/variable_metrics.csv
+                        stock with CIK=1001250 already exists in stock_vs_metric/variable_metrics.csv
+                        new_submission = False, so +0 for each "searched"
+                        variable_new_values_found
+                            {
+                                "quarter": 0,
+                                "year": 0,
+                                "shares_outstanding": 0,
+                                "total_assets": 0,
+                                "total_liabilities": 0,
+                                "net_income": 0,
+                                "earnings_per_share": 0,
+                                "dividends_paid": 0,
+                                "sec_urls_all_files": 0,
+                                "sec_urls_filing_details": 0,
+                                "sec_urls_XML": 0,
+                                "sec_urls_HTML": 0,
+                                "sec_urls_TXT": 0
+                            }
+                        updates for stock cik=1001250: (found, searched)
+                            dividends_paid           kept at (1, 1)
+                            earnings_per_share       kept at (1, 1)
+                            net_income               kept at (1, 1)
+                            quarter                  kept at (1, 1)
+                            sec_urls_HTML            kept at (1, 1)
+                            sec_urls_TXT             kept at (1, 1)
+                            sec_urls_XML             kept at (0, 1)
+                            sec_urls_all_files       kept at (1, 1)
+                            sec_urls_filing_details  kept at (1, 1)
+                            shares_outstanding       kept at (1, 1)
+                            total_assets             kept at (1, 1)
+                            total_liabilities        kept at (1, 1)
+                            year                     kept at (1, 1)
+                    constant metrics
+                        repo filepath: value-investing-app/database/sec/financial_statements_data_sets/data/test_data/quality_report/stock_vs_metric/constant_metrics.csv
+                        stock with CIK=1001250 already exists in stock_vs_metric/constant_metrics.csv
+                        constant_new_values_found
+                            {
+                                "industry_classification_gics_sector": 0,
+                                "industry_classification_gics_industry": 0,
+                                "industry_classification_sic_sic": 0,
+                                "industry_classification_sic_division": 0,
+                                "industry_classification_sic_major_group": 0,
+                                "industry_classification_sic_industry_group": 0,
+                                "asset_type": 0,
+                                "description": 0,
+                                "name": 0,
+                                "website": 0,
+                                "ex_dividend_date": 0,
+                                "ticker": 0,
+                                "country": 0,
+                                "dividend_per_share_history": 0,
+                                "stock_split_history": 0,
+                                "daily_price_data": 0
+                            }
+                        updates for stock cik=1001250
+                            asset_type                                  kept at 1
+                            country                                     kept at 1
+                            daily_price_data                            kept at 1
+                            description                                 kept at 1
+                            dividend_per_share_history                  kept at 1
+                            ex_dividend_date                            kept at 1
+                            industry_classification_gics_industry       kept at 1
+                            industry_classification_gics_sector         kept at 1
+                            industry_classification_sic_division        kept at 1
+                            industry_classification_sic_industry_group  kept at 1
+                            industry_classification_sic_major_group     kept at 1
+                            industry_classification_sic_sic             kept at 1
+                            name                                        kept at 1
+                            stock_split_history                         kept at 1
+                            ticker                                      kept at 1
+                            website                                     kept at 1
+                done
+            done
+        done parsing submission, duration: 1 minutes, 1.16 seconds
+        
+        submission 3 of 301 for 2011q1:
+            form type ... 10-Q
+            ticker ...... NTAP
+            cik ......... 1002047
+            
+            yahoo_finance data already aquired
+            done
+            
+            parsing SEC Financial Statements Data Sets data:
+            done
+            
+            data:
+                
+                info
+                    {
+                        "industry_classification": {
+                            "gics": {
+                                "sector": null,
+                                "industry": null
+                            },
+                            "sic": {
+                                "sic": "3572",
+                                "division": "Manufacturing",
+                                "major_group": "Industrial And Commercial Machinery And Computer Equipment",
+                                "industry_group": "Computer Storage Devices"
+                            }
+                        },
+                        "asset_type": null,
+                        "description": null,
+                        "name": "NetApp, Inc.",
+                        "website": null,
+                        "ex_dividend_date": null,
+                        "cik": "1002047",
+                        "ticker": "NTAP",
+                        "country": "UNITED STATES"
+                    }
+                
+                fundamentals
+                    {
+                        "sub_qtr_enddate": "2011-01-31",
+                        "quarter": "1",
+                        "year": "2011",
+                        "shares_outstanding": "364800000",
+                        "total_assets": "7763400000",
+                        "total_liabilities": "4250000000",
+                        "net_income": "172500000",
+                        "earnings_per_share": "0.4700",
+                        "dividends_paid": 0,
+                        "sec_urls": {
+                            "all_files": "http://www.sec.gov/Archives/edgar/data/1002047/000119312511056223/",
+                            "filing_details": "http://www.sec.gov/Archives/edgar/data/1002047/000119312511056223/0001193125-11-056223-index.html",
+                            "XML": "http://www.sec.gov/Archives/edgar/data/1002047/000119312511056223/ntap-20110128.xml",
+                            "HTML": "http://www.sec.gov/ix?doc=/Archives/edgar/data/1002047/000119312511056223/d10q.htm",
+                            "TXT": "http://www.sec.gov/Archives/edgar/data/1002047/000119312511056223/0001193125-11-056223.txt"
+                        }
+                    }
+                
+                daily_price_data
+                    None
+                
+                dividend_per_share_history
+                    None
+                
+                stock_split_history
+                    None
+            
+            saved data to:
+                value-investing-app/database/sec/financial_statements_data_sets/data/test_data/warehouse/stocks/1002047/info.json
+                    
+                    old_values
+                        {
+                            "asset_type": "EQUITY",
+                            "cik": "1002047",
+                            "country": "UNITED STATES",
+                            "description": "NetApp, Inc. provides software, systems, and cloud services to manage and share data on-premises, and private and public clouds worldwide. The company offers cloud storage services, including NetApp Cloud Volumes; cloud control solutions, such as NetApp Cloud Manager and NetApp Virtual Desktop Service; cloud services and analytics comprising NetApp Cloud Insights, NetApp Cloud Sync, NetApp Cloud Compliance, NetApp Cloud Tiering, NetApp SaaS Backup, NetApp Cloud Backup, and NetApp Global File Cache; and Cloud Optimization solutions, such as Spot by NetApp, Spot Cloud Analyzer by NetApp, Spot Eco by NetApp, Spot Ocean by NetApp, Spot Wave by NetApp, Spot Elastigroup by NetApp, and NetApp Virtual Desktop Managed Service. It provides data storage solutions comprising NetApp All-Flash FAS series, NetApp Fabric Attached Storage, NetApp FlexPod, NetApp E/EF series, NetApp StorageGRID, NetApp SolidFire, and NetApp HCI; data protection solutions, such as NetApp SnapCenter Backup Management, NetApp SnapMirror Data Replication, NetApp SnapLock Data Compliance, and NetApp Data Availability Services; and data management solutions, including NetApp ONTAP Storage Management System, NetApp ElementOS software, NetApp SANtricity software, NetApp Active IQ Digital Advisor, OnCommand Insight, and OnCommand Workflow Automation. In addition, the company offers application-aware data management service under the NetApp Astra name; and payment solutions and storage-as-a-service under the NetApp Keystone name. Further, it provides assessment, design, consulting, and implementation services. The company serves the energy, financial service, government, technology, internet, life science, healthcare service, manufacturing, media, entertainment, animation, video postproduction, and telecommunication markets through a direct sales force and an ecosystem of partners. NetApp, Inc. was incorporated in 1992 and is headquartered in San Jose, California.",
+                            "ex_dividend_date": "2022-04-07",
+                            "industry_classification": {
+                                "gics": {
+                                    "industry": "Computer Hardware",
                                     "sector": "Technology"
                                 },
                                 "sic": {
                                     "division": "Manufacturing",
-                                    "industry_group": "Plastics Products, Not Elsewhere Classified",
-                                    "major_group": "Rubber And Miscellaneous Plastics Products",
-                                    "sic": "3089"
+                                    "industry_group": "Computer Storage Devices",
+                                    "major_group": "Industrial And Commercial Machinery And Computer Equipment",
+                                    "sic": "3572"
                                 }
                             },
-                            "name": "Entegris, Inc.",
-                            "ticker": "ENTG",
-                            "website": "https://www.entegris.com"
+                            "name": "NetApp, Inc.",
+                            "ticker": "NTAP",
+                            "website": "https://www.netapp.com"
                         }
-                value-investing-app/database/sec/financial_statements_data_sets/data/test_data/warehouse/stocks/1101302/fundamentals.csv
+                    
+                    new_values
+                        {
+                            "asset_type": null,
+                            "cik": "1002047",
+                            "country": "UNITED STATES",
+                            "description": null,
+                            "ex_dividend_date": null,
+                            "industry_classification": {
+                                "gics": {
+                                    "industry": null,
+                                    "sector": null
+                                },
+                                "sic": {
+                                    "division": "Manufacturing",
+                                    "industry_group": "Computer Storage Devices",
+                                    "major_group": "Industrial And Commercial Machinery And Computer Equipment",
+                                    "sic": "3572"
+                                }
+                            },
+                            "name": "NetApp, Inc.",
+                            "ticker": "NTAP",
+                            "website": null
+                        }
+                    
+                    key_map
+                        {
+                            "asset_type": [
+                                "asset_type"
+                            ],
+                            "cik": [
+                                "cik"
+                            ],
+                            "country": [
+                                "country"
+                            ],
+                            "description": [
+                                "description"
+                            ],
+                            "ex_dividend_date": [
+                                "ex_dividend_date"
+                            ],
+                            "industry_classification_gics_industry": [
+                                "industry_classification",
+                                "gics",
+                                "industry"
+                            ],
+                            "industry_classification_gics_sector": [
+                                "industry_classification",
+                                "gics",
+                                "sector"
+                            ],
+                            "industry_classification_sic_division": [
+                                "industry_classification",
+                                "sic",
+                                "division"
+                            ],
+                            "industry_classification_sic_industry_group": [
+                                "industry_classification",
+                                "sic",
+                                "industry_group"
+                            ],
+                            "industry_classification_sic_major_group": [
+                                "industry_classification",
+                                "sic",
+                                "major_group"
+                            ],
+                            "industry_classification_sic_sic": [
+                                "industry_classification",
+                                "sic",
+                                "sic"
+                            ],
+                            "name": [
+                                "name"
+                            ],
+                            "ticker": [
+                                "ticker"
+                            ],
+                            "website": [
+                                "website"
+                            ]
+                        }
+                    
+                    empty_info_template
+                        {
+                            "asset_type": null,
+                            "cik": null,
+                            "country": null,
+                            "description": null,
+                            "ex_dividend_date": null,
+                            "industry_classification": {
+                                "gics": {
+                                    "industry": null,
+                                    "sector": null
+                                },
+                                "sic": {
+                                    "division": null,
+                                    "industry_group": null,
+                                    "major_group": null,
+                                    "sic": null
+                                }
+                            },
+                            "name": null,
+                            "ticker": null,
+                            "website": null
+                        }
+                    
+                    new_values_found BEFORE update
+                        {
+                            "asset_type": 0,
+                            "cik": 0,
+                            "country": 0,
+                            "description": 0,
+                            "ex_dividend_date": 0,
+                            "industry_classification_gics_industry": 0,
+                            "industry_classification_gics_sector": 0,
+                            "industry_classification_sic_division": 0,
+                            "industry_classification_sic_industry_group": 0,
+                            "industry_classification_sic_major_group": 0,
+                            "industry_classification_sic_sic": 0,
+                            "name": 0,
+                            "ticker": 0,
+                            "website": 0
+                        }
+                    
+                    new_values_found AFTER update
+                        {
+                            "asset_type": 0,
+                            "cik": 0,
+                            "country": 0,
+                            "description": 0,
+                            "ex_dividend_date": 0,
+                            "industry_classification_gics_industry": 0,
+                            "industry_classification_gics_sector": 0,
+                            "industry_classification_sic_division": 0,
+                            "industry_classification_sic_industry_group": 0,
+                            "industry_classification_sic_major_group": 0,
+                            "industry_classification_sic_sic": 0,
+                            "name": 0,
+                            "ticker": 0,
+                            "website": 0
+                        }
+                    
+                    values_saved
+                        {
+                            "asset_type": "EQUITY",
+                            "cik": "1002047",
+                            "country": "UNITED STATES",
+                            "description": "NetApp, Inc. provides software, systems, and cloud services to manage and share data on-premises, and private and public clouds worldwide. The company offers cloud storage services, including NetApp Cloud Volumes; cloud control solutions, such as NetApp Cloud Manager and NetApp Virtual Desktop Service; cloud services and analytics comprising NetApp Cloud Insights, NetApp Cloud Sync, NetApp Cloud Compliance, NetApp Cloud Tiering, NetApp SaaS Backup, NetApp Cloud Backup, and NetApp Global File Cache; and Cloud Optimization solutions, such as Spot by NetApp, Spot Cloud Analyzer by NetApp, Spot Eco by NetApp, Spot Ocean by NetApp, Spot Wave by NetApp, Spot Elastigroup by NetApp, and NetApp Virtual Desktop Managed Service. It provides data storage solutions comprising NetApp All-Flash FAS series, NetApp Fabric Attached Storage, NetApp FlexPod, NetApp E/EF series, NetApp StorageGRID, NetApp SolidFire, and NetApp HCI; data protection solutions, such as NetApp SnapCenter Backup Management, NetApp SnapMirror Data Replication, NetApp SnapLock Data Compliance, and NetApp Data Availability Services; and data management solutions, including NetApp ONTAP Storage Management System, NetApp ElementOS software, NetApp SANtricity software, NetApp Active IQ Digital Advisor, OnCommand Insight, and OnCommand Workflow Automation. In addition, the company offers application-aware data management service under the NetApp Astra name; and payment solutions and storage-as-a-service under the NetApp Keystone name. Further, it provides assessment, design, consulting, and implementation services. The company serves the energy, financial service, government, technology, internet, life science, healthcare service, manufacturing, media, entertainment, animation, video postproduction, and telecommunication markets through a direct sales force and an ecosystem of partners. NetApp, Inc. was incorporated in 1992 and is headquartered in San Jose, California.",
+                            "ex_dividend_date": "2022-04-07",
+                            "industry_classification": {
+                                "gics": {
+                                    "industry": "Computer Hardware",
+                                    "sector": "Technology"
+                                },
+                                "sic": {
+                                    "division": "Manufacturing",
+                                    "industry_group": "Computer Storage Devices",
+                                    "major_group": "Industrial And Commercial Machinery And Computer Equipment",
+                                    "sic": "3572"
+                                }
+                            },
+                            "name": "NetApp, Inc.",
+                            "ticker": "NTAP",
+                            "website": "https://www.netapp.com"
+                        }
+                value-investing-app/database/sec/financial_statements_data_sets/data/test_data/warehouse/stocks/1002047/fundamentals.csv
                     
                     old_df
                                         quarter  year shares_outstanding  ...         sec_urls_XML        sec_urls_HTML         sec_urls_TXT
                         sub_qtr_enddate                                   ...                                                               
-                        2011-06-30            2  2011          134535000  ...  http://www.sec.g...  http://www.sec.g...  http://www.sec.g...
+                        2011-01-31            1  2011          364800000  ...  http://www.sec.g...  http://www.sec.g...  http://www.sec.g...
                     
                     new fundamentals dct
                         {
-                            "sub_qtr_enddate": "2011-06-30",
-                            "quarter": "2",
+                            "sub_qtr_enddate": "2011-01-31",
+                            "quarter": "1",
                             "year": "2011",
-                            "shares_outstanding": "134535000",
-                            "total_assets": "672266000",
-                            "total_liabilities": "132751000",
-                            "net_income": "32522000",
-                            "earnings_per_share": "0.2400",
+                            "shares_outstanding": "364800000",
+                            "total_assets": "7763400000",
+                            "total_liabilities": "4250000000",
+                            "net_income": "172500000",
+                            "earnings_per_share": "0.4700",
                             "dividends_paid": 0,
                             "sec_urls": {
-                                "all_files": "http://www.sec.gov/Archives/edgar/data/1101302/000119312511202092/",
-                                "filing_details": "http://www.sec.gov/Archives/edgar/data/1101302/000119312511202092/0001193125-11-202092-index.html",
-                                "XML": "http://www.sec.gov/Archives/edgar/data/1101302/000119312511202092/entg-20110702.xml",
-                                "HTML": "http://www.sec.gov/ix?doc=/Archives/edgar/data/1101302/000119312511202092/d10q.htm",
-                                "TXT": "http://www.sec.gov/Archives/edgar/data/1101302/000119312511202092/0001193125-11-202092.txt"
+                                "all_files": "http://www.sec.gov/Archives/edgar/data/1002047/000119312511056223/",
+                                "filing_details": "http://www.sec.gov/Archives/edgar/data/1002047/000119312511056223/0001193125-11-056223-index.html",
+                                "XML": "http://www.sec.gov/Archives/edgar/data/1002047/000119312511056223/ntap-20110128.xml",
+                                "HTML": "http://www.sec.gov/ix?doc=/Archives/edgar/data/1002047/000119312511056223/d10q.htm",
+                                "TXT": "http://www.sec.gov/Archives/edgar/data/1002047/000119312511056223/0001193125-11-056223.txt"
                             }
                         }
                     
                     new fundamentals df
                                         quarter  year shares_outstanding  ...         sec_urls_XML        sec_urls_HTML         sec_urls_TXT
                         sub_qtr_enddate                                   ...                                                               
-                        2011-06-30            2  2011          134535000  ...  http://www.sec.g...  http://www.sec.g...  http://www.sec.g...
+                        2011-01-31            1  2011          364800000  ...  http://www.sec.g...  http://www.sec.g...  http://www.sec.g...
                     
-                    sub_qtr_enddate = 2011-06-30
+                    sub_qtr_enddate = 2011-01-31
                     sub_qtr_enddate in old_df
                     
                     new_values_found
@@ -367,30 +1501,618 @@ parsing data for 3 new quarter(s)
                     values_saved
                                         quarter  year shares_outstanding  ...         sec_urls_XML        sec_urls_HTML         sec_urls_TXT
                         sub_qtr_enddate                                   ...                                                               
-                        2011-06-30            2  2011          134535000  ...  http://www.sec.g...  http://www.sec.g...  http://www.sec.g...
-                value-investing-app/database/sec/financial_statements_data_sets/data/test_data/warehouse/stocks/1101302/dividend_per_share_history.csv
+                        2011-01-31            1  2011          364800000  ...  http://www.sec.g...  http://www.sec.g...  http://www.sec.g...
+                value-investing-app/database/sec/financial_statements_data_sets/data/test_data/warehouse/stocks/1002047/dividend_per_share_history.csv
                     
                     old_df
                                    Dividends
                         Date                
-                        2017-10-31      0.07
-                        2018-01-30      0.07
-                        2018-05-01      0.07
+                        2013-07-09      0.15
+                        2013-10-17      0.15
+                        2014-01-07      0.15
                         ...              ...
-                        2021-07-27      0.08
-                        2021-10-26      0.08
-                        2022-02-01       0.1
+                        2021-10-07       0.5
+                        2022-01-06       0.5
+                        2022-04-07       0.5
+                    
+                    no updates to dividend_per_share_history.csv
+                value-investing-app/database/sec/financial_statements_data_sets/data/test_data/warehouse/stocks/1002047/stock_split_history.csv
+                    
+                    old_df
+                                   Stock Splits
+                        Date                   
+                        1997-12-19          2.0
+                        1998-12-22          2.0
+                        1999-12-21          2.0
+                        2000-03-23          2.0
+                    
+                    no updates to stock_split_history.csv
+                value-investing-app/database/sec/financial_statements_data_sets/data/test_data/warehouse/stocks/1002047/daily_price_data.csv
+                    
+                    old_df
+                                    Close    Volume
+                        Date                       
+                        1995-11-21   1.03  51412800
+                        1995-11-22   1.26  11921600
+                        1995-11-24   1.36   2419200
+                        ...           ...       ...
+                        2022-05-11  69.74   2091100
+                        2022-05-12  69.68   1951400
+                        2022-05-13  71.21   1993400
+                    
+                    no updates to daily_price_data.csv
+            
+            updating data quality report:
+                updating price_data_stock_vs_day data:
+                    repo filepath: value-investing-app/database/sec/financial_statements_data_sets/data/test_data/quality_report/price_data_stock_vs_day/price_data_coverage.csv
+                    stock with CIK=1002047 already exists in price_data_stock_vs_day/price_data_coverage.csv
+                        start_date = nan
+                        end_date   = nan
+                done
+                updating stock_vs_quarter data:
+                    variable metrics:
+                        repo filepath: value-investing-app/database/sec/financial_statements_data_sets/data/test_data/quality_report/stock_vs_quarter/variable_metrics.csv
+                        variable_new_values_found
+                            {
+                                "quarter": 0,
+                                "year": 0,
+                                "shares_outstanding": 0,
+                                "total_assets": 0,
+                                "total_liabilities": 0,
+                                "net_income": 0,
+                                "earnings_per_share": 0,
+                                "dividends_paid": 0,
+                                "sec_urls_all_files": 0,
+                                "sec_urls_filing_details": 0,
+                                "sec_urls_XML": 0,
+                                "sec_urls_HTML": 0,
+                                "sec_urls_TXT": 0
+                            }
+                        stock with CIK=1002047 already exists in stock_vs_quarter/variable_metrics.csv
+                        old value at (CIK, quarter)=(1002047, 2011q1) equals 13
+                        sum of variable_new_values_found equals 0
+                        new value at (CIK, quarter)=(1002047, 2011q1) equals 13
+                    constant metrics
+                        repo filepath: value-investing-app/database/sec/financial_statements_data_sets/data/test_data/quality_report/stock_vs_quarter/constant_metrics.json
+                        constant_new_values_found
+                            {
+                                "industry_classification_gics_sector": 0,
+                                "industry_classification_gics_industry": 0,
+                                "industry_classification_sic_sic": 0,
+                                "industry_classification_sic_division": 0,
+                                "industry_classification_sic_major_group": 0,
+                                "industry_classification_sic_industry_group": 0,
+                                "asset_type": 0,
+                                "description": 0,
+                                "name": 0,
+                                "website": 0,
+                                "ex_dividend_date": 0,
+                                "cik": 0,
+                                "ticker": 0,
+                                "country": 0,
+                                "dividend_per_share_history": 0,
+                                "stock_split_history": 0,
+                                "daily_price_data": 0
+                            }
+                        cik=1002047 in old dct equals 17
+                        sum of constant_new_values_found equals 0
+                        new value at cik=1002047 equals 17
+                    set 'number_of_metrics' to:
+                        {
+                            "total": 30,
+                            "variable": 13,
+                            "constant": 17
+                        }
+                        in file: value-investing-app/database/sec/financial_statements_data_sets/data/test_data/warehouse/metadata.json
+                done
+                updating metric_vs_quarter data:
+                    variable metrics
+                        repo filepath: value-investing-app/database/sec/financial_statements_data_sets/data/test_data/quality_report/metric_vs_quarter/variable_metrics.csv
+                        variable_new_values_found
+                            {
+                                "quarter": 0,
+                                "year": 0,
+                                "shares_outstanding": 0,
+                                "total_assets": 0,
+                                "total_liabilities": 0,
+                                "net_income": 0,
+                                "earnings_per_share": 0,
+                                "dividends_paid": 0,
+                                "sec_urls_all_files": 0,
+                                "sec_urls_filing_details": 0,
+                                "sec_urls_XML": 0,
+                                "sec_urls_HTML": 0,
+                                "sec_urls_TXT": 0
+                            }
+                        new_submission = False, so +0 for each "searched"
+                        updates for quarter 2011q1: (found, searched)
+                            dividends_paid           kept at (2, 2)
+                            earnings_per_share       kept at (2, 2)
+                            net_income               kept at (2, 2)
+                            quarter                  kept at (2, 2)
+                            sec_urls_HTML            kept at (2, 2)
+                            sec_urls_TXT             kept at (2, 2)
+                            sec_urls_XML             kept at (2, 2)
+                            sec_urls_all_files       kept at (2, 2)
+                            sec_urls_filing_details  kept at (2, 2)
+                            shares_outstanding       kept at (2, 2)
+                            total_assets             kept at (2, 2)
+                            total_liabilities        kept at (2, 2)
+                            year                     kept at (2, 2)
+                    constant metrics
+                        repo filepath: value-investing-app/database/sec/financial_statements_data_sets/data/test_data/quality_report/metric_vs_quarter/constant_metrics.json
+                        constant_new_values_found
+                            {
+                                "industry_classification_gics_sector": 0,
+                                "industry_classification_gics_industry": 0,
+                                "industry_classification_sic_sic": 0,
+                                "industry_classification_sic_division": 0,
+                                "industry_classification_sic_major_group": 0,
+                                "industry_classification_sic_industry_group": 0,
+                                "asset_type": 0,
+                                "description": 0,
+                                "name": 0,
+                                "website": 0,
+                                "ex_dividend_date": 0,
+                                "cik": 0,
+                                "ticker": 0,
+                                "country": 0,
+                                "dividend_per_share_history": 0,
+                                "stock_split_history": 0,
+                                "daily_price_data": 0
+                            }
+                        updates:
+                            asset_type                                  kept at 9
+                            cik                                         kept at 13
+                            country                                     kept at 12
+                            daily_price_data                            kept at 9
+                            description                                 kept at 9
+                            dividend_per_share_history                  kept at 8
+                            ex_dividend_date                            kept at 8
+                            industry_classification_gics_industry       kept at 9
+                            industry_classification_gics_sector         kept at 9
+                            industry_classification_sic_division        kept at 13
+                            industry_classification_sic_industry_group  kept at 13
+                            industry_classification_sic_major_group     kept at 13
+                            industry_classification_sic_sic             kept at 13
+                            name                                        kept at 13
+                            stock_split_history                         kept at 7
+                            ticker                                      kept at 9
+                            website                                     kept at 9
+                done
+                updating stock_vs_metric data:
+                    variable metrics
+                        repo filepath: value-investing-app/database/sec/financial_statements_data_sets/data/test_data/quality_report/stock_vs_metric/variable_metrics.csv
+                        stock with CIK=1002047 already exists in stock_vs_metric/variable_metrics.csv
+                        new_submission = False, so +0 for each "searched"
+                        variable_new_values_found
+                            {
+                                "quarter": 0,
+                                "year": 0,
+                                "shares_outstanding": 0,
+                                "total_assets": 0,
+                                "total_liabilities": 0,
+                                "net_income": 0,
+                                "earnings_per_share": 0,
+                                "dividends_paid": 0,
+                                "sec_urls_all_files": 0,
+                                "sec_urls_filing_details": 0,
+                                "sec_urls_XML": 0,
+                                "sec_urls_HTML": 0,
+                                "sec_urls_TXT": 0
+                            }
+                        updates for stock cik=1002047: (found, searched)
+                            dividends_paid           kept at (1, 1)
+                            earnings_per_share       kept at (1, 1)
+                            net_income               kept at (1, 1)
+                            quarter                  kept at (1, 1)
+                            sec_urls_HTML            kept at (1, 1)
+                            sec_urls_TXT             kept at (1, 1)
+                            sec_urls_XML             kept at (1, 1)
+                            sec_urls_all_files       kept at (1, 1)
+                            sec_urls_filing_details  kept at (1, 1)
+                            shares_outstanding       kept at (1, 1)
+                            total_assets             kept at (1, 1)
+                            total_liabilities        kept at (1, 1)
+                            year                     kept at (1, 1)
+                    constant metrics
+                        repo filepath: value-investing-app/database/sec/financial_statements_data_sets/data/test_data/quality_report/stock_vs_metric/constant_metrics.csv
+                        stock with CIK=1002047 already exists in stock_vs_metric/constant_metrics.csv
+                        constant_new_values_found
+                            {
+                                "industry_classification_gics_sector": 0,
+                                "industry_classification_gics_industry": 0,
+                                "industry_classification_sic_sic": 0,
+                                "industry_classification_sic_division": 0,
+                                "industry_classification_sic_major_group": 0,
+                                "industry_classification_sic_industry_group": 0,
+                                "asset_type": 0,
+                                "description": 0,
+                                "name": 0,
+                                "website": 0,
+                                "ex_dividend_date": 0,
+                                "ticker": 0,
+                                "country": 0,
+                                "dividend_per_share_history": 0,
+                                "stock_split_history": 0,
+                                "daily_price_data": 0
+                            }
+                        updates for stock cik=1002047
+                            asset_type                                  kept at 1
+                            country                                     kept at 1
+                            daily_price_data                            kept at 1
+                            description                                 kept at 1
+                            dividend_per_share_history                  kept at 1
+                            ex_dividend_date                            kept at 1
+                            industry_classification_gics_industry       kept at 1
+                            industry_classification_gics_sector         kept at 1
+                            industry_classification_sic_division        kept at 1
+                            industry_classification_sic_industry_group  kept at 1
+                            industry_classification_sic_major_group     kept at 1
+                            industry_classification_sic_sic             kept at 1
+                            name                                        kept at 1
+                            stock_split_history                         kept at 1
+                            ticker                                      kept at 1
+                            website                                     kept at 1
+                done
+            done
+        done parsing submission, duration: 0 minutes, 17.15 seconds
+        
+        submission 4 of 301 for 2011q1:
+            form type ... 10-Q
+            ticker ...... NUAN
+            cik ......... 1002517
+            
+            parsing yahoo finance data:
+                parse_yf_info 1
+                parse_yf_dividend_per_share_history 1
+                parse_yf_stock_split_history 1
+                parse_yf_daily_price_data 1
+            done
+            
+            parsing SEC Financial Statements Data Sets data:
+            done
+            
+            data:
+                
+                info
+                    {
+                        "industry_classification": {
+                            "gics": {
+                                "sector": "Technology",
+                                "industry": "Software\u2014Application"
+                            },
+                            "sic": {
+                                "sic": "7372",
+                                "division": "Services",
+                                "major_group": "Business Services",
+                                "industry_group": "Prepackaged Software"
+                            }
+                        },
+                        "asset_type": "EQUITY",
+                        "description": "Nuance Communications, Inc. provides conversational and cognitive artificial intelligence (AI) innov...",
+                        "name": "Nuance Communications, Inc.",
+                        "website": "https://www.nuance.com",
+                        "ex_dividend_date": null,
+                        "cik": "1002517",
+                        "ticker": "NUAN",
+                        "country": "UNITED STATES"
+                    }
+                
+                fundamentals
+                    {
+                        "sub_qtr_enddate": "2010-12-31",
+                        "quarter": "4",
+                        "year": "2010",
+                        "shares_outstanding": "298633000",
+                        "total_assets": "3789320000",
+                        "total_liabilities": "1473405000",
+                        "net_income": "-9000",
+                        "earnings_per_share": "0.0000",
+                        "dividends_paid": 0,
+                        "sec_urls": {
+                            "all_files": "http://www.sec.gov/Archives/edgar/data/1002517/000095012311011086/",
+                            "filing_details": "http://www.sec.gov/Archives/edgar/data/1002517/000095012311011086/0000950123-11-011086-index.html",
+                            "XML": null,
+                            "HTML": "http://www.sec.gov/ix?doc=/Archives/edgar/data/1002517/000095012311011086/b83534e10vq.htm",
+                            "TXT": "http://www.sec.gov/Archives/edgar/data/1002517/000095012311011086/0000950123-11-011086.txt"
+                        }
+                    }
+                
+                dividend_per_share_history
+                    Empty DataFrame
+                    Columns: [Dividends]
+                    Index: []
+                
+                stock_split_history
+                    Empty DataFrame
+                    Columns: [Stock Splits]
+                    Index: []
+                
+                daily_price_data
+                                Close    Volume
+                    Date                       
+                    1995-12-11  18.00   4597900
+                    1995-12-12  17.88    964100
+                    1995-12-13  17.50    327700
+                    ...           ...       ...
+                    2022-03-02  55.98  14542189
+                    2022-03-03  55.99  15928623
+                    2022-03-04  55.99         0
+            
+            saved data to:
+                value-investing-app/database/sec/financial_statements_data_sets/data/test_data/warehouse/stocks/1002517/info.json
+                    
+                    old_values
+                        {
+                            "asset_type": "EQUITY",
+                            "cik": "1002517",
+                            "country": "UNITED STATES",
+                            "description": "Nuance Communications, Inc. provides conversational and cognitive artificial intelligence (AI) innovations that bring intelligence to everyday work and life. The company delivers solutions that understand, analyze, and respond to people - amplifying human intelligence to increase productivity and security. Its Healthcare segment provides clinical speech and clinical language understanding solutions that improve the clinical documentation process, from capturing the complete patient record to improving clinical documentation and quality measures for reimbursement. Its solutions include Dragon Medical One, cloud-based speech solution; computer-assisted physician documentation; diagnostic imaging solutions; Nuance Dragon Ambient eXperience, a voice-enabled solution; and clinical documentation improvement and coding. The company's Enterprise segment primarily engages in using speech, natural language understanding, and artificial intelligence to provide automated customer solutions and services for voice, mobile, web, and messaging channels. Its solutions include intelligent engagement solutions; Conversational AI; Engagement AI; and Security AI. Its Other segment provides voicemail transcription services. It serves organizations across healthcare, financial services, telecommunications, government, and retail. The company markets and sells its solutions and technologies directly through sales force, as well as through a network of resellers, including system integrators, independent software vendors, value-added resellers, distributors, hardware vendors, telecommunications carriers, and e-commerce Websites worldwide. The company was formerly known as ScanSoft, Inc. and changed its name to Nuance Communications, Inc. in October 2005. Nuance Communications, Inc. was incorporated in 1992 and is headquartered in Burlington, Massachusetts. As of March 4, 2022, Nuance Communications, Inc. operates as a subsidiary of Microsoft Corporation.",
+                            "ex_dividend_date": null,
+                            "industry_classification": {
+                                "gics": {
+                                    "industry": "Software\u2014Application",
+                                    "sector": "Technology"
+                                },
+                                "sic": {
+                                    "division": "Services",
+                                    "industry_group": "Prepackaged Software",
+                                    "major_group": "Business Services",
+                                    "sic": "7372"
+                                }
+                            },
+                            "name": "Nuance Communications, Inc.",
+                            "ticker": "NUAN",
+                            "website": "https://www.nuance.com"
+                        }
+                    
+                    new_values
+                        {
+                            "asset_type": "EQUITY",
+                            "cik": "1002517",
+                            "country": "UNITED STATES",
+                            "description": "Nuance Communications, Inc. provides conversational and cognitive artificial intelligence (AI) innovations that bring intelligence to everyday work and life. The company delivers solutions that understand, analyze, and respond to people - amplifying human intelligence to increase productivity and security. Its Healthcare segment provides clinical speech and clinical language understanding solutions that improve the clinical documentation process, from capturing the complete patient record to improving clinical documentation and quality measures for reimbursement. Its solutions include Dragon Medical One, cloud-based speech solution; computer-assisted physician documentation; diagnostic imaging solutions; Nuance Dragon Ambient eXperience, a voice-enabled solution; and clinical documentation improvement and coding. The company's Enterprise segment primarily engages in using speech, natural language understanding, and artificial intelligence to provide automated customer solutions and services for voice, mobile, web, and messaging channels. Its solutions include intelligent engagement solutions; Conversational AI; Engagement AI; and Security AI. Its Other segment provides voicemail transcription services. It serves organizations across healthcare, financial services, telecommunications, government, and retail. The company markets and sells its solutions and technologies directly through sales force, as well as through a network of resellers, including system integrators, independent software vendors, value-added resellers, distributors, hardware vendors, telecommunications carriers, and e-commerce Websites worldwide. The company was formerly known as ScanSoft, Inc. and changed its name to Nuance Communications, Inc. in October 2005. Nuance Communications, Inc. was incorporated in 1992 and is headquartered in Burlington, Massachusetts. As of March 4, 2022, Nuance Communications, Inc. operates as a subsidiary of Microsoft Corporation.",
+                            "ex_dividend_date": null,
+                            "industry_classification": {
+                                "gics": {
+                                    "industry": "Software\u2014Application",
+                                    "sector": "Technology"
+                                },
+                                "sic": {
+                                    "division": "Services",
+                                    "industry_group": "Prepackaged Software",
+                                    "major_group": "Business Services",
+                                    "sic": "7372"
+                                }
+                            },
+                            "name": "Nuance Communications, Inc.",
+                            "ticker": "NUAN",
+                            "website": "https://www.nuance.com"
+                        }
+                    
+                    key_map
+                        {
+                            "asset_type": [
+                                "asset_type"
+                            ],
+                            "cik": [
+                                "cik"
+                            ],
+                            "country": [
+                                "country"
+                            ],
+                            "description": [
+                                "description"
+                            ],
+                            "ex_dividend_date": [
+                                "ex_dividend_date"
+                            ],
+                            "industry_classification_gics_industry": [
+                                "industry_classification",
+                                "gics",
+                                "industry"
+                            ],
+                            "industry_classification_gics_sector": [
+                                "industry_classification",
+                                "gics",
+                                "sector"
+                            ],
+                            "industry_classification_sic_division": [
+                                "industry_classification",
+                                "sic",
+                                "division"
+                            ],
+                            "industry_classification_sic_industry_group": [
+                                "industry_classification",
+                                "sic",
+                                "industry_group"
+                            ],
+                            "industry_classification_sic_major_group": [
+                                "industry_classification",
+                                "sic",
+                                "major_group"
+                            ],
+                            "industry_classification_sic_sic": [
+                                "industry_classification",
+                                "sic",
+                                "sic"
+                            ],
+                            "name": [
+                                "name"
+                            ],
+                            "ticker": [
+                                "ticker"
+                            ],
+                            "website": [
+                                "website"
+                            ]
+                        }
+                    
+                    empty_info_template
+                        {
+                            "asset_type": null,
+                            "cik": null,
+                            "country": null,
+                            "description": null,
+                            "ex_dividend_date": null,
+                            "industry_classification": {
+                                "gics": {
+                                    "industry": null,
+                                    "sector": null
+                                },
+                                "sic": {
+                                    "division": null,
+                                    "industry_group": null,
+                                    "major_group": null,
+                                    "sic": null
+                                }
+                            },
+                            "name": null,
+                            "ticker": null,
+                            "website": null
+                        }
+                    
+                    new_values_found BEFORE update
+                        {
+                            "asset_type": 0,
+                            "cik": 0,
+                            "country": 0,
+                            "description": 0,
+                            "ex_dividend_date": 0,
+                            "industry_classification_gics_industry": 0,
+                            "industry_classification_gics_sector": 0,
+                            "industry_classification_sic_division": 0,
+                            "industry_classification_sic_industry_group": 0,
+                            "industry_classification_sic_major_group": 0,
+                            "industry_classification_sic_sic": 0,
+                            "name": 0,
+                            "ticker": 0,
+                            "website": 0
+                        }
+                    
+                    new_values_found AFTER update
+                        {
+                            "asset_type": 0,
+                            "cik": 0,
+                            "country": 0,
+                            "description": 0,
+                            "ex_dividend_date": 0,
+                            "industry_classification_gics_industry": 0,
+                            "industry_classification_gics_sector": 0,
+                            "industry_classification_sic_division": 0,
+                            "industry_classification_sic_industry_group": 0,
+                            "industry_classification_sic_major_group": 0,
+                            "industry_classification_sic_sic": 0,
+                            "name": 0,
+                            "ticker": 0,
+                            "website": 0
+                        }
+                    
+                    values_saved
+                        {
+                            "asset_type": "EQUITY",
+                            "cik": "1002517",
+                            "country": "UNITED STATES",
+                            "description": "Nuance Communications, Inc. provides conversational and cognitive artificial intelligence (AI) innovations that bring intelligence to everyday work and life. The company delivers solutions that understand, analyze, and respond to people - amplifying human intelligence to increase productivity and security. Its Healthcare segment provides clinical speech and clinical language understanding solutions that improve the clinical documentation process, from capturing the complete patient record to improving clinical documentation and quality measures for reimbursement. Its solutions include Dragon Medical One, cloud-based speech solution; computer-assisted physician documentation; diagnostic imaging solutions; Nuance Dragon Ambient eXperience, a voice-enabled solution; and clinical documentation improvement and coding. The company's Enterprise segment primarily engages in using speech, natural language understanding, and artificial intelligence to provide automated customer solutions and services for voice, mobile, web, and messaging channels. Its solutions include intelligent engagement solutions; Conversational AI; Engagement AI; and Security AI. Its Other segment provides voicemail transcription services. It serves organizations across healthcare, financial services, telecommunications, government, and retail. The company markets and sells its solutions and technologies directly through sales force, as well as through a network of resellers, including system integrators, independent software vendors, value-added resellers, distributors, hardware vendors, telecommunications carriers, and e-commerce Websites worldwide. The company was formerly known as ScanSoft, Inc. and changed its name to Nuance Communications, Inc. in October 2005. Nuance Communications, Inc. was incorporated in 1992 and is headquartered in Burlington, Massachusetts. As of March 4, 2022, Nuance Communications, Inc. operates as a subsidiary of Microsoft Corporation.",
+                            "ex_dividend_date": null,
+                            "industry_classification": {
+                                "gics": {
+                                    "industry": "Software\u2014Application",
+                                    "sector": "Technology"
+                                },
+                                "sic": {
+                                    "division": "Services",
+                                    "industry_group": "Prepackaged Software",
+                                    "major_group": "Business Services",
+                                    "sic": "7372"
+                                }
+                            },
+                            "name": "Nuance Communications, Inc.",
+                            "ticker": "NUAN",
+                            "website": "https://www.nuance.com"
+                        }
+                value-investing-app/database/sec/financial_statements_data_sets/data/test_data/warehouse/stocks/1002517/fundamentals.csv
+                    
+                    old_df
+                                        quarter  year shares_outstanding  ... sec_urls_XML        sec_urls_HTML         sec_urls_TXT
+                        sub_qtr_enddate                                   ...                                                       
+                        2010-12-31            4  2010          298633000  ...         None  http://www.sec.g...  http://www.sec.g...
+                    
+                    new fundamentals dct
+                        {
+                            "sub_qtr_enddate": "2010-12-31",
+                            "quarter": "4",
+                            "year": "2010",
+                            "shares_outstanding": "298633000",
+                            "total_assets": "3789320000",
+                            "total_liabilities": "1473405000",
+                            "net_income": "-9000",
+                            "earnings_per_share": "0.0000",
+                            "dividends_paid": 0,
+                            "sec_urls": {
+                                "all_files": "http://www.sec.gov/Archives/edgar/data/1002517/000095012311011086/",
+                                "filing_details": "http://www.sec.gov/Archives/edgar/data/1002517/000095012311011086/0000950123-11-011086-index.html",
+                                "XML": null,
+                                "HTML": "http://www.sec.gov/ix?doc=/Archives/edgar/data/1002517/000095012311011086/b83534e10vq.htm",
+                                "TXT": "http://www.sec.gov/Archives/edgar/data/1002517/000095012311011086/0000950123-11-011086.txt"
+                            }
+                        }
+                    
+                    new fundamentals df
+                                        quarter  year shares_outstanding  ... sec_urls_XML        sec_urls_HTML         sec_urls_TXT
+                        sub_qtr_enddate                                   ...                                                       
+                        2010-12-31            4  2010          298633000  ...         None  http://www.sec.g...  http://www.sec.g...
+                    
+                    sub_qtr_enddate = 2010-12-31
+                    sub_qtr_enddate in old_df
+                    
+                    new_values_found
+                        {
+                            "industry_classification_gics_sector": 0,
+                            "industry_classification_gics_industry": 0,
+                            "industry_classification_sic_sic": 0,
+                            "industry_classification_sic_division": 0,
+                            "industry_classification_sic_major_group": 0,
+                            "industry_classification_sic_industry_group": 0,
+                            "asset_type": 0,
+                            "description": 0,
+                            "name": 0,
+                            "website": 0,
+                            "ex_dividend_date": 0,
+                            "cik": 0,
+                            "ticker": 0,
+                            "country": 0,
+                            "quarter": 0,
+                            "year": 0,
+                            "shares_outstanding": 0,
+                            "total_assets": 0,
+                            "total_liabilities": 0,
+                            "net_income": 0,
+                            "earnings_per_share": 0,
+                            "dividends_paid": 0,
+                            "sec_urls_all_files": 0,
+                            "sec_urls_filing_details": 0,
+                            "sec_urls_XML": 0,
+                            "sec_urls_HTML": 0,
+                            "sec_urls_TXT": 0
+                        }
+                    
+                    values_saved
+                                        quarter  year shares_outstanding  ... sec_urls_XML        sec_urls_HTML         sec_urls_TXT
+                        sub_qtr_enddate                                   ...                                                       
+                        2010-12-31            4  2010          298633000  ...         None  http://www.sec.g...  http://www.sec.g...
+                value-investing-app/database/sec/financial_statements_data_sets/data/test_data/warehouse/stocks/1002517/dividend_per_share_history.csv
+                    
+                    old_df
+                        Empty DataFrame
+                        Columns: [Dividends]
+                        Index: []
                     
                     new dataframe
-                                    Dividends
-                        Date                 
-                        2017-10-31       0.07
-                        2018-01-30       0.07
-                        2018-05-01       0.07
-                        ...               ...
-                        2021-01-26       0.08
-                        2021-04-27       0.08
-                        2021-07-27       0.08
+                        Empty DataFrame
+                        Columns: [Dividends]
+                        Index: []
                     
                     new_values_found
                         {
@@ -425,21 +2147,15 @@ parsing data for 3 new quarter(s)
                         }
                     
                     values_saved
-                                   Dividends
-                        Date                
-                        2017-10-31      0.07
-                        2018-01-30      0.07
-                        2018-05-01      0.07
-                        ...              ...
-                        2021-07-27      0.08
-                        2021-10-26      0.08
-                        2022-02-01       0.1
-                value-investing-app/database/sec/financial_statements_data_sets/data/test_data/warehouse/stocks/1101302/stock_split_history.csv
+                        Empty DataFrame
+                        Columns: [Dividends]
+                        Index: []
+                value-investing-app/database/sec/financial_statements_data_sets/data/test_data/warehouse/stocks/1002517/stock_split_history.csv
                     
                     old_df
-                        Empty DataFrame
-                        Columns: [Stock Splits]
-                        Index: []
+                                   Stock Splits
+                        Date                   
+                        2019-10-02        1.155
                     
                     new dataframe
                         Empty DataFrame
@@ -480,32 +2196,32 @@ parsing data for 3 new quarter(s)
                         }
                     
                     values_saved
-                        Empty DataFrame
-                        Columns: [Stock Splits]
-                        Index: []
-                value-investing-app/database/sec/financial_statements_data_sets/data/test_data/warehouse/stocks/1101302/daily_price_data.csv
+                                   Stock Splits
+                        Date                   
+                        2019-10-02        1.155
+                value-investing-app/database/sec/financial_statements_data_sets/data/test_data/warehouse/stocks/1002517/daily_price_data.csv
                     
                     old_df
-                                     Close    Volume
-                        Date                        
-                        2000-07-11   10.89  12890300
-                        2000-07-12   11.86   2817200
-                        2000-07-13   13.81   2680400
-                        ...            ...       ...
-                        2022-02-04  128.56   1468300
-                        2022-02-07  127.44   1304000
-                        2022-02-08   130.0   1216600
+                                    Close    Volume
+                        Date                       
+                        1995-12-11   18.0   4597900
+                        1995-12-12  17.88    964100
+                        1995-12-13   17.5    327700
+                        ...           ...       ...
+                        2022-03-02  55.98  14542189
+                        2022-03-03  55.99  15928623
+                        2022-03-04  55.99         0
                     
                     new dataframe
-                                     Close    Volume
-                        Date                        
-                        2000-07-11   10.90  12890300
-                        2000-07-12   11.88   2817200
-                        2000-07-13   13.83   2680400
-                        ...            ...       ...
-                        2022-02-04  128.56   1468300
-                        2022-02-07  127.44   1304000
-                        2022-02-08  130.00   1216600
+                                    Close    Volume
+                        Date                       
+                        1995-12-11  18.00   4597900
+                        1995-12-12  17.88    964100
+                        1995-12-13  17.50    327700
+                        ...           ...       ...
+                        2022-03-02  55.98  14542189
+                        2022-03-03  55.99  15928623
+                        2022-03-04  55.99         0
                     
                     new_values_found
                         {
@@ -542,22 +2258,22 @@ parsing data for 3 new quarter(s)
                         }
                     
                     values_saved
-                                     Close    Volume
-                        Date                        
-                        2000-07-11    10.9  12890300
-                        2000-07-12   11.88   2817200
-                        2000-07-13   13.83   2680400
-                        ...            ...       ...
-                        2022-02-04  128.56   1468300
-                        2022-02-07  127.44   1304000
-                        2022-02-08   130.0   1216600
+                                    Close    Volume
+                        Date                       
+                        1995-12-11   18.0   4597900
+                        1995-12-12  17.88    964100
+                        1995-12-13   17.5    327700
+                        ...           ...       ...
+                        2022-03-02  55.98  14542189
+                        2022-03-03  55.99  15928623
+                        2022-03-04  55.99         0
             
             updating data quality report:
                 updating price_data_stock_vs_day data:
                     repo filepath: value-investing-app/database/sec/financial_statements_data_sets/data/test_data/quality_report/price_data_stock_vs_day/price_data_coverage.csv
-                    stock with CIK=1101302 already exists in price_data_stock_vs_day/price_data_coverage.csv
-                        start_date = 2000-07-11
-                        end_date   = 2022-02-08
+                    stock with CIK=1002517 already exists in price_data_stock_vs_day/price_data_coverage.csv
+                        start_date = 1995-12-11
+                        end_date   = 2022-03-04
                 done
                 updating stock_vs_quarter data:
                     variable metrics:
@@ -578,10 +2294,10 @@ parsing data for 3 new quarter(s)
                                 "sec_urls_HTML": 0,
                                 "sec_urls_TXT": 0
                             }
-                        stock with CIK=1101302 already exists in stock_vs_quarter/variable_metrics.csv
-                        old value at (CIK, quarter)=(1101302, 2011q2) equals 13
+                        stock with CIK=1002517 already exists in stock_vs_quarter/variable_metrics.csv
+                        old value at (CIK, quarter)=(1002517, 2010q4) equals 12
                         sum of variable_new_values_found equals 0
-                        new value at (CIK, quarter)=(1101302, 2011q2) equals 13
+                        new value at (CIK, quarter)=(1002517, 2010q4) equals 12
                     constant metrics
                         repo filepath: value-investing-app/database/sec/financial_statements_data_sets/data/test_data/quality_report/stock_vs_quarter/constant_metrics.json
                         constant_new_values_found
@@ -604,9 +2320,9 @@ parsing data for 3 new quarter(s)
                                 "stock_split_history": 0,
                                 "daily_price_data": 0
                             }
-                        cik=1101302 in old dct equals 16
+                        cik=1002517 in old dct equals 15
                         sum of constant_new_values_found equals 0
-                        new value at cik=1101302 equals 16
+                        new value at cik=1002517 equals 15
                     set 'number_of_metrics' to:
                         {
                             "total": 30,
@@ -635,20 +2351,20 @@ parsing data for 3 new quarter(s)
                                 "sec_urls_TXT": 0
                             }
                         new_submission = False, so +0 for each "searched"
-                        updates for quarter 2011q2: (found, searched)
-                            dividends_paid           kept at (1, 1)
-                            earnings_per_share       kept at (1, 1)
-                            net_income               kept at (1, 1)
-                            quarter                  kept at (1, 1)
-                            sec_urls_HTML            kept at (1, 1)
-                            sec_urls_TXT             kept at (1, 1)
-                            sec_urls_XML             kept at (1, 1)
-                            sec_urls_all_files       kept at (1, 1)
-                            sec_urls_filing_details  kept at (1, 1)
-                            shares_outstanding       kept at (1, 1)
-                            total_assets             kept at (1, 1)
-                            total_liabilities        kept at (1, 1)
-                            year                     kept at (1, 1)
+                        updates for quarter 2010q4: (found, searched)
+                            dividends_paid           kept at (10, 10)
+                            earnings_per_share       kept at (9, 10)
+                            net_income               kept at (10, 10)
+                            quarter                  kept at (10, 10)
+                            sec_urls_HTML            kept at (10, 10)
+                            sec_urls_TXT             kept at (10, 10)
+                            sec_urls_XML             kept at (7, 10)
+                            sec_urls_all_files       kept at (10, 10)
+                            sec_urls_filing_details  kept at (10, 10)
+                            shares_outstanding       kept at (9, 10)
+                            total_assets             kept at (10, 10)
+                            total_liabilities        kept at (10, 10)
+                            year                     kept at (10, 10)
                     constant metrics
                         repo filepath: value-investing-app/database/sec/financial_statements_data_sets/data/test_data/quality_report/metric_vs_quarter/constant_metrics.json
                         constant_new_values_found
@@ -672,28 +2388,28 @@ parsing data for 3 new quarter(s)
                                 "daily_price_data": 0
                             }
                         updates:
-                            asset_type                                  kept at 1
-                            cik                                         kept at 1
-                            country                                     kept at 1
-                            daily_price_data                            kept at 1
-                            description                                 kept at 1
-                            dividend_per_share_history                  kept at 1
-                            ex_dividend_date                            kept at 1
-                            industry_classification_gics_industry       kept at 1
-                            industry_classification_gics_sector         kept at 1
-                            industry_classification_sic_division        kept at 1
-                            industry_classification_sic_industry_group  kept at 1
-                            industry_classification_sic_major_group     kept at 1
-                            industry_classification_sic_sic             kept at 1
-                            name                                        kept at 1
-                            stock_split_history                         kept at 0
-                            ticker                                      kept at 1
-                            website                                     kept at 1
+                            asset_type                                  kept at 9
+                            cik                                         kept at 13
+                            country                                     kept at 12
+                            daily_price_data                            kept at 9
+                            description                                 kept at 9
+                            dividend_per_share_history                  kept at 8
+                            ex_dividend_date                            kept at 8
+                            industry_classification_gics_industry       kept at 9
+                            industry_classification_gics_sector         kept at 9
+                            industry_classification_sic_division        kept at 13
+                            industry_classification_sic_industry_group  kept at 13
+                            industry_classification_sic_major_group     kept at 13
+                            industry_classification_sic_sic             kept at 13
+                            name                                        kept at 13
+                            stock_split_history                         kept at 7
+                            ticker                                      kept at 9
+                            website                                     kept at 9
                 done
                 updating stock_vs_metric data:
                     variable metrics
                         repo filepath: value-investing-app/database/sec/financial_statements_data_sets/data/test_data/quality_report/stock_vs_metric/variable_metrics.csv
-                        stock with CIK=1101302 already exists in stock_vs_metric/variable_metrics.csv
+                        stock with CIK=1002517 already exists in stock_vs_metric/variable_metrics.csv
                         new_submission = False, so +0 for each "searched"
                         variable_new_values_found
                             {
@@ -711,14 +2427,14 @@ parsing data for 3 new quarter(s)
                                 "sec_urls_HTML": 0,
                                 "sec_urls_TXT": 0
                             }
-                        updates for stock cik=1101302: (found, searched)
+                        updates for stock cik=1002517: (found, searched)
                             dividends_paid           kept at (1, 1)
                             earnings_per_share       kept at (1, 1)
                             net_income               kept at (1, 1)
                             quarter                  kept at (1, 1)
                             sec_urls_HTML            kept at (1, 1)
                             sec_urls_TXT             kept at (1, 1)
-                            sec_urls_XML             kept at (1, 1)
+                            sec_urls_XML             kept at (0, 1)
                             sec_urls_all_files       kept at (1, 1)
                             sec_urls_filing_details  kept at (1, 1)
                             shares_outstanding       kept at (1, 1)
@@ -727,7 +2443,7 @@ parsing data for 3 new quarter(s)
                             year                     kept at (1, 1)
                     constant metrics
                         repo filepath: value-investing-app/database/sec/financial_statements_data_sets/data/test_data/quality_report/stock_vs_metric/constant_metrics.csv
-                        stock with CIK=1101302 already exists in stock_vs_metric/constant_metrics.csv
+                        stock with CIK=1002517 already exists in stock_vs_metric/constant_metrics.csv
                         constant_new_values_found
                             {
                                 "industry_classification_gics_sector": 0,
@@ -747,13 +2463,13 @@ parsing data for 3 new quarter(s)
                                 "stock_split_history": 0,
                                 "daily_price_data": 0
                             }
-                        updates for stock cik=1101302
+                        updates for stock cik=1002517
                             asset_type                                  kept at 1
                             country                                     kept at 1
                             daily_price_data                            kept at 1
                             description                                 kept at 1
-                            dividend_per_share_history                  kept at 1
-                            ex_dividend_date                            kept at 1
+                            dividend_per_share_history                  kept at 0
+                            ex_dividend_date                            kept at 0
                             industry_classification_gics_industry       kept at 1
                             industry_classification_gics_sector         kept at 1
                             industry_classification_sic_division        kept at 1
@@ -761,13 +2477,14 @@ parsing data for 3 new quarter(s)
                             industry_classification_sic_major_group     kept at 1
                             industry_classification_sic_sic             kept at 1
                             name                                        kept at 1
-                            stock_split_history                         kept at 0
+                            stock_split_history                         kept at 1
                             ticker                                      kept at 1
                             website                                     kept at 1
                 done
             done
-        done parsing submission, duration: 0 minutes 14.85 seconds
-    done parsing quarter, duration: 0 minutes 31.57 seconds
-    
-    quarter 3 of 3: 2011q3, iterating over 0 10-K submission(s)
-    done parsing quarter, duration: 0 minutes 3.85 seconds
+        done parsing submission, duration: 1 minutes, 19.68 seconds
+        
+        submission 5 of 301 for 2011q1:
+            form type ... 10-Q
+            ticker ...... OTEX
+            cik ......... 1002638

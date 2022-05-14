@@ -212,7 +212,8 @@ def get_ticker_list_from_sec(
     num_indents=0,
     new_line_start=True):
 
-    log.print('getting ticker list from SEC',
+    log.print('getting ticker list from %s' % \
+        'SEC' if download else 'local database',
         num_indents=num_indents,
         new_line_start=new_line_start)
 
@@ -233,14 +234,12 @@ def get_ticker_list_from_sec(
             log.print('failed to find tickers locally at:',
                 num_indents=num_indents+1)
             log.print(repo_filepath, num_indents=num_indents+2)
-
-    log.print('parsing ticker list from SEC',
-        num_indents=num_indents+1)
-    log.print('URL: %s' % TICKER_URL, num_indents=num_indents+2)
-    response = requests.get(TICKER_URL, headers={'User-Agent' : USER_AGENT})
-    data = json.loads(response.text)
-    df = pd.DataFrame(data['data'], columns=data['fields'], dtype=str)
-    df.to_csv(TICKER_CODES_FILEPATH)
+    else:
+        log.print('URL: %s' % TICKER_URL, num_indents=num_indents+1)
+        response = requests.get(TICKER_URL, headers={'User-Agent' : USER_AGENT})
+        data = json.loads(response.text)
+        df = pd.DataFrame(data['data'], columns=data['fields'], dtype=str)
+        df.to_csv(TICKER_CODES_FILEPATH)
     log.print('done, parsed %d tickers' % df.shape[0], num_indents=num_indents)
     return df
 def get_new_quarter_raw_data(
@@ -341,7 +340,7 @@ def get_new_quarter_raw_data(
     return data_paths
 def get_last_sub_parsed(last_sub):
     if not last_sub:
-        return None
+        return {}
     with open(METADATA_FILEPATH, 'r') as f:
         metadata_dct = json.load(f)
     return metadata_dct['last_sub_parsed']
@@ -415,8 +414,6 @@ class SubmissionParser:
             log.print('cik ......... %s' % sub['cik'],     num_indents=num_indents+1)
             if pause:
                 input()
-            else:
-                time.sleep(5)
 
             data = {
                 'info'         : {
@@ -424,17 +421,10 @@ class SubmissionParser:
                 },
                 'fundamentals' : {}
             }
-            data = self.get_data_from_yahoo_finance(
-                        data,
-                        verbose=verbose,
-                        num_indents=num_indents+1,
-                        new_line_start=verbose)
-            data = self.get_data_from_sec_financial_statements_data_sets(
-                        data,
-                        sub,
-                        verbose=verbose,
-                        num_indents=num_indents+1,
-                        new_line_start=verbose)
+            data = self.get_data_from_yahoo_finance(data, sub,
+                verbose=verbose, num_indents=num_indents+1, new_line_start=verbose)
+            data = self.get_data_from_sec_financial_statements_data_sets(data, sub,
+                verbose=verbose, num_indents=num_indents+1, new_line_start=verbose)
             if verbose:
                 self.print_data(
                     data,
@@ -477,43 +467,112 @@ class SubmissionParser:
             sub_df = sub_df[sub_df['cik'] >= last_cik_parsed]
         sub_df.sort_values(by=['cik'], inplace=True, ignore_index=True)
         return num_df, sub_df
+    def yahoo_finance_data_aquired_for_given_stock(
+        self, cik):
+
+        # Return True if the data gathered from yahoo finance
+        # for a stock with the specified <cik> has already been
+        # aquired, False otherwise.
+        # For variable metrics data such as dividend history,
+        # price data, and stock split history, data is considered
+        # aquired if the file exists in the database and is not empty.
+        # For constant metrics data such as company name, website etc.
+        # it is considered aquired if the value is not null.
+        # all these variable metrics reside in, the info.json file.
+
+        # check variable metrics data
+        variable_metrics_filepaths = [
+            os.path.join(DATA_STOCKS_PATH, cik, filename) \
+            for filename in [
+                'daily_price_data.csv',
+                'dividend_per_share_history.csv',
+                'stock_split_history.csv']]
+        variable_metrics_aquired = all([
+            os.path.exists(filepath) and \
+            (not pd.read_csv(filepath).empty)
+            for filepath in variable_metrics_filepaths])
+
+        # check constant metrics data
+        constant_metrics_from_yahoo_finance = [
+            'asset_type',
+            'description',
+            'name',
+            'website',
+            'ex_dividend_date'
+        ]
+        constants_metrics_filepath = os.path.join(DATA_STOCKS_PATH, cik, 'info.json')
+        if not os.path.exists(constants_metrics_filepath):
+            constant_metrics_aquired = False
+        else:
+            with open(constants_metrics_filepath, 'r') as f:
+                metadata_dct = json.load(f)
+            constant_metrics_aquired = all([
+                metadata_dct[metric] != None for metric in \
+                constant_metrics_from_yahoo_finance]) and \
+                metadata_dct['industry_classification']['gics'] != \
+                {"industry": None, "sector": None}
+
+        return constant_metrics_aquired and variable_metrics_aquired
+    def create_yahoo_finance_data_empty_template(self, data):
+        keys = ['asset_type', 'description', 'name', 'website', 'ex_dividend_date']
+        for k in keys: data['info'][k] = None
+        data['info']['industry_classification']['gics'] = {
+            'sector'   : None,
+            'industry' : None
+        }
+        data['daily_price_data']           = None
+        data['dividend_per_share_history'] = None
+        data['stock_split_history']        = None
+        return data
     def get_data_from_yahoo_finance(
         self,
         data,
+        sub,
         verbose=False,
         num_indents=0,
         new_line_start=False):
 
-        log.print('parsing yahoo finance data%s' % \
-            (':' if verbose else ' ... '),
-            num_indents=num_indents,
-            new_line_start=new_line_start,
-            end=('\n' if verbose else ''))
-        yf_company = yf.Ticker(self.ticker) if self.ticker != None else None
-        yf_info = self.parse_yf_info(yf_company, num_indents=num_indents+1) if yf_company != None else None
-        if yf_info != None:
-            data['info']['asset_type']                      = self.parse_yf_key(yf_info, 'quoteType')
-            data['info']['description']                     = self.parse_yf_key(yf_info, 'longBusinessSummary')
-            data['info']['name']                            = self.parse_yf_key(yf_info, 'longName')
-            data['info']['website']                         = self.parse_yf_key(yf_info, 'website')
-            data['info']['industry_classification']['gics'] = self.parse_gics(yf_info)
-            data['info']['ex_dividend_date']                = self.parse_yf_ex_dividend_date(yf_info)
-            data['dividend_per_share_history']              = self.parse_yf_dividend_per_share_history(
-                                                                yf_company, num_indents=num_indents+1)
-            data['stock_split_history']                     = self.parse_yf_stock_split_history(
-                                                                yf_company, num_indents=num_indents+1)
-            data['daily_price_data']                        = self.parse_yf_daily_price_data(
-                                                                yf_company, num_indents=num_indents+1)
+        if self.yahoo_finance_data_aquired_for_given_stock(sub['cik']):
+            log.print('yahoo_finance data already aquired',
+                num_indents=num_indents, new_line_start=verbose)
+            data = self.create_yahoo_finance_data_empty_template(data)
+        elif self.ticker == None:
+            log.print('yahoo_finance unavailable because no ticker was found on the SEC for cik: %s' % sub['cik'],
+                num_indents=num_indents, new_line_start=verbose)
+            data = self.create_yahoo_finance_data_empty_template(data)
         else:
-            keys = ['asset_type', 'description', 'name', 'website', 'ex_dividend_date']
-            for k in keys: data['info'][k] = None
-            data['info']['industry_classification']['gics'] = {
-                'sector'   : None,
-                'industry' : None
-            }
-            data['daily_price_data']           = None
-            data['dividend_per_share_history'] = None
-            data['stock_split_history']        = None
+            time.sleep(5)
+            log.print('parsing yahoo finance data%s' % \
+                (':' if verbose else ' ... '),
+                num_indents=num_indents,
+                new_line_start=new_line_start,
+                end=('\n' if verbose else ''))
+            yf_company = yf.Ticker(self.ticker)
+            if yf_company == None:
+                yf_info = None
+                data = self.create_yahoo_finance_data_empty_template(data)
+                log.print('failed to get company data from yahoo finance for ticker: %s' % self.ticker,
+                    num_indents=num_indents+1)
+            else:
+                yf_info = self.parse_yf_info(yf_company, num_indents=num_indents+1)
+                if yf_info == None:
+                    data = self.create_yahoo_finance_data_empty_template(data)
+                    log.print('failed to get company info from yahoo finance for ticker: %s' % self.ticker,
+                        num_indents=num_indents+1)
+                else:
+                    data['info']['asset_type']                      = self.parse_yf_key(yf_info, 'quoteType')
+                    data['info']['description']                     = self.parse_yf_key(yf_info, 'longBusinessSummary')
+                    data['info']['name']                            = self.parse_yf_key(yf_info, 'longName')
+                    data['info']['website']                         = self.parse_yf_key(yf_info, 'website')
+                    data['info']['industry_classification']['gics'] = self.parse_gics(yf_info)
+                    data['info']['ex_dividend_date']                = self.parse_yf_ex_dividend_date(yf_info)
+
+                data['dividend_per_share_history']              = self.parse_yf_dividend_per_share_history(
+                                                                    yf_company, num_indents=num_indents+1)
+                data['stock_split_history']                     = self.parse_yf_stock_split_history(
+                                                                    yf_company, num_indents=num_indents+1)
+                data['daily_price_data']                        = self.parse_yf_daily_price_data(
+                                                                    yf_company, num_indents=num_indents+1)
         log.print('done', num_indents=(num_indents if verbose else 0))
         return data
     def get_data_from_sec_financial_statements_data_sets(
@@ -654,20 +713,49 @@ class SubmissionParser:
             ticker = ticker_df[ticker_df['cik'] == cik]['ticker'].iloc[0]
         except:
             ticker = None
+        if ticker == None:
+            url = SEC_COMPANY_INFO_URL.format(
+                zero_padded_cik=str(cik).rjust(10, '0'))
+            try:
+                sec_company_info = json.loads(requests.get(url,
+                    headers={'User-Agent' : USER_AGENT}).text)
+                if sec_company_info['tickers'] != []:
+                    ticker = sec_company_info['tickers'][0]
+                else:
+                    ticker = None
+            except:
+                ticker = None
         return ticker
     def parse_name(
         self,
         data,
         sub):
+        
         try:
             name = ticker_df[
                 ticker_df['cik'] == \
-                sub['cik']]['ticker'].iloc[0]
+                sub['cik']]['name'].iloc[0]
         except:
             name = None
+
+        if name == None:
+            url = SEC_COMPANY_INFO_URL.format(
+                zero_padded_cik=str(sub['cik']).rjust(10, '0'))
+            try:
+                sec_company_info = json.loads(requests.get(url,
+                    headers={'User-Agent' : USER_AGENT}).text)
+                if sec_company_info['name'] != "":
+                    name = sec_company_info['name']
+                else:
+                    name = None
+            except:
+                name = None
+
+        if name == None:
+            name = sub['name']
+
         return data['info']['name'] \
-            if data['info']['name'] != None \
-            else (name if name != None else sub['name'])
+            if data['info']['name'] != None else name
     def parse_yf_ex_dividend_date(
         self,
         yf_info):
@@ -1908,13 +1996,13 @@ if __name__ == '__main__':
         sub_parser = SubmissionParser()
         last_sub_parsed = get_last_sub_parsed(args.last_sub)
         for form_type in VALID_FORM_TYPES:
-            if last_sub_parsed != None and \
+            if last_sub_parsed != {} and \
                 last_sub_parsed['form_type'] != None and \
                 last_sub_parsed['form_type'] == '10-K' and \
                 form_type == '10-Q': continue
             for i, path in enumerate(data_paths):
                 qtr = path.split('/')[-1]
-                if last_sub_parsed != None and \
+                if last_sub_parsed != {} and \
                     last_sub_parsed['qtr'] != None and \
                     qtr < last_sub_parsed['qtr']: continue
                 if args.quarter_list != []:
@@ -1929,7 +2017,7 @@ if __name__ == '__main__':
                     path,
                     form_type,
                     last_cik_parsed=(last_sub_parsed['cik'] \
-                        if last_sub_parsed != None and \
+                        if last_sub_parsed != {} and \
                         qtr == last_sub_parsed['qtr'] else None),
                     ticker_list=args.ticker_list,
                     replace=args.replace,

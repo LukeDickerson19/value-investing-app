@@ -147,6 +147,7 @@ FINANCIAL_STATEMENTS_DATA_SETS_BASE_DOWNLOAD_URL = \
 	'https://www.sec.gov/files/dera/data/financial-statement-data-sets/{year}q{quarter}.zip' # format = "YYYYqQ.zip", ex: "2021q4.zip"
 ALL_FILES_BASE_URL = 'http://www.sec.gov/Archives/edgar/data/{cik}/{adsh}/'
 SEC_ARCHIVES_BASE_URL = 'https://www.sec.gov/Archives/'
+SEC_COMPANY_INFO_URL = 'https://data.sec.gov/submissions/CIK{zero_padded_cik}.json'
 
 # other constants
 VALID_FORM_TYPES = ['10-Q', '10-K'] # parse 10-Qs first so the 10-Ks will likely have more data to work with

@@ -81,9 +81,7 @@ class Log:
         self.same_line_string = False # used for print_same_line(), disregard
 
         # only accept 'string' as a string type
-        if not isinstance(string, str):
-            t = str(type(string)).split('\'')[1]
-            raise TypeError("first argument of Log.print() must be of type \'string\', not type \'%s\'" % t)
+        string = str(string)
 
         console_str, logfile_str = None, None
         if self.output_to_console:
