@@ -2,6 +2,7 @@
 
 # parse arguments
 import argparse
+import sys
 import re
 parser = argparse.ArgumentParser(description='This script scrapes, parses, and saves stock fundamental data from Yahoo Finance and the SEC\'s Financial Statements Data Sets')
 parser.add_argument('-v', '--verbose',       action='store_true',   help='verbose logging')
@@ -9,11 +10,12 @@ parser.add_argument('-c', '--clear',         action='store_true',   help='clear 
 parser.add_argument('-l', '--lake',          action='store_true',   help='save the raw data downloaded to a data lake')
 parser.add_argument('-r', '--replace',       action='store_true',   help='replace database\'s old values with new values if new value != null')
 parser.add_argument('-d', '--download',      action='store_true',   help='download new raw data from online, else search for data locally (local search used mostly for testing)')
+parser.add_argument('-D', '--download-all',  action='store_true',   help='download new raw data from online of all quarters')
 parser.add_argument('-s', '--last-sub',      action='store_true',   help='continue at the last submission the program parsed') # -s because -l is already taken
 parser.add_argument('-t', '--test',          action='store_true',   help='put data in data/test_data instead of data/real_data')
 parser.add_argument('-p', '--pause',         action='store_true',   help='pause between submissions (requires user to press enter to parse next submission)')
 parser.add_argument('-q', '--quarter-list',  default=[], nargs='*', help='list of quarters to parse, if not specified all new quarters will be parsed, example: \"-q 2021q1 2021q2 2021q3 2021q4\"')
-parser.add_argument('-x', '--ticker-list',   default=[], nargs='*', help='list of tickers to parse, if not specified all tickers will be parsed, example: \"-t HRB BARK TRNS\"')
+parser.add_argument('-x', '--ticker-list',   default=[], nargs='*', help='list of tickers to parse, if not specified all tickers will be parsed, example: \"-x HRB BARK TRNS\"')
 args = parser.parse_args()
 for q in args.quarter_list:
     if not re.match(r'^[0-9]{4}q[1-4]$', q):
@@ -28,7 +30,6 @@ for t in args.ticker_list:
 
 # import standard libraries
 import os
-import sys
 import json
 import time
 import copy
@@ -85,7 +86,7 @@ DATA_WAREHOUSE_PATH    = os.path.join(DATA_PATH, 'warehouse')
 DATA_STOCKS_PATH       = os.path.join(DATA_WAREHOUSE_PATH, 'stocks')
 SIC_CODES_FILEPATH     = os.path.join(DATA_WAREHOUSE_PATH, 'sic_codes.csv')
 COUNTRY_CODES_FILEPATH = os.path.join(DATA_WAREHOUSE_PATH, 'state_and_country_codes.csv')
-TICKER_CODES_FILEPATH  = os.path.join(DATA_WAREHOUSE_PATH, 'ticker_list.csv')
+TICKER_CODES_FILEPATH  = os.path.join(DATA_WAREHOUSE_PATH, 'ticker_cik_mapping.csv')
 METADATA_FILEPATH      = os.path.join(DATA_WAREHOUSE_PATH, 'metadata.json')
 METADATA_TEMPLATE      = {
     "quarters_downloaded"    : [],
@@ -150,7 +151,7 @@ SEC_ARCHIVES_BASE_URL = 'https://www.sec.gov/Archives/'
 SEC_COMPANY_INFO_URL = 'https://data.sec.gov/submissions/CIK{zero_padded_cik}.json'
 
 # other constants
-VALID_FORM_TYPES = ['10-Q', '10-K'] # parse 10-Qs first so the 10-Ks will likely have more data to work with
+VALID_FORM_TYPES = ['10-K']#['10-Q', '10-K'] # parse 10-Qs first so the 10-Ks will likely have more data to work with
 DATA_TAGS = { # key = local database's column_names, value = list of possible tags in submission
 	'cash_flow' : [
 		'CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalentsPeriodIncreaseDecreaseIncludingExchangeRateEffect'

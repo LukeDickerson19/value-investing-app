@@ -207,13 +207,13 @@ def get_state_and_country_codes(
         log.print(df.to_string(), num_indents=num_indents+1)
     log.print('done', num_indents=num_indents)
     return df
-def get_ticker_list_from_sec(
+def get_ticker_mapping_from_sec(
     download=False,
     num_indents=0,
     new_line_start=True):
 
-    log.print('getting ticker list from %s' % \
-        'SEC' if download else 'local database',
+    log.print('getting ticker CIK mappings from %s' % \
+        ('SEC' if download else 'local database'),
         num_indents=num_indents,
         new_line_start=new_line_start)
 
@@ -225,13 +225,13 @@ def get_ticker_list_from_sec(
             df = pd.DataFrame()
         repo_filepath = TICKER_CODES_FILEPATH[TICKER_CODES_FILEPATH.index('value-investing-app'):]
         if df.shape[0] > 0:
-            log.print('found ticker list locally at:',
+            log.print('found ticker mapping locally at:',
                 num_indents=num_indents+1)
             log.print(repo_filepath, num_indents=num_indents+2)
             log.print('done', num_indents=num_indents)
             return df
         else:
-            log.print('failed to find tickers locally at:',
+            log.print('failed to find ticker mapping locally at:',
                 num_indents=num_indents+1)
             log.print(repo_filepath, num_indents=num_indents+2)
     else:
@@ -245,6 +245,7 @@ def get_ticker_list_from_sec(
 def get_new_quarter_raw_data(
     quarter_list=[],
     download=False,
+    download_all=False,
     verbose=False,
     num_indents=0,
     new_line_start=False):
@@ -253,7 +254,7 @@ def get_new_quarter_raw_data(
         num_indents=num_indents, new_line_start=new_line_start)
 
     # get data from local csv files
-    if not download:
+    if not download and not download_all:
         data_paths = [
             os.path.join(TMP_FILINGS_PATH, quarter) \
             for quarter in os.listdir(TMP_FILINGS_PATH)]
@@ -283,8 +284,12 @@ def get_new_quarter_raw_data(
 
     # remove quarter_list quarters from quarters_downloaded
     # so we can download them again if neccessary
-    quarters_to_exclude = ['File: %s Q%s' % tuple(qtr.split('q')) \
-        for qtr in quarters_downloaded if qtr not in quarter_list]
+    if download_all:
+        quarters_to_exclude = []
+        log.print('downloading all quarters', num_indents=num_indents+1)
+    else:
+        quarters_to_exclude = ['File: %s Q%s' % tuple(qtr.split('q')) \
+            for qtr in quarters_downloaded if qtr not in quarter_list]
 
     # determine if there's any new quarters released on the
     # SEC's Financial Statements Data Sets webpage
@@ -330,6 +335,7 @@ def get_new_quarter_raw_data(
         data_paths.append(extraction_dir)
         new_quarters.append(qtr)
 
+    # save the new list of quarters already downloaded
     if data_paths != []:
         metadata_dct['quarters_downloaded'] = \
             sorted(list(set(quarters_downloaded + new_quarters)))
@@ -434,16 +440,16 @@ class SubmissionParser:
             new_values_found = self.save_data(
                 data,
                 replace=replace,
-                verbose=verbose,
+                verbose=False,#verbose,
                 num_indents=num_indents+1,
-                new_line_start=verbose)
+                new_line_start=False)#verbose)
 
             self.update_data_quality_report(
                 data,
                 new_values_found,
-                verbose=verbose,
+                verbose=False,#verbose,
                 num_indents=num_indents+1,
-                new_line_start=verbose)
+                new_line_start=False)#verbose)
             submission_parsing_end_time = datetime.now()
             duration = (submission_parsing_end_time - submission_parsing_start_time).total_seconds()
             set_last_sub_parsed(path.split('/')[-1], sub['cik'], self.form_type)
@@ -460,9 +466,8 @@ class SubmissionParser:
         sub_df = pd.read_csv(os.path.join(path, 'sub.txt'), sep='\t', dtype=str)
         sub_df = sub_df[sub_df['form'] == self.form_type]
         if ticker_list != []:
-            sub_df['ticker'] = sub_df['cik'].apply(lambda cik : self.parse_ticker(cik))
-            sub_df = sub_df[sub_df['ticker'].isin(ticker_list)]
-            sub_df.drop(columns=['ticker'], inplace=True)
+            cik_list = ticker_df[ticker_df['ticker'].isin(ticker_list)]['cik']
+            sub_df = sub_df[sub_df['cik'].isin(cik_list)]
         if last_cik_parsed != None:
             sub_df = sub_df[sub_df['cik'] >= last_cik_parsed]
         sub_df.sort_values(by=['cik'], inplace=True, ignore_index=True)
@@ -573,7 +578,7 @@ class SubmissionParser:
                                                                     yf_company, num_indents=num_indents+1)
                 data['daily_price_data']                        = self.parse_yf_daily_price_data(
                                                                     yf_company, num_indents=num_indents+1)
-        log.print('done', num_indents=(num_indents if verbose else 0))
+            log.print('done', num_indents=(num_indents if verbose else 0))
         return data
     def get_data_from_sec_financial_statements_data_sets(
         self,
@@ -768,14 +773,12 @@ class SubmissionParser:
         num_indents=0,
         new_line_start=False):
         while True:
-            log.print('parse_yf_info 1', num_indents=num_indents)
             try:
                 dct = yf_company.info
                 break
             except Exception as e:
                 log.print(str(e), num_indents=num_indents)
-                time.sleep(60)
-            log.print('parse_yf_info 2', num_indents=num_indents)
+            log.print('parse_yf_info loop', num_indents=num_indents)
         return dct
     def parse_yf_dividend_per_share_history(
         self,
@@ -783,14 +786,13 @@ class SubmissionParser:
         num_indents=0,
         new_line_start=False):
         while True:
-            log.print('parse_yf_dividend_per_share_history 1', num_indents=num_indents)
             try:
                 df = yf_company.dividends
                 break
             except Exception as e:
                 log.print(str(e), num_indents=num_indents)
                 time.sleep(60)
-            log.print('parse_yf_dividend_per_share_history 2', num_indents=num_indents)
+            log.print('parse_yf_dividend_per_share_history loop', num_indents=num_indents)
         return self.parse_yf_pandas(df)
     def parse_yf_stock_split_history(
         self,
@@ -798,14 +800,13 @@ class SubmissionParser:
         num_indents=0,
         new_line_start=False):
         while True:
-            log.print('parse_yf_stock_split_history 1', num_indents=num_indents)
             try:
                 df = yf_company.splits
                 break
             except Exception as e:
                 log.print(str(e), num_indents=num_indents)
                 time.sleep(60)
-            log.print('parse_yf_stock_split_history 2', num_indents=num_indents)
+            log.print('parse_yf_stock_split_history loop', num_indents=num_indents)
         return self.parse_yf_pandas(df, num_decimals=5)
     def parse_yf_daily_price_data(
         self,
@@ -813,14 +814,13 @@ class SubmissionParser:
         num_indents=0,
         new_line_start=False):
         while True:
-            log.print('parse_yf_daily_price_data 1', num_indents=num_indents)
             try:
                 df = yf_company.history(period='max')
                 break
             except Exception as e:
                 log.print(str(e), num_indents=num_indents)
                 time.sleep(60)
-            log.print('parse_yf_daily_price_data 2', num_indents=num_indents)
+            log.print('parse_yf_daily_price_data loop', num_indents=num_indents)
         return self.parse_yf_pandas(
             df, num_decimals=2,
             columns=['Close', 'Volume'])
@@ -960,7 +960,7 @@ class SubmissionParser:
                 'net_income', num_qtrs=1, verbose=False)
         elif self.form_type == '10-K':
             return self.calculate_10K_value_for_just_this_quarter(
-                'net_income', data, 'fundamentals.csv')
+                'net_income', data, 'fundamentals.csv', ret='float')
     def parse_cash_flow(
         self,
         data):
@@ -979,7 +979,7 @@ class SubmissionParser:
                 'earnings_per_share', num_qtrs=1, round_down=False, verbose=False)
         elif self.form_type == '10-K':
             return self.calculate_10K_value_for_just_this_quarter(
-                'earnings_per_share', data, 'fundamentals.csv', round_down=False)
+                'earnings_per_share', data, 'fundamentals.csv', round_down=False, ret='float')
     def parse_dividends_paid(
         self,
         data):
@@ -1114,6 +1114,7 @@ class SubmissionParser:
                 sys.exit()
         value = int(float(value)) if round_down else value
         value = int(float(value)) if ret == 'int' else value
+        value = float(value) if ret == 'float' else value
         value = str(value) if ret == 'str' else value
         return value
 
@@ -1979,6 +1980,7 @@ if __name__ == '__main__':
     data_paths = get_new_quarter_raw_data(
         quarter_list=args.quarter_list,
         download=args.download,
+        download_all=args.download_all,
         verbose=args.verbose,
         num_indents=0,
         new_line_start=True)
@@ -1987,7 +1989,7 @@ if __name__ == '__main__':
         # get mappings for sector/industry, country code, and ticker
         sic_codes_df     = get_standard_industrial_codes(download=args.download, verbose=False)#verbose=args.verbose)
         country_codes_df = get_state_and_country_codes(download=args.download)
-        ticker_df        = get_ticker_list_from_sec(download=args.download)
+        ticker_df        = get_ticker_mapping_from_sec(download=args.download)
 
         # iterate over each submission of each quarter, parse and save the data
         # parse all 10-Qs then all 10-Ks
