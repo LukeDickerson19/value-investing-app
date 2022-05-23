@@ -26,9 +26,10 @@ VALID_METRICS = [
     'sec_urls_TXT'
 ]
 parser = argparse.ArgumentParser(
-    description='This script prints the specified fundamental metrics of the specified stock tickers.\n\n    example command:\n        %s\n\n    valid metric values:\n        %s' % (
+    description='This script prints the specified fundamental metrics of the specified stock tickers.\n\n    example command:\n        %s\n\n    valid metric values:\n        %s%s' % (
         'python print_fundamentals_of_specific_stocks.py -m year quarter net_income shares_outstanding earnings_per_share -x AAPL MSFT AMZN TSLA',
-        '\n        '.join(VALID_METRICS)),
+        '\n        '.join(VALID_METRICS),
+        '\n\nThe other metric files can simply be printed with the "cat" command.\n\n    example:\n        cat value-investing-app/database/sec/financial_statements_data_sets/data/real_data/warehouse/stocks/1724344/stock_split_history.csv'),
     formatter_class=argparse.RawTextHelpFormatter)
 parser.add_argument('-t', '--test',          action='store_true',   help='put data in data/test_data instead of data/real_data')
 parser.add_argument('-x', '--ticker-list',   default=[], nargs='*', help='list of tickers to parse, if not specified all tickers will be parsed, example: \"-x AAPL MSFT AMZN TSLA\"')

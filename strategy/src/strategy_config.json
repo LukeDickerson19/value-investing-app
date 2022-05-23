@@ -1,31 +1,44 @@
 {
 	"metrics" : {
 		"dividend_yield" : {
-			"metric_weight" : 0.25,
-			"value_weight" : 1.00
+			"metric_weight"     : 0.20,
+			"value_weight"      : 1.00
 		},
-		"dividend_per_share" : {
-			"metric_weight" : 0.25,
-			"velocity_weight" : 0.50,
+		"dividends_paid" : {
+			"metric_weight"     : 0.20,
+			"velocity_weight"   : 0.50,
 			"volitility_weight" : 0.50
 		},
 		"price" : {
-			"metric_weight" : 0.25,
-			"velocity_weight" : 0.50,
+			"metric_weight"     : 0.20,
+			"velocity_weight"   : 0.50,
 			"volitility_weight" : 0.50
 		},
 		"book_value" : {
-			"metric_weight" : 0.25,
-			"velocity_weight" : 0.50,
+			"metric_weight"     : 0.20,
+			"velocity_weight"   : 0.50,
+			"volitility_weight" : 0.50
+		},
+		"net_income" : {
+			"metric_weight"     : 0.20,
+			"velocity_weight"   : 0.50,
 			"volitility_weight" : 0.50
 		}
 	},
-	"time_interval_weights" : {
+	"price_time_interval_weights" : {
 		"day"   : 0.10,
 		"week"  : 0.20,
 		"month" : 0.30,
 		"year"  : 0.40
 	},
-	"use_window_width" : true,
-	"window_width" : 10
+	"fundamentals_time_interval_weights" : {
+		"quarter" : 0.35,
+		"year"    : 0.65
+	},
+	"use_window_period" : true,
+	"window_period" : 10,
+	"desired_traits" : {
+		"velocity"   : "high",
+		"volitility" : "low"
+	}
 }

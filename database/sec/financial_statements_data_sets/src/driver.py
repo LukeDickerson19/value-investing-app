@@ -402,7 +402,7 @@ class SubmissionParser:
         num_subs = sub_df.shape[0]
         log.print(', iterating over %d %s submission(s)' % (num_subs, form_type))
         for i, sub in sub_df.iterrows():
-            submission_parsing_start_time = datetime.now()
+            submission_parsing_start_time = datetime.now(tzlocal())
             self.ticker = self.parse_ticker(sub['cik'])
             self.sub_qtr_enddate = sub['period']
             self.sub_nums = num_df[num_df['adsh'] == sub['adsh']]#.copy()
@@ -415,9 +415,11 @@ class SubmissionParser:
 
             log.print('submission %d of %d for %s:' % (i+1, num_subs, qtr),
                 num_indents=num_indents, new_line_start=True)
-            log.print('form type ... %s' % self.form_type, num_indents=num_indents+1)
-            log.print('ticker ...... %s' % self.ticker,    num_indents=num_indents+1)
-            log.print('cik ......... %s' % sub['cik'],     num_indents=num_indents+1)
+            log.print('start_time ... %s' % self.get_datetime_str(submission_parsing_start_time),
+                num_indents=num_indents+1)
+            log.print('form type .... %s' % self.form_type, num_indents=num_indents+1)
+            log.print('ticker ....... %s' % self.ticker,    num_indents=num_indents+1)
+            log.print('cik .......... %s' % sub['cik'],     num_indents=num_indents+1)
             if pause:
                 input()
 
@@ -450,11 +452,24 @@ class SubmissionParser:
                 verbose=False,#verbose,
                 num_indents=num_indents+1,
                 new_line_start=False)#verbose)
-            submission_parsing_end_time = datetime.now()
+            submission_parsing_end_time = datetime.now(tzlocal())
             duration = (submission_parsing_end_time - submission_parsing_start_time).total_seconds()
             set_last_sub_parsed(path.split('/')[-1], sub['cik'], self.form_type)
-            log.print('done parsing submission, duration: %s minutes, %.2f seconds' % \
+            log.print('end_time ..... %s' % self.get_datetime_str(submission_parsing_end_time),
+                num_indents=num_indents+1)
+            log.print('done parsing submission, duration: %s minutes and %.2f seconds' % \
                 (int(duration // 60), duration % 60), num_indents=num_indents)
+    def get_datetime_str(self, d):
+        # remove zero padding of day of month and hour
+        day = int(datetime.strftime(d, '%d'))
+        hour = int(datetime.strftime(d, '%I'))
+        d_str = '%s %d %s %d:%s' % (
+            datetime.strftime(d, '%a %b'),
+            day,
+            datetime.strftime(d, '%Y'),
+            hour,
+            datetime.strftime(d, '%M:%S %p %Z'))
+        return d_str
 
     def read_quarter_data(
         self,
@@ -978,8 +993,11 @@ class SubmissionParser:
             return self.parse_value_with_ddate(
                 'earnings_per_share', num_qtrs=1, round_down=False, verbose=False)
         elif self.form_type == '10-K':
-            return self.calculate_10K_value_for_just_this_quarter(
-                'earnings_per_share', data, 'fundamentals.csv', round_down=False, ret='float')
+            if data['fundamentals']['net_income'] != None and \
+                (data['fundamentals']['shares_outstanding'] not in [None, '0']):
+                return float(data['fundamentals']['net_income']) / float(data['fundamentals']['shares_outstanding'])
+            else:
+                return None
     def parse_dividends_paid(
         self,
         data):

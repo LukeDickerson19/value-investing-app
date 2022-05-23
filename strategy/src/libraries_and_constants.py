@@ -3,9 +3,15 @@
 # parse arguments
 import argparse
 import re
-parser = argparse.ArgumentParser(description='This script scrapes, parses, and saves stock fundamental data from Yahoo Finance and the SEC\'s Financial Statements Data Sets')
+# parser = argparse.ArgumentParser(
+# 	description='This script ranks stocks based on their price and fundamental metrics based on the weights of each metrics in the config')
+parser = argparse.ArgumentParser(
+    description='\n'.join([
+    	'This script ranks stocks based on their price and fundamental metrics.',
+    	'The weights of each metric are in the strategy_config.json file.']),
+    formatter_class=argparse.RawTextHelpFormatter)
 parser.add_argument('-v', '--verbose',       action='store_true',     help='verbose logging')
-parser.add_argument('-t', '--test',          action='store_true',     help='put data in data/test_data intead of data/real_data')
+parser.add_argument('-t', '--test',          action='store_true',     help='use data from data/test_data intead of data/real_data')
 parser.add_argument('-p', '--plot',          action='store_true',     help='show plots of line of best fit for price and dividend of each stock')
 # parser.add_argument('-q', '--quarter-list',  default=[], nargs='*', help='list of quarters to parse, if not specified all new quarters will be parsed, example: \"-q 2021q1 2021q2 2021q3 2021q4\"')
 args = parser.parse_args()
@@ -39,9 +45,10 @@ import matplotlib.pyplot as plt
 REPO_PATH           = str(pathlib.Path(__file__).resolve().parent.parent.parent)
 STRATEGY_PATH       = str(pathlib.Path(__file__).resolve().parent)
 DATA_SOURCE_PATH    = os.path.join(REPO_PATH, 'database', 'sec', 'financial_statements_data_sets')
-UTILS_REPO_PATH     = os.path.join(str(pathlib.Path(REPO_PATH).resolve().parent.parent.parent),
-						'tech', 'software', 'projects', 'python-common-utils')
-LOG_UTIL_PATH       = os.path.join(UTILS_REPO_PATH, 'utils', 'logging', 'src')
+# UTILS_REPO_PATH     = os.path.join(str(pathlib.Path(REPO_PATH).resolve().parent.parent.parent),
+# 						'tech', 'software', 'projects', 'python-common-utils')
+# LOG_UTIL_PATH       = os.path.join(UTILS_REPO_PATH, 'utils', 'logging', 'src')
+LOG_UTIL_PATH       = os.path.join(REPO_PATH, 'common_utils')
 # print('REPO_PATH       ', REPO_PATH)
 # print('STRATEGY_PATH   ', STRATEGY_PATH)
 # print('DATA_SOURCE_PATH', DATA_SOURCE_PATH)
@@ -71,7 +78,7 @@ DATA_STOCKS_PATH       = os.path.join(DATA_WAREHOUSE_PATH, 'stocks')
 
 SIC_CODES_FILEPATH     = os.path.join(DATA_WAREHOUSE_PATH, 'sic_codes.csv')
 COUNTRY_CODES_FILEPATH = os.path.join(DATA_WAREHOUSE_PATH, 'state_and_country_codes.csv')
-TICKER_CODES_FILEPATH  = os.path.join(DATA_WAREHOUSE_PATH, 'ticker_list.csv')
+TICKER_CODES_FILEPATH  = os.path.join(DATA_WAREHOUSE_PATH, 'ticker_cik_mapping.csv')
 METADATA_FILEPATH      = os.path.join(DATA_WAREHOUSE_PATH, 'metadata.json')
 # print('LOG_FILEPATH          ', LOG_FILEPATH)
 # print('DATA_PATH             ', DATA_PATH)
