@@ -163,7 +163,7 @@ def get_datetime_str(d):
         day,
         datetime.strftime(d, '%Y'))
     return d_str
-def get_dividend_yield_final_score(
+def get_dividend_yield(
     df,
     current_price,
     current_date):
@@ -207,14 +207,16 @@ if QUERY_YAHOO_FINANCE:
         print('\nfailed to query yahoo finance for yf_company\n')
         sys.exit()
     # print(json.dumps(yf_info, indent=4))
-    ex_date = get_datetime_str(datetime.fromtimestamp(yf_info['exDividendDate']))
-    dividend_yield = ('%.2f %%' % (100 * yf_info['dividendYield'])) if yf_info['dividendYield'] != 0.0 else 'None'
+    ex_date = 'None' if yf_info['exDividendDate'] in [None] else \
+        get_datetime_str(datetime.fromtimestamp(yf_info['exDividendDate']))
+    dividend_yield = 'None' if yf_info['dividendYield'] in [None, 0] else \
+        ('%.2f %%' % (100 * yf_info['dividendYield']))
     country = yf_info['country']
 else:
     ex_date = info['ex_dividend_date']
     current_price = daily_price_history['Close'].iloc[-1]
     current_date = daily_price_history['Date'].iloc[-1]
-    dividend_yield = get_dividend_yield_final_score(
+    dividend_yield = get_dividend_yield(
         dividend_per_share_history, current_price, current_date)
     dividend_yield = ('%.2f %%' % (100 * dividend_yield)) if dividend_yield != 0.0 else 'None'
     country = info['country']

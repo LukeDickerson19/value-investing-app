@@ -7,7 +7,7 @@ import re
 parser = argparse.ArgumentParser(description='This script scrapes, parses, and saves stock fundamental data from Yahoo Finance and the SEC\'s Financial Statements Data Sets')
 parser.add_argument('-v', '--verbose',       action='store_true',   help='verbose logging')
 parser.add_argument('-c', '--clear',         action='store_true',   help='clear database before collecting new data')
-parser.add_argument('-l', '--lake',          action='store_true',   help='save the raw data downloaded to a data lake')
+parser.add_argument('-l', '--lake',          action='store_true',   help='save the raw data downloaded to a data lake (aka just don\'t delete it at the end)')
 parser.add_argument('-r', '--replace',       action='store_true',   help='replace database\'s old values with new values if new value != null')
 parser.add_argument('-d', '--download',      action='store_true',   help='download new raw data from online, else search for data locally (local search used mostly for testing)')
 parser.add_argument('-D', '--download-all',  action='store_true',   help='download new raw data from online of all quarters')
@@ -152,7 +152,7 @@ SEC_ARCHIVES_BASE_URL = 'https://www.sec.gov/Archives/'
 SEC_COMPANY_INFO_URL = 'https://data.sec.gov/submissions/CIK{zero_padded_cik}.json'
 
 # other constants
-VALID_FORM_TYPES = ['10-K']#['10-Q', '10-K'] # parse 10-Qs first so the 10-Ks will likely have more data to work with
+VALID_FORM_TYPES = ['10-Q', '10-K'] # parse 10-Qs first so the 10-Ks will likely have more data to work with
 DATA_TAGS = { # key = local database's column_names, value = list of possible tags in submission
 	'cash_flow' : [
 		'CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalentsPeriodIncreaseDecreaseIncludingExchangeRateEffect'

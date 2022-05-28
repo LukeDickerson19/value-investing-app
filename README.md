@@ -11,10 +11,10 @@ see all metrics collected, go to file ./NOTES.txt
 and see section: Design > BACKEND > DATABASE > data
 
 Yahoo finance has a rate limit to their API so the script couldn't be parallelized.
-They have a bulk request option for price data but not for the metadata (... fuckin
-... amateur! right? XD lol) so this program takes like 2 weeks to run (as of 2022),
-because each quarter probably takes about 2 days to run. So long as it takes less
-time to run then the interval its run on, your're good to go to run it on a schedule.
+They have a bulk request option for price data but not for the metadata so this
+program takes like 2 weeks to run (as of 2022), because each quarter probably takes
+about a day to run, but so long as it takes less time to run then the interval its
+run on, your're good to go to run it on a schedule.
 
 Its incomplete but in the "./strategy" folder is the beginnings of a program that
 would use this data to recommend, or potentially automate the investments of,
@@ -39,3 +39,5 @@ cd value-investing-app # enter repository folder
 source ./virt_env/bin/activate # activate virtual environment
 python ./database/sec/financial_statements_data_sets/src/driver.py -vlrs # collect data
 ```
+
+

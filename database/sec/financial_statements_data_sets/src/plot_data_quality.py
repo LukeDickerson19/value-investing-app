@@ -72,7 +72,7 @@ def plot_stock_vs_quarter(
 	ax.set_ylabel('%d Stocks' % num_stocks)# (sorted from least to most coverage)' % num_stocks)
 	ax.set_yticks([])
 	ax.set_xlabel('Quarters')
-	ax.set_xticks(np.arange(0.5, len(df.columns), 1), df.columns)#, rotation=60) # Code C
+	ax.set_xticks(np.arange(0.5, len(df.columns), 1), df.columns, rotation=90) # Code C
 
 	# legend
 	# source: https://stackoverflow.com/questions/32462881/add-colorbar-to-existing-axis
@@ -88,6 +88,10 @@ def plot_stock_vs_quarter(
 	# cbar.ax.set_yticklabels(['0 %', '25 %', '50 %', '75 %', '100 %'])
 
 	def format_coord(x, y):
+		# TO DO: fix this
+		# if int(x) > len(quarters) or int(x) < 0: return ''
+		# if int(y) > df.shape[0] or int(y) < 0: return ''
+		# print(x, y, len(quarters), df.shape[0])
 		q = quarters[int(x)]
 		cik = df.iloc[int(y)].name
 		s1 = 'quarter=%s' % q

@@ -12,7 +12,7 @@ parser = argparse.ArgumentParser(
     formatter_class=argparse.RawTextHelpFormatter)
 parser.add_argument('-v', '--verbose',       action='store_true',     help='verbose logging')
 parser.add_argument('-t', '--test',          action='store_true',     help='use data from data/test_data intead of data/real_data')
-parser.add_argument('-p', '--plot',          action='store_true',     help='show plots of line of best fit for price and dividend of each stock')
+parser.add_argument('-p', '--plot',          action='store_true',     help='[unimplemented in current version, does nothing] show plots of line of best fit for price and dividend of each stock')
 # parser.add_argument('-q', '--quarter-list',  default=[], nargs='*', help='list of quarters to parse, if not specified all new quarters will be parsed, example: \"-q 2021q1 2021q2 2021q3 2021q4\"')
 args = parser.parse_args()
 # for q in args.quarter_list:
@@ -40,6 +40,7 @@ pd.set_option('display.max_columns', 40)
 pd.set_option('display.max_colwidth', 20)
 pd.set_option('display.width', 100000)
 import matplotlib.pyplot as plt
+import yfinance as yf
 
 # import common utils
 REPO_PATH           = str(pathlib.Path(__file__).resolve().parent.parent.parent)

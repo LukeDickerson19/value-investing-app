@@ -24,6 +24,7 @@ def clear_and_reset_database(
     log.print('done', num_indents=num_indents)
 def get_standard_industrial_codes(
     download=False,
+    download_all=False,
     verbose=False,
     num_indents=0,
     new_line_start=True):
@@ -33,7 +34,7 @@ def get_standard_industrial_codes(
         new_line_start=new_line_start)
 
     # get codes from local csv file
-    if not download:
+    if (not download) and (not download_all):
         try:
             df = pd.read_csv(SIC_CODES_FILEPATH, index_col=0, dtype=str)
         except:
@@ -153,6 +154,7 @@ def get_standard_industrial_codes(
     return df
 def get_state_and_country_codes(
     download=False,
+    download_all=False,
     verbose=False,
     num_indents=0,
     new_line_start=True):
@@ -161,7 +163,7 @@ def get_state_and_country_codes(
         num_indents=num_indents, new_line_start=new_line_start)
 
     # get codes from local csv file
-    if not download:
+    if (not download) and (not download_all):
         try:
             df = pd.read_csv(COUNTRY_CODES_FILEPATH, index_col=0, dtype=str)
         except:
@@ -209,6 +211,7 @@ def get_state_and_country_codes(
     return df
 def get_ticker_mapping_from_sec(
     download=False,
+    download_all=False,
     num_indents=0,
     new_line_start=True):
 
@@ -218,7 +221,7 @@ def get_ticker_mapping_from_sec(
         new_line_start=new_line_start)
 
     # get tickers from local csv file
-    if not download:
+    if (not download) and (not download_all):
         try:
             df = pd.read_csv(TICKER_CODES_FILEPATH, index_col=0, dtype=str)
         except:
@@ -254,7 +257,7 @@ def get_new_quarter_raw_data(
         num_indents=num_indents, new_line_start=new_line_start)
 
     # get data from local csv files
-    if not download and not download_all:
+    if (not download) and (not download_all):
         data_paths = [
             os.path.join(TMP_FILINGS_PATH, quarter) \
             for quarter in os.listdir(TMP_FILINGS_PATH)]
@@ -312,7 +315,8 @@ def get_new_quarter_raw_data(
         quarter = row['File'].split(' ')[2][1]
         qtr     = '%sq%s' % (year, quarter)
         if quarter_list != [] and qtr not in quarter_list: continue
-        log.print('downloading quarter %d of %d: %s Q%s' % (i+1, df.shape[0], year, quarter),
+        i_str = str(i+1).rjust(len(str(df.shape[0])), ' ')
+        log.print('downloading quarter %s of %d: %s Q%s' % (i_str, df.shape[0], year, quarter),
             num_indents=num_indents+2, new_line_start=verbose)
         zip_file_url = FINANCIAL_STATEMENTS_DATA_SETS_BASE_DOWNLOAD_URL.format(
             year=year, quarter=quarter)
@@ -518,7 +522,8 @@ class SubmissionParser:
             'description',
             'name',
             'website',
-            'ex_dividend_date'
+            'ex_dividend_date',
+            'dividend_yield'
         ]
         constants_metrics_filepath = os.path.join(DATA_STOCKS_PATH, cik, 'info.json')
         if not os.path.exists(constants_metrics_filepath):
@@ -534,7 +539,7 @@ class SubmissionParser:
 
         return constant_metrics_aquired and variable_metrics_aquired
     def create_yahoo_finance_data_empty_template(self, data):
-        keys = ['asset_type', 'description', 'name', 'website', 'ex_dividend_date']
+        keys = ['asset_type', 'description', 'name', 'website', 'ex_dividend_date', 'dividend_yield']
         for k in keys: data['info'][k] = None
         data['info']['industry_classification']['gics'] = {
             'sector'   : None,
@@ -586,6 +591,7 @@ class SubmissionParser:
                     data['info']['website']                         = self.parse_yf_key(yf_info, 'website')
                     data['info']['industry_classification']['gics'] = self.parse_gics(yf_info)
                     data['info']['ex_dividend_date']                = self.parse_yf_ex_dividend_date(yf_info)
+                    data['info']['dividend_yield']                  = self.parse_yf_key(yf_info, 'dividendYield')
 
                 data['dividend_per_share_history']              = self.parse_yf_dividend_per_share_history(
                                                                     yf_company, num_indents=num_indents+1)
@@ -793,6 +799,7 @@ class SubmissionParser:
                 break
             except Exception as e:
                 log.print(str(e), num_indents=num_indents)
+                time.sleep(60)
             log.print('parse_yf_info loop', num_indents=num_indents)
         return dct
     def parse_yf_dividend_per_share_history(
@@ -2005,9 +2012,9 @@ if __name__ == '__main__':
     if len(data_paths) > 0:
 
         # get mappings for sector/industry, country code, and ticker
-        sic_codes_df     = get_standard_industrial_codes(download=args.download, verbose=False)#verbose=args.verbose)
-        country_codes_df = get_state_and_country_codes(download=args.download)
-        ticker_df        = get_ticker_mapping_from_sec(download=args.download)
+        sic_codes_df     = get_standard_industrial_codes(download=args.download, download_all=args.download_all, verbose=False)#verbose=args.verbose)
+        country_codes_df = get_state_and_country_codes(download=args.download, download_all=args.download_all)
+        ticker_df        = get_ticker_mapping_from_sec(download=args.download, download_all=args.download_all)
 
         # iterate over each submission of each quarter, parse and save the data
         # parse all 10-Qs then all 10-Ks

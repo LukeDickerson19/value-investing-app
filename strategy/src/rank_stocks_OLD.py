@@ -1,38 +1,10 @@
 from libraries_and_constants import *
 
-QUERY_YAHOO_FINANCE = True
+
 
 ''' TO DO
 
 	normalize metrics
-	
-		fix/verify correctness of volitility and velocity and value metrics
-
-			compare/eyeball plot_stock_data.py to the log outputs of the
-			volitility and velocity and value metrics
-
-			ex: ticker=NEE
-				book_value weighted average velocity = 0.076376
-				book_value weighted average volitility = 0.064624
-
-				note:
-					these are percentages, so multiple them by 100 to get to the weighted
-					average percent changes/deviation (aka velocity/volitility)
-
-				book_value for NEE looks good, verify it for the other stocks too
-					python plot_stock_data.py -x <ticker>
-
-			i should probably create a metric for "value" for net_income, book_value,
-				price, dividend_paid, and dividend_yield values are all positive or zero by their nature
-				so just net_income and book_value
-
-		side notes:
-
-			keep QUERY_YAHOO_FINANCE set to True
-			see ToDo of main NOTES.txt as to why
-				Ctrl F: "i updated driver.py to collect dividendYield as well"
-
-			i created rank_stocks_OLD.py which doesn't normalize the metrics incase this fucks up too hard
 
 	dividend dates are fucking up
 		its because each row in the dividend df has a date and some stocks have sporadic time intervals between the dates
@@ -47,7 +19,7 @@ QUERY_YAHOO_FINANCE = True
 
 	how are price velocity and volitility scores going to be found from the weighted averages?
 		answer: all interval values for average velocity and volitility are storedin the
-			the df stock_df, they are then normalized on a scale of -1 to 1,
+			the df stock_score_df, they are then normalized on a scale of -1 to 1,
 			and then the weighted average is taken to find the final value
 
 	make plot show
@@ -138,12 +110,13 @@ def get_velocity_and_volitility_of_price(
 	daily_price_history,
 	verbose=False,
 	num_indents=0,
-	new_line_start=False):
+	new_line_start=False,
+	show_plots=False):
 
 	# metrics = strategy_config['metrics']
 	# use_window_period = strategy3['use_window_period']
 	time_interval_weights = strategy_config['price_time_interval_weights']
-	price_data = {'velocity' : {}, 'volitility' : {}}
+	score_data = {'velocity' : {}, 'volitility' : {}}
 	num_intervals = len(time_interval_weights.keys())
 	if verbose:
 		log.print('price data:', num_indents=num_indents, new_line_start=new_line_start)
@@ -173,9 +146,9 @@ def get_velocity_and_volitility_of_price(
 					'past %d %s(s)' % (strategy_config['window_period'], interval))),
 				num_indents=num_indents+3)
 			log.print('data:', num_indents=num_indents+3)
-			log.print(data.to_string(max_rows=10), num_indents=num_indents+4)
+			log.print(data.to_string(max_rows=6), num_indents=num_indents+4)
 			log.print('pct_changes:', num_indents=num_indents+3)
-			log.print(pct_changes.to_string(max_rows=10), num_indents=num_indents+4)
+			log.print(pct_changes.to_string(max_rows=6), num_indents=num_indents+4)
 			log.print('average_velocity:', num_indents=num_indents+3)
 			log.print('decimal: %s' % average_velocity, num_indents=num_indents+4)
 			log.print('percent: %s' % decimal_to_percent_string(average_velocity),
@@ -184,44 +157,51 @@ def get_velocity_and_volitility_of_price(
 			log.print('decimal: %s' % average_deviation, num_indents=num_indents+4)
 			log.print('percent: %s' % decimal_to_percent_string(average_deviation),
 				num_indents=num_indents+4)
-		price_data['velocity'][interval]   = average_velocity
-		price_data['volitility'][interval] = average_deviation
+		score_data['velocity'][interval]   = average_velocity
+		score_data['volitility'][interval] = average_deviation
 	if verbose:
+		# log.print('values and weighted average of each time intervals\' average velocity and deviation:',
 		log.print('values of each time intervals\' average velocity and deviation:',
 			num_indents=num_indents+1)
-		price_data_percent = {}
-		for k, v in price_data.items():
-			price_data_percent[k] = {}
+		score_data_percent = {}
+		for k, v in score_data.items():
+			score_data_percent[k] = {}
 			for interval, value in v.items():
-				price_data_percent[k][interval] = decimal_to_percent_string(value)
-		log.print(json.dumps(price_data_percent, indent=4), num_indents=num_indents+2)
+				score_data_percent[k][interval] = decimal_to_percent_string(value)
+		log.print(json.dumps(score_data_percent, indent=4), num_indents=num_indents+2)
+	score_data['total_final_score'] = 0
 	for x in ['velocity', 'volitility']:
 		weighted_average_x = sum(
-			[price_data[x][interval] * weight \
+			[score_data[x][interval] * weight \
 				for i, (interval, weight) in \
 				enumerate(time_interval_weights.items())])
-		price_data[x]['weighted_average'] = weighted_average_x
+		if strategy_config['desired_traits'][x] == 'high':  x_final_score = 1 * weighted_average_x
+		elif strategy_config['desired_traits'][x] == 'low': x_final_score = (1 / weighted_average_x) if weighted_average_x != 0 else 0.0
+		score_data[x]['final_score']     = x_final_score
+		score_data['total_final_score'] += x_final_score * strategy_config['metrics']['price'][x+'_weight']
 	if verbose:
-		log.print('price   velocity weighted_average: %s' % price_data['velocity']['weighted_average'],   num_indents=num_indents+1)
-		log.print('price volitility weighted_average: %s' % price_data['volitility']['weighted_average'], num_indents=num_indents+1)
-	return price_data
+		log.print('price   velocity final score: %s' % score_data['velocity']['final_score'],   num_indents=num_indents+1)
+		log.print('price volitility final score: %s' % score_data['volitility']['final_score'], num_indents=num_indents+1)
+		log.print('price      total final score: %s' % score_data['total_final_score'],         num_indents=num_indents+1)
+	return score_data
 def get_velocity_and_volitility_of_fundamental_metric(
 	metric_str,
 	metric_col,
 	metric_history,
 	verbose=False,
 	num_indents=0,
-	new_line_start=False):
+	new_line_start=False,
+	show_plots=False):
 
 	# metrics = strategy_config['metrics']
 	# use_window_period = strategy3['use_window_period']
 	time_interval_weights = strategy_config['fundamentals_time_interval_weights']
-	metric_data = {'velocity' : {}, 'volitility' : {}}
+	score_data = {'velocity' : {}, 'volitility' : {}}
 	num_intervals = len(time_interval_weights.keys())
 	if verbose:
 		log.print('%s data:' % metric_str, num_indents=num_indents, new_line_start=new_line_start)
-		log.print('calculating average velocity and deviation (aka volitility) of %s data using %d time interval(s):' % (
-			metric_str, num_intervals), num_indents=num_indents+1)
+		log.print('calculating average velocity and deviation (aka volitility) of data using %d time interval(s):' % num_intervals,
+			num_indents=num_indents+1)
 	for i, (interval, weight) in enumerate(time_interval_weights.items()):
 		data = get_data_on_interval(metric_history.copy(), interval)
 		if strategy_config['use_window_period']:
@@ -246,9 +226,9 @@ def get_velocity_and_volitility_of_fundamental_metric(
 					'past %d %s(s)' % (strategy_config['window_period'], interval))),
 				num_indents=num_indents+3)
 			log.print('data:', num_indents=num_indents+3)
-			log.print(data.to_string(max_rows=10), num_indents=num_indents+4)
+			log.print(data.to_string(max_rows=6), num_indents=num_indents+4)
 			log.print('pct_changes:', num_indents=num_indents+3)
-			log.print(pct_changes.to_string(max_rows=10), num_indents=num_indents+4)
+			log.print(pct_changes.to_string(max_rows=6), num_indents=num_indents+4)
 			log.print('average_velocity:', num_indents=num_indents+3)
 			log.print('decimal: %s' % average_velocity, num_indents=num_indents+4)
 			log.print('percent: %s' % decimal_to_percent_string(average_velocity),
@@ -257,28 +237,33 @@ def get_velocity_and_volitility_of_fundamental_metric(
 			log.print('decimal: %s' % average_deviation, num_indents=num_indents+4)
 			log.print('percent: %s' % decimal_to_percent_string(average_deviation),
 				num_indents=num_indents+4)
-		metric_data['velocity'][interval]   = average_velocity
-		metric_data['volitility'][interval] = average_deviation
+		score_data['velocity'][interval]   = average_velocity
+		score_data['volitility'][interval] = average_deviation
 	if verbose:
 		# log.print('values and weighted average of each time intervals\' average velocity and deviation:',
 		log.print('values of each time intervals\' average velocity and deviation:',
 			num_indents=num_indents+1)
-		metric_data_percent = {}
-		for k, v in metric_data.items():
-			metric_data_percent[k] = {}
+		score_data_percent = {}
+		for k, v in score_data.items():
+			score_data_percent[k] = {}
 			for interval, value in v.items():
-				metric_data_percent[k][interval] = decimal_to_percent_string(value)
-		log.print(json.dumps(metric_data_percent, indent=4), num_indents=num_indents+2)
+				score_data_percent[k][interval] = decimal_to_percent_string(value)
+		log.print(json.dumps(score_data_percent, indent=4), num_indents=num_indents+2)
+	score_data['total_final_score'] = 0
 	for x in ['velocity', 'volitility']:
 		weighted_average_x = sum(
-			[metric_data[x][interval] * weight \
+			[score_data[x][interval] * weight \
 				for i, (interval, weight) in \
 				enumerate(time_interval_weights.items())])
-		metric_data[x]['weighted_average'] = weighted_average_x
+		if strategy_config['desired_traits'][x] == 'high':  x_final_score = 1 * weighted_average_x
+		elif strategy_config['desired_traits'][x] == 'low': x_final_score = (1 / weighted_average_x) if weighted_average_x != 0 else 0.0
+		score_data[x]['final_score']     = x_final_score
+		score_data['total_final_score'] += x_final_score * strategy_config['metrics']['price'][x+'_weight']
 	if verbose:
-		log.print('%s   velocity weighted average: %s' % (metric_str, metric_data['velocity']['weighted_average']),   num_indents=num_indents+1)
-		log.print('%s volitility weighted average: %s' % (metric_str, metric_data['volitility']['weighted_average']), num_indents=num_indents+1)
-	return metric_data
+		log.print('%s   velocity final score: %s' % (metric_str, score_data['velocity']['final_score']),   num_indents=num_indents+1)
+		log.print('%s volitility final score: %s' % (metric_str, score_data['volitility']['final_score']), num_indents=num_indents+1)
+		log.print('%s      total final score: %s' % (metric_str, score_data['total_final_score']),         num_indents=num_indents+1)
+	return score_data
 def get_data_on_interval(
 	df,
 	interval):
@@ -356,7 +341,7 @@ def closest_month_day(df, most_recent_date):
 def closest_quarter_day(df, most_recent_date):
 	# this function will get a value for each quarter in the data thats closest to the current day of the quarter of today
 	# this is required because the data is often not on daily intervals (ex: price data is only on workdays)
-	df['quarter'] = df['Date'].apply(lambda d : ((int(d[5:7])-1)//3)+1)
+    df['quarter'] = df['Date'].apply(lambda d : ((int(d[5:7])-1)//3)+1)
 	df2 = pd.DataFrame(columns=df.columns)
 	years = list(set(map(lambda d : d[:4], df['Date'].tolist())))
 	years.sort()
@@ -466,76 +451,27 @@ def get_dividends_paid_history(df):
 	df.rename(columns={'sub_qtr_enddate' : 'Date'}, inplace=True)
 	df = df[['Date', 'dividends_paid']]
 	return df
-def get_dividend_yield(
-	i, n, info,
-	verbose=False,
-	num_indents=0,
-	new_line_start=False):
+def get_dividend_yield_final_score(
+	df,
+	current_price,
+	current_date):
 
-	if verbose:
-		log.print('getting dividend_yield for stock %d of %d, ticker=%s, CIK=%s' % (i, n, ticker, cik),
-			num_indents=num_indents, new_line_start=new_line_start)
-	dividend_yield_data = {}
-	if QUERY_YAHOO_FINANCE:
-		if verbose:
-			log.print('querying yahoo finance for dividend_yield', num_indents=num_indents+1)
-		try:
-			time.sleep(1)
-			yf_company = yf.Ticker(ticker)
-			try:
-				time.sleep(1)
-				yf_info = yf_company.info
-				if verbose:
-					log.print('successfully queried yahoo finance for yf_info', num_indents=num_indents+2)
-				# print(json.dumps(yf_info, indent=4))
-				key = 'dividendYield'
-				if key in yf_info.keys():
-					if verbose:
-						log.print('successfully found current dividend_yield', num_indents=num_indents+2)
-					query_successful = True
-					dividend_yield = yf_info[key]
-				else:
-					if verbose:
-						log.print('key: \"dividendYield\" not found in yf_info', num_indents=num_indents+2)
-					query_successful = False
-			except Exception as e:
-				if verbose:
-					log.print('failed to query yahoo finance for yf_info', num_indents=num_indents+2)
-					log.print(e, num_indents=num_indents+3)
-				query_successful = False
-		except Exception as e:
-			if verbose:
-				log.print('failed to query yahoo finance for yf_company', num_indents=num_indents+2)
-				log.print(e, num_indents=num_indents+3)
-			query_successful = False
+	current_date_minus_one_year = '%s%s' % (
+		int(current_date[:4]) - 1,
+		current_date[4:])
+	# print(current_date_minus_one_year)
+	# print(current_date)
+	# print(df)
+	df = df[df['Date'].between(
+		current_date_minus_one_year, current_date)]
+	# print(df)
+	# print(current_price)
+	dividends_of_past_year = df['Dividends'].sum()
+	# print(dividends_of_past_year)
+	dividend_yield = dividends_of_past_year / current_price
+	# print(dividend_yield)
+	return dividend_yield * strategy_config['metrics']['dividend_yield']['metric_weight']
 
-	if (not QUERY_YAHOO_FINANCE) or (not query_successful):
-		if verbose:
-			log.print('getting dividend_yield from info.json', num_indents=num_indents+1)
-		dividend_yield = None # info['dividend_yield']
-		# # calculate dividend yield from past years dividends and current price
-		# current_price = daily_price_history['Close'].iloc[-1]
-		# current_date = daily_price_history['Date'].iloc[-1]
-		# current_date_minus_one_year = '%s%s' % (
-		# 	int(current_date[:4]) - 1,
-		# 	current_date[4:])
-		# # print(current_date_minus_one_year)
-		# # print(current_date)
-		# # print(dividend_per_share_history)
-		# df = dividend_per_share_history[dividend_per_share_history['Date'].between(
-		# 	current_date_minus_one_year, current_date)]
-		# # print(df)
-		# # print(current_price)
-		# dividends_of_past_year = df['Dividends'].sum()
-		# # print(dividends_of_past_year)
-		# dividend_yield = dividends_of_past_year / current_price
-		# # print(dividend_yield)
-		# return dividend_yield
-	dividend_yield_data['value'] = (100 * dividend_yield) if dividend_yield != None else 0.0
-	if verbose:
-		log.print('done, dividend_yield = %.2f %%' % dividend_yield_data['value'],
-			num_indents=num_indents)
-	return dividend_yield_data
 
 ####################### unused, old strategies ###########################
 
@@ -661,35 +597,36 @@ def get_dividend_stats(df, ticker, verbose=False, show_plots=False):
 
 if __name__ == '__main__':
 
+	# put args in their own variable
 	verbose = args.verbose
+	show_plots = args.plot
 
-	# init stock_df columns
-	metric_columns = []
+	# init stock_score_df columns
+	metric_score_columns = []
 	for k, v in strategy_config['metrics'].items():
-		for k2 in v.keys():
-			if k2 != 'metric_weight':
-				k2 = k2.replace('_weight', '')
-				if k2 in ['velocity', 'volitility']:
-					# if k == 'price':
-					# 	for interval in strategy_config['price_time_interval_weights']:
-					# 		metric_columns.append(k+'-'+k2+'-'+interval)
-					# else:
-					# 	for interval in strategy_config['fundamentals_time_interval_weights']:
-					# 		metric_columns.append(k+'-'+k2+'-'+interval)						
-					metric_columns.append(k+'-'+k2)
-				elif k2 in ['value']:
-					metric_columns.append(k+'-'+k2)
-		# metric_columns.append(k+'-final_score')
-	stock_df = pd.DataFrame(columns=metric_columns+['ticker'])#, 'final_score'])
-	# for c in stock_df.columns: print(c)
-	# # print(stock_df)
+		# for k2 in v.keys():
+		# 	if k2 != 'metric_weight':
+		# 		k2 = k2.replace('_weight', '')
+		# 		if k2 in ['velocity', 'volitility']:
+		# 			if k == 'price':
+		# 				for interval in strategy_config['price_time_interval_weights']:
+		# 					metric_score_columns.append(k+'_'+k2+'-'+interval)
+		# 			else:
+		# 				for interval in strategy_config['fundamentals_time_interval_weights']:
+		# 					metric_score_columns.append(k+'_'+k2+'-'+interval)						
+		# 			metric_score_columns.append(k+'_'+k2+'-final_score')
+		metric_score_columns.append(k+'-final_score')
+	stock_score_df = pd.DataFrame(columns=metric_score_columns+['final_score'])
+	# for c in stock_score_df.columns: print(c)
+	# # print(stock_score_df)
 	# sys.exit()
 
 	ciks = os.listdir(DATA_STOCKS_PATH)
 	num_ciks = len(ciks)
 	log.print('iterating over %d stocks (SEC CIKs):' % num_ciks,
 		num_indents=0, new_line_start=True)
-	for i, cik in enumerate(ciks):
+	i = 0
+	for cik in ciks:
 		cik_path = os.path.join(DATA_STOCKS_PATH, cik)
 		with open(os.path.join(cik_path, 'info.json')) as f:
 			info = json.load(f)
@@ -702,59 +639,66 @@ if __name__ == '__main__':
 			dividend_per_share_history.shape[0] in [0, 1] or \
 			fundamental_history.shape[0]        in [0, 1]:
 			continue
-
+		else:
+			i += 1
 		log.print('cik %d of %d: %s' % (
-			i, num_ciks, cik),
+			i, num_ciks, cik), 
 			num_indents=1,
 			new_line_start=True)
 		if verbose:
 			repo_cik_path = cik_path[cik_path.index('value-investing-app'):]
 			log.print(repo_cik_path, num_indents=2)
-		price_data = get_velocity_and_volitility_of_price(
+		price_score_data = get_velocity_and_volitility_of_price(
 			daily_price_history,
 			verbose=verbose,
 			num_indents=3,
-			new_line_start=True)
+			new_line_start=True,
+			show_plots=show_plots)
 		dividends_paid_history = get_dividends_paid_history(fundamental_history)
-		dividends_paid_data = get_velocity_and_volitility_of_fundamental_metric(
+		dividend_score_data = get_velocity_and_volitility_of_fundamental_metric(
 			'dividends_paid',
 			'dividends_paid',
 			dividends_paid_history,
 			verbose=verbose,
 			num_indents=2,
-			new_line_start=True)
+			new_line_start=True,
+			show_plots=show_plots)
 		book_value_history = get_book_value_history(fundamental_history)
-		book_value_data = get_velocity_and_volitility_of_fundamental_metric(
+		book_value_score_data = get_velocity_and_volitility_of_fundamental_metric(
 			'book_value',
 			'book_value',
 			book_value_history,
 			verbose=verbose,
 			num_indents=2,
-			new_line_start=True)
+			new_line_start=True,
+			show_plots=show_plots)
 		net_income_history = get_net_income_history(fundamental_history)
-		net_income_data = get_velocity_and_volitility_of_fundamental_metric(
+		net_income_score_data = get_velocity_and_volitility_of_fundamental_metric(
 			'net_income',
 			'net_income',
 			net_income_history,
 			verbose=verbose,
 			num_indents=2,
-			new_line_start=True)
-		dividend_yield_data = get_dividend_yield(
-			i, num_ciks, info,
-			verbose=verbose,
-			num_indents=2,
-			new_line_start=True)
-		stock_df = stock_df.append(pd.DataFrame({
-			'ticker'                    : ticker,
-			'dividend_yield-value'      : dividend_yield_data['value'],
-			'dividends_paid-velocity'   : dividends_paid_data['velocity']['weighted_average'],
-			'dividends_paid-volitility' : dividends_paid_data['volitility']['weighted_average'],
-			'net_income-velocity'       : net_income_data['velocity']['weighted_average'],
-			'net_income-volitility'     : net_income_data['volitility']['weighted_average'],
-			'price-velocity'            : price_data['velocity']['weighted_average'],
-			'price-volitility'          : price_data['volitility']['weighted_average'],
-			'book_value-velocity'       : book_value_data['velocity']['weighted_average'],
-			'book_value-volitility'     : book_value_data['volitility']['weighted_average'],
+			new_line_start=True,
+			show_plots=show_plots)
+		current_price = daily_price_history['Close'].iloc[-1]
+		current_date = daily_price_history['Date'].iloc[-1]
+		dividend_yield_final_score = get_dividend_yield_final_score(
+			dividend_per_share_history, current_price, current_date)
+		total_final_score = sum([
+			dividend_yield_final_score,
+			dividend_score_data['total_final_score'],
+			net_income_score_data['total_final_score'],
+			price_score_data['total_final_score'],
+			book_value_score_data['total_final_score']])
+		stock_score_df = stock_score_df.append(pd.DataFrame({
+			'ticker'      : ticker,
+			'final_score' : total_final_score,
+			'dividend_yield-final_score' : dividend_yield_final_score,
+			'dividends_paid-final_score' : dividend_score_data['total_final_score'],
+			'net_income-final_score'     : net_income_score_data['total_final_score'],
+			'price-final_score'          : price_score_data['total_final_score'],
+			'book_value-final_score'     : book_value_score_data['total_final_score'],
 		}, index=[cik]))
 		# 	'dividends_paid_velocity-quarter'       : dividend_score_data['velocity']['quarter'],
 		# 	'dividends_paid_velocity-year'          : dividend_score_data['velocity']['year'],
@@ -786,16 +730,14 @@ if __name__ == '__main__':
 		# 	'book_value_volitility-final_score' : book_value_score_data['volitility']['final_score'],
 		# }, index=[cik]))
 		if verbose:
-			log.print('stock_df.loc[%s] = ' % cik, num_indents=2, new_line_start=True)
-			log.print(stock_df.loc[cik].to_string(), num_indents=3)
+			log.print('stock_score_df.loc[cik] = ', num_indents=2, new_line_start=True)
+			log.print(stock_score_df.loc[cik].to_string(), num_indents=3)
 
 		# input() # for testing purposes only
-		if stock_df.shape[0] >= 10: break # for testing purposes only
+		if i > 5: break # for testing purposes only
 
 	# # normalize data (chose the "maximum absolute scaling" method)
 	# # https://www.geeksforgeeks.org/normalize-a-column-in-pandas/
-	log.print('stock_df', num_indents=0, new_line_start=True)
-	log.print(stock_df.to_string(), num_indents=1)
 	# for k, v in strategy_config['metrics'].items():
 	# 	for k2, w in v.items():
 	# 		if k2 != 'metric_weight':
@@ -803,17 +745,16 @@ if __name__ == '__main__':
 	# 			if k2 in ['velocity', 'volitility']:
 	# 				for interval in strategy_config['time_interval_weights']:
 	# 					column = k+'_'+k2+'-'+interval
-	# 					stock_df[column].normalize()
-	# 					stock_df[column] = \
-	# 						stock_df[column] / stock_df[column].abs().max()
+	# 					stock_score_df[column].normalize()
+	# 					stock_score_df[column] = \
+	# 						stock_score_df[column] / stock_score_df[column].abs().max()
 	# 			else:
 	# 				column = k+'_'+k2
-	# 				stock_df[column] = \
-	# 					stock_df[column] / stock_df[column].abs().max()
-	sys.exit()
+	# 				stock_score_df[column] = \
+	# 					stock_score_df[column] / stock_score_df[column].abs().max()
 
 	# save to csv file
-	stock_df = stock_df[[
+	stock_score_df = stock_score_df[[
 		'ticker',
 		'final_score', 
 		'dividend_yield-final_score',
@@ -822,10 +763,10 @@ if __name__ == '__main__':
 		'price-final_score',
 		'book_value-final_score'
 	]]
-	stock_df.index.name = 'cik'
-	stock_df.sort_values(['final_score'], ascending=[False], inplace=True)
+	stock_score_df.index.name = 'cik'
+	stock_score_df.sort_values(['final_score'], ascending=[False], inplace=True)
 	save_path = os.path.join(STRATEGY_PATH, 'stock_scores.csv')
-	stock_df.to_csv(save_path)
+	stock_score_df.to_csv(save_path)
 	log.print('stock scores saved to:', num_indents=0, new_line_start=True)
 	log.print(save_path, num_indents=1, new_line_end=True)
 
